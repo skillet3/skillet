@@ -382,10 +382,10 @@ class Repository {
             serviceModel.status= RequestStatus.PENDING.name
 
             serviceRequest?.child("spView")?.child(serviceModel.user!!.key)
-             ?.child()?.setValue(serviceModel)?.addOnCompleteListener {
+             ?.child(serviceModel.id)?.setValue(serviceModel)?.addOnCompleteListener {
                     if(it.isSuccessful){
                         serviceRequest?.child("clientView")?.child(loggedInUser!!.key)
-                            ?.setValue(serviceModel)?.addOnCompleteListener {
+                            ?.child(serviceModel.id)?.setValue(serviceModel)?.addOnCompleteListener {
                                 block(it.isSuccessful)
                             }
                     }else{
@@ -420,8 +420,7 @@ class Repository {
         }
         fun getClientPendingServices(block: (list: ArrayList<ServiceModel>?) -> Unit){
              var clPendingServices:ArrayList<ServiceModel>?=null
-             var clAcceptedServices:ArrayList<ServiceModel>?=null
-             var clCompleteServices:ArrayList<ServiceModel>?=null
+
             getClientRequestsHistory { list: ArrayList<ServiceModel>? ->
                     list?.forEach{
                         if(it.status.equals(RequestStatus.PENDING)){
