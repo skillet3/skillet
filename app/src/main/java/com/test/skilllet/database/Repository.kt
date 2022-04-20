@@ -14,6 +14,7 @@ import com.test.skilllet.models.User
 import com.test.skilllet.util.Constants
 import com.test.skilllet.util.RequestStatus
 import java.util.*
+import java.util.concurrent.atomic.AtomicIntegerArray
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
@@ -380,10 +381,12 @@ class Repository {
         fun insertServiceRequest(serviceModel: ServiceModel, block: (isSuccess:Boolean) -> Unit) {
 
             serviceModel.status= RequestStatus.PENDING.name
-
+            var tempUser=serviceModel.user
+            serviceModel.user= loggedInUser
             serviceRequest?.child("spView")?.child(serviceModel.user!!.key)
              ?.child(serviceModel.id)?.setValue(serviceModel)?.addOnCompleteListener {
                     if(it.isSuccessful){
+                        serviceModel.user= tempUser
                         serviceRequest?.child("clientView")?.child(loggedInUser!!.key)
                             ?.child(serviceModel.id)?.setValue(serviceModel)?.addOnCompleteListener {
                                 block(it.isSuccessful)
@@ -395,7 +398,7 @@ class Repository {
         }
 
         fun getClientRequestsHistory(block: (list: ArrayList<ServiceModel>?) -> Unit){
-            if(clAllServicesHistory?.isEmpty() == true){
+            if(clAllServicesHistory.isEmpty()){
                 serviceRequest?.child("clientView")?.child(loggedInUser!!.key)?.
                 addValueEventListener(object : ValueEventListener{
                     override fun onDataChange(snapshot: DataSnapshot) {
@@ -423,7 +426,8 @@ class Repository {
 
             getClientRequestsHistory { list: ArrayList<ServiceModel>? ->
                     list?.forEach{
-                        if(it.status.equals(RequestStatus.PENDING)){
+                        clPendingServices= ArrayList()
+                        if(it.status.equals(RequestStatus.PENDING.name)){
                             clPendingServices?.add(it)
                         }
                     }
@@ -434,7 +438,8 @@ class Repository {
             var clPendingServices:ArrayList<ServiceModel>?=null
             getClientRequestsHistory { list: ArrayList<ServiceModel>? ->
                 list?.forEach{
-                    if(it.status.equals(RequestStatus.COMPLETED)){
+                    clPendingServices=ArrayList()
+                    if(it.status.equals(RequestStatus.COMPLETED.name)){
                         clPendingServices?.add(it)
                     }
                 }
@@ -445,7 +450,8 @@ class Repository {
             var clAcceptedServices:ArrayList<ServiceModel>?=null
             getClientRequestsHistory { list: ArrayList<ServiceModel>? ->
                 list?.forEach{
-                    if(it.status.equals(RequestStatus.APPROVED)){
+                    clAcceptedServices=ArrayList()
+                    if(it.status.equals(RequestStatus.APPROVED.name)){
                         clAcceptedServices?.add(it)
                     }
                 }

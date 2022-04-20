@@ -33,7 +33,7 @@ class RequestService : AppCompatActivity() {
         Repository.getServicesListByClient(serviceType,serviceName){
             progress.cancel()
             if(it!=null){
-                var adapter=RequestServiceAdapter(it)
+                var adapter=RequestServiceAdapter(this@RequestService,it)
                 binding.rv.layoutManager=LinearLayoutManager(this@RequestService,
                     LinearLayoutManager.VERTICAL,false)
                 binding.rv.adapter=adapter

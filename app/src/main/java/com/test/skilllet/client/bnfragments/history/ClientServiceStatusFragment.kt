@@ -1,5 +1,6 @@
 package com.test.skilllet.client.bnfragments.history
 
+import android.app.ProgressDialog
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,15 +13,19 @@ import com.test.skilllet.database.Repository
 
 import com.test.skilllet.databinding.TempFragmentBinding
 import com.test.skilllet.models.ServiceModel
+import com.test.skilllet.util.RequestStatus
+import com.test.skilllet.util.showProgressDialog
 
-class ClientServiceStatusFragment (var title: String): Fragment() {
+class ClientServiceStatusFragment(var title: String) : Fragment() {
     lateinit var binding: TempFragmentBinding
-    var arr = arrayOf("Approved", "Pending", "Completed")
-    var services = arrayOf("Cleaning", "Plumbing", "Electrician")
-    var serviceIcons =
-        arrayOf(R.drawable.ic_cleaning, R.drawable.ic_plumbing, R.drawable.ic_electrician)
+
+    var services = arrayOf("cleaning", "plumbing", "electrician")
     lateinit var list: ArrayList<ServiceModel>
     var listIcons = ArrayList<Drawable>()
+    lateinit var cleaningDrawable: Drawable
+    lateinit var plumbingDrawable: Drawable
+    lateinit var electricianDrawable: Drawable
+    lateinit var progressDialog: ProgressDialog
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -33,55 +38,85 @@ class ClientServiceStatusFragment (var title: String): Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        populateAdapter()
+        cleaningDrawable = activity?.getDrawable(R.drawable.ic_cleaning)!!
+        plumbingDrawable = activity?.getDrawable(R.drawable.ic_plumbing)!!
+        electricianDrawable = activity?.getDrawable(R.drawable.ic_electrician)!!
+        progressDialog = requireActivity().showProgressDialog("Please Wait", "Loading History")
+        getList()
 
     }
 
-    private fun populateAdapter() {
-       initList()
-        when (title) {
-            arr[0] -> {
-                var adapter = activity?.resources?.getColor(R.color.approved)
-                    ?.let { ClientServiceStatusAdapter(list, listIcons, it) }
-                binding.rv.adapter = adapter
-            }
-            arr[1] -> {
-                var adapter = activity?.resources?.getColor(R.color.requested)
-                    ?.let { ClientServiceStatusAdapter(list, listIcons, it) }
-                binding.rv.adapter = adapter
-                binding.rv.adapter = adapter
-            }
-            arr[2] -> {
-                var adapter = activity?.resources?.getColor(R.color.completed)
-                    ?.let { ClientServiceStatusAdapter(list, listIcons, it) }
-                binding.rv.adapter = adapter
-                binding.rv.adapter = adapter
+    private fun initIconsList() {
+        for (service in list) {
+            if (service.type == services[0]) {
+                listIcons.add(cleaningDrawable)
+            } else if (service.type == services[1]) {
+                listIcons.add(plumbingDrawable)
+            } else if (service.type == services[2]) {
+                listIcons.add(electricianDrawable)
             }
         }
     }
 
-    private fun initList() {
+    private fun setupAdapter() {
+
+        initIconsList();
+
         when (title) {
-            "Approved" -> {
+            RequestStatus.APPROVED.name -> {
+                var adapter = activity?.resources?.getColor(R.color.approved)
+                    ?.let { ClientServiceStatusAdapter(list, listIcons, it) }
+                binding.rv.adapter = adapter
+            }
+            RequestStatus.PENDING.name -> {
+                var adapter = activity?.resources?.getColor(R.color.requested)
+                    ?.let { ClientServiceStatusAdapter(list, listIcons, it) }
+                binding.rv.adapter = adapter
+
+            }
+            RequestStatus.COMPLETED.name -> {
+                var adapter = activity?.resources?.getColor(R.color.completed)
+                    ?.let { ClientServiceStatusAdapter(list, listIcons, it) }
+                binding.rv.adapter = adapter
+            }
+        }
+        progressDialog.dismiss()
+    }
+
+    private fun getList() {
+        progressDialog.show()
+        when (title) {
+            RequestStatus.APPROVED.name -> {
                 Repository.getClientApprovedServices { arrayList ->
-                    list= ArrayList(arrayList)
+                    initList(arrayList)
                 }
             }
-            "Pending" -> {
+            RequestStatus.PENDING.name -> {
                 Repository.getClientPendingServices {
-                    list=ArrayList(it)
+                    initList(it)
                 }
             }
-            "Completed" -> {
+            RequestStatus.COMPLETED.name -> {
                 Repository.getClientCompletedServices {
-                    list=ArrayList(it)
+                    initList(it)
                 }
             }
             else -> {
                 Repository.getClientApprovedServices {
-
+                    initList(it)
                 }
             }
+        }
+    }
+
+
+    fun initList(arrayList: ArrayList<ServiceModel>?) {
+
+        if (arrayList != null) {
+            list = ArrayList(arrayList)
+            setupAdapter()
+        } else {
+            progressDialog.cancel()
         }
     }
 

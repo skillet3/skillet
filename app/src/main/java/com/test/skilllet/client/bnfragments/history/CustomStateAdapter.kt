@@ -2,6 +2,7 @@ package com.test.skilllet.client.bnfragments.history
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.test.skilllet.util.RequestStatus
 
 
 class CustomStateAdapter (fragment: Fragment): FragmentStateAdapter(fragment) {
@@ -10,16 +11,16 @@ class CustomStateAdapter (fragment: Fragment): FragmentStateAdapter(fragment) {
     override fun createFragment(position: Int): Fragment {
         return  when(position){
             0->{
-                ClientServiceStatusFragment("Approved")
+                ClientServiceStatusFragment(RequestStatus.APPROVED.name)
             }
             1->{
-                ClientServiceStatusFragment("Requested")
+                ClientServiceStatusFragment(RequestStatus.PENDING.name)
             }
             2->{
-                ClientServiceStatusFragment("Completed")
+                ClientServiceStatusFragment(RequestStatus.COMPLETED.name)
             }
             else->{
-                ClientServiceStatusFragment("Approved")
+                ClientServiceStatusFragment(RequestStatus.APPROVED.name)
             }
         }
     }
