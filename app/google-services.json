@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "197731997080",
+    "project_id": "skillet-54829",
+    "storage_bucket": "skillet-54829.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:197731997080:android:82baceb00d10da713a07ed",
+        "android_client_info": {
+          "package_name": "com.test.skilllet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "197731997080-dgojctbahak54hkc5j35k25j9ju08i0f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_exJhxtkOIMXRfqaZOt4Xx76B0441aTI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "197731997080-dgojctbahak54hkc5j35k25j9ju08i0f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

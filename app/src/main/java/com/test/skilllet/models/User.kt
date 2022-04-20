@@ -1,0 +1,33 @@
+package com.test.skilllet.models
+
+
+
+class User() {
+    var name:String=""
+    var email:String=""
+    var password:String=""
+    var accType:String=""
+    var phNumber:String=""
+    var address: String =""
+    var rating:Int=0
+    var key:String=""
+    get() {
+        return email.substring(0,email.indexOf("@"))
+    }
+    constructor(name:String="",email:String="",password:String="",accType:String="") : this() {
+        this.name=name
+        this.email=email
+        this.password=password
+        this.accType=accType
+    }
+    companion object{
+        var accTypes= arrayListOf<String>("Client","ServiceProvider");
+        fun getAccountType(isClient:Boolean):String{
+            return if(isClient){
+                accTypes[0]
+            }else{
+                accTypes[1]
+            }
+        }
+    }
+}

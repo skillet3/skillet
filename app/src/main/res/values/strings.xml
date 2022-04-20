@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">SkillLet</string>
+
+    <string name="successRegistration">
+        You account have been successfully created.To activate your account an email
+        has been sent to you. Check your email and click the link that you received. Thanks
+    </string>
+    <string name="failedToRegister">
+        Your account can not be registered due to some reason please try again later.
+    </string>
+</resources>
