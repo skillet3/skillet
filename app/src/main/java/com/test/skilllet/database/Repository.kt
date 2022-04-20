@@ -382,7 +382,7 @@ class Repository {
             serviceModel.status= RequestStatus.PENDING.name
 
             serviceRequest?.child("spView")?.child(serviceModel.user!!.key)
-           //TODO()     ?.child()?.setValue(serviceModel)?.addOnCompleteListener {
+             ?.child()?.setValue(serviceModel)?.addOnCompleteListener {
                     if(it.isSuccessful){
                         serviceRequest?.child("clientView")?.child(loggedInUser!!.key)
                             ?.setValue(serviceModel)?.addOnCompleteListener {
