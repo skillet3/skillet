@@ -13,6 +13,7 @@ import com.test.skilllet.models.ServiceModel
 class ClientServiceStatusAdapter (var list:ArrayList<ServiceModel>, var iconsList: ArrayList<Drawable>, @ColorInt var color: Int):
     RecyclerView.Adapter<ClientServiceStatusAdapter.ViewHolder>() {
 
+    //comment
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         var binding= RowHistoryTempBinding.inflate(LayoutInflater.from(parent.context),parent,false)
