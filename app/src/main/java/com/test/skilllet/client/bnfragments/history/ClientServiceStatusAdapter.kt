@@ -25,6 +25,8 @@ class ClientServiceStatusAdapter (var list:ArrayList<ServiceModel>, var iconsLis
             binding.tvName.text=list[position].name
             binding.ivIcon.setImageDrawable(iconsList[position])
             binding.clIcon.setBackgroundColor(color)
+            binding.tvType.text=list[position].type
+            binding.tvDes.text=list[position].description
         }
     }
 
