@@ -12,11 +12,15 @@ import android.widget.Button
 import android.widget.TextView
 import com.test.skilllet.R
 
-enum class RequestStatus(str:String){
+enum class RequestStatus(var status:String){
     PENDING("pending"),
     APPROVED("approved"),
     COMPLETED("completed"),
     DECLINE("decline")
+}
+enum class ViewType(var view:String){
+    CLIENT("clientView"),
+    SERVICE_PROVIDER("spView"),
 }
 
 fun Activity.showDialogBox(msg:String,block:()->Unit) {

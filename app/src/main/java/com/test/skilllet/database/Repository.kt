@@ -13,6 +13,7 @@ import com.test.skilllet.models.ServiceModel
 import com.test.skilllet.models.User
 import com.test.skilllet.util.Constants
 import com.test.skilllet.util.RequestStatus
+import com.test.skilllet.util.ViewType
 import java.util.*
 import java.util.concurrent.atomic.AtomicIntegerArray
 import kotlin.collections.ArrayList
@@ -30,7 +31,7 @@ class Repository {
         private var servicesNameMap=HashMap<String,ArrayList<String>>()
         public var allOfferedServices:ArrayList<ServiceModel>?=null
 
-        private var clAllServicesHistory=ArrayList<ServiceModel>()
+        private var allServicesHistory=ArrayList<ServiceModel>()
         private var database: FirebaseDatabase? = null
             get() {
                 if (field == null) {
@@ -254,10 +255,10 @@ class Repository {
             addServicesRef?.push()?.key?.let {
                 serviceModel.id=it
                 serviceModel.user=user
-                addServicesRef?.child("spView")?.child(user.key)?.child(it)?.
+                addServicesRef?.child(ViewType.SERVICE_PROVIDER.view)?.child(user.key)?.child(it)?.
                 setValue(serviceModel)?.addOnCompleteListener {
                    if(it.isSuccessful){
-                       addServicesRef?.child("clientView")?.child(serviceModel.type)?.
+                       addServicesRef?.child(ViewType.CLIENT.view)?.child(serviceModel.type)?.
                        child(serviceModel.name)?.child(serviceModel.id)?.setValue(serviceModel)?.
                        addOnCompleteListener {
                            block(it.isSuccessful);
@@ -329,7 +330,7 @@ class Repository {
         fun getOfferedServicesBySp(loggedInUser: User?,block: (isSuccess: Boolean) -> Unit) {
             if(allOfferedServices==null){
                 allOfferedServices= ArrayList()
-                addServicesRef?.child("spView")?.child(loggedInUser!!.key)?.
+                addServicesRef?.child(ViewType.SERVICE_PROVIDER.view)?.child(loggedInUser!!.key)?.
                 addValueEventListener(object :ValueEventListener{
                     override fun onDataChange(snapshot: DataSnapshot) {
                         if(snapshot.exists()){
@@ -357,7 +358,7 @@ class Repository {
         }
 
         fun getServicesListByClient(type:String,name:String,block: (services:ArrayList<ServiceModel>?   ) -> Unit){
-            addServicesRef?.child("clientView")?.child(type.lowercase())?.child(name)?.
+            addServicesRef?.child(ViewType.CLIENT.view)?.child(type.lowercase())?.child(name)?.
             addListenerForSingleValueEvent(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if(snapshot.exists()){
@@ -380,14 +381,14 @@ class Repository {
 
         fun insertServiceRequest(serviceModel: ServiceModel, block: (isSuccess:Boolean) -> Unit) {
 
-            serviceModel.status= RequestStatus.PENDING.name
+            serviceModel.status= RequestStatus.PENDING.status
             var tempUser=serviceModel.user
             serviceModel.user= loggedInUser
-            serviceRequest?.child("spView")?.child(serviceModel.user!!.key)
+            serviceRequest?.child(ViewType.SERVICE_PROVIDER.view)?.child(serviceModel.user!!.key)
              ?.child(serviceModel.id)?.setValue(serviceModel)?.addOnCompleteListener {
                     if(it.isSuccessful){
                         serviceModel.user= tempUser
-                        serviceRequest?.child("clientView")?.child(loggedInUser!!.key)
+                        serviceRequest?.child(ViewType.CLIENT.view)?.child(loggedInUser!!.key)
                             ?.child(serviceModel.id)?.setValue(serviceModel)?.addOnCompleteListener {
                                 block(it.isSuccessful)
                             }
@@ -397,16 +398,16 @@ class Repository {
                 }
         }
 
-        fun getClientRequestsHistory(block: (list: ArrayList<ServiceModel>?) -> Unit){
-            if(clAllServicesHistory.isEmpty()){
-                serviceRequest?.child("clientView")?.child(loggedInUser!!.key)?.
+        private fun getRequestsHistory(view:ViewType,block: (list: ArrayList<ServiceModel>?) -> Unit){
+            if(allServicesHistory.isEmpty()){
+                serviceRequest?.child(view.view)?.child(loggedInUser!!.key)?.
                 addValueEventListener(object : ValueEventListener{
                     override fun onDataChange(snapshot: DataSnapshot) {
                         if(snapshot.exists()){
                             snapshot.children?.forEach{ snap:DataSnapshot->
-                                clAllServicesHistory?.add(snap.getValue(ServiceModel::class.java)!!)
+                                allServicesHistory?.add(snap.getValue(ServiceModel::class.java)!!)
                             }
-                            block(clAllServicesHistory)
+                            block(allServicesHistory)
                         }else{
                             block(null)
                         }
@@ -418,47 +419,22 @@ class Repository {
 
                 })
             }else{
-                block(clAllServicesHistory)
+                block(allServicesHistory)
             }
         }
-        fun getClientPendingServices(block: (list: ArrayList<ServiceModel>?) -> Unit){
-             var clPendingServices:ArrayList<ServiceModel>?=null
+        fun getServices(view:ViewType,status:RequestStatus,block: (list: ArrayList<ServiceModel>?) -> Unit){
+             var servicesList:ArrayList<ServiceModel>?=null
 
-            getClientRequestsHistory { list: ArrayList<ServiceModel>? ->
+            getRequestsHistory(view) { list: ArrayList<ServiceModel>? ->
                     list?.forEach{
-                        clPendingServices= ArrayList()
-                        if(it.status.equals(RequestStatus.PENDING.name)){
-                            clPendingServices?.add(it)
+                        servicesList= ArrayList()
+                        if(it.status.equals(status.status)){
+                            servicesList?.add(it)
                         }
                     }
-                block(clPendingServices)
+                block(servicesList)
             }
         }
-        fun getClientCompletedServices(block: (list: ArrayList<ServiceModel>?) -> Unit){
-            var clPendingServices:ArrayList<ServiceModel>?=null
-            getClientRequestsHistory { list: ArrayList<ServiceModel>? ->
-                list?.forEach{
-                    clPendingServices=ArrayList()
-                    if(it.status.equals(RequestStatus.COMPLETED.name)){
-                        clPendingServices?.add(it)
-                    }
-                }
-                block(clPendingServices)
-            }
-        }
-        fun getClientApprovedServices(block: (list: ArrayList<ServiceModel>?) -> Unit){
-            var clAcceptedServices:ArrayList<ServiceModel>?=null
-            getClientRequestsHistory { list: ArrayList<ServiceModel>? ->
-                list?.forEach{
-                    clAcceptedServices=ArrayList()
-                    if(it.status.equals(RequestStatus.APPROVED.name)){
-                        clAcceptedServices?.add(it)
-                    }
-                }
-                block(clAcceptedServices)
-            }
-        }
-
 
     }
 

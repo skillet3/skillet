@@ -1,4 +1,4 @@
-package com.test.skilllet.client.bnfragments.history
+package com.test.skilllet.serviceprovider.history
 
 import android.app.ProgressDialog
 import android.graphics.drawable.Drawable
@@ -17,7 +17,7 @@ import com.test.skilllet.util.RequestStatus
 import com.test.skilllet.util.ViewType
 import com.test.skilllet.util.showProgressDialog
 
-class ClientServiceStatusFragment(var status: RequestStatus) : Fragment() {
+class SPServiceStatusFragment(var status: RequestStatus) : Fragment() {
     lateinit var binding: TempFragmentBinding
 
     var services = arrayOf("cleaning", "plumbing", "electrician")
@@ -66,18 +66,18 @@ class ClientServiceStatusFragment(var status: RequestStatus) : Fragment() {
         when (status.name) {
             RequestStatus.APPROVED.name -> {
                 var adapter = activity?.resources?.getColor(R.color.approved)
-                    ?.let { ClientServiceStatusAdapter(list, listIcons, it) }
+                    ?.let { SPServiceStatusAdapter(list, listIcons, it) }
                 binding.rv.adapter = adapter
             }
             RequestStatus.PENDING.name -> {
                 var adapter = activity?.resources?.getColor(R.color.requested)
-                    ?.let { ClientServiceStatusAdapter(list, listIcons, it) }
+                    ?.let { SPServiceStatusAdapter(list, listIcons, it) }
                 binding.rv.adapter = adapter
 
             }
             RequestStatus.COMPLETED.name -> {
                 var adapter = activity?.resources?.getColor(R.color.completed)
-                    ?.let { ClientServiceStatusAdapter(list, listIcons, it) }
+                    ?.let { SPServiceStatusAdapter(list, listIcons, it) }
                 binding.rv.adapter = adapter
             }
         }
@@ -86,7 +86,7 @@ class ClientServiceStatusFragment(var status: RequestStatus) : Fragment() {
 
     private fun getList() {
         progressDialog.show()
-        Repository.getServices(ViewType.CLIENT,status) { arrayList ->
+        Repository.getServices(ViewType.SERVICE_PROVIDER,status) { arrayList ->
             progressDialog.dismiss()
             initList(arrayList)
         }
