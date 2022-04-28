@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.test.skilllet.database.Repository
 import com.test.skilllet.databinding.SpFragHomeBinding
 import com.test.skilllet.models.ServiceModel
-import com.test.skilllet.serviceprovider.AddServiceBYSP
 import com.test.skilllet.util.showProgressDialog
 
 class SpHomeFragment : Fragment() {

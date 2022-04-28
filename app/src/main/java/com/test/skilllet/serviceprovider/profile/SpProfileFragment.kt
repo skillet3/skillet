@@ -1,4 +1,4 @@
-package com.test.skilllet.serviceprovider
+package com.test.skilllet.serviceprovider.profile
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/profile_back"
-    tools:context=".serviceprovider.AddServiceBYSP">
+    tools:context=".serviceprovider.home.AddServiceBYSP">
 
     <TextView
         android:id="@+id/textView"

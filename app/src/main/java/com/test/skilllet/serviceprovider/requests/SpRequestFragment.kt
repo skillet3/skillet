@@ -1,4 +1,4 @@
-package com.test.skilllet.serviceprovider.history
+package com.test.skilllet.serviceprovider.requests
 
 import android.app.ProgressDialog
 import android.graphics.drawable.Drawable
@@ -10,15 +10,16 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.test.skilllet.R
 import com.test.skilllet.database.Repository
-
-import com.test.skilllet.databinding.TempFragmentBinding
+import com.test.skilllet.databinding.SpFragRequestBinding
 import com.test.skilllet.models.ServiceModel
+import com.test.skilllet.serviceprovider.history.SPServiceStatusAdapter
 import com.test.skilllet.util.RequestStatus
 import com.test.skilllet.util.ViewType
 import com.test.skilllet.util.showProgressDialog
 
-class SPServiceStatusFragment(var status: RequestStatus) : Fragment() {
-    lateinit var binding: TempFragmentBinding
+class SpRequestFragment : Fragment() {
+
+    lateinit var binding: SpFragRequestBinding
 
     var services = arrayOf("cleaning", "plumbing", "electrician")
     lateinit var list: ArrayList<ServiceModel>
@@ -27,12 +28,13 @@ class SPServiceStatusFragment(var status: RequestStatus) : Fragment() {
     lateinit var plumbingDrawable: Drawable
     lateinit var electricianDrawable: Drawable
     lateinit var progressDialog: ProgressDialog
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = TempFragmentBinding.inflate(inflater, container, false);
+        binding = SpFragRequestBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -44,7 +46,6 @@ class SPServiceStatusFragment(var status: RequestStatus) : Fragment() {
         electricianDrawable = activity?.getDrawable(R.drawable.ic_electrician)!!
         progressDialog = requireActivity().showProgressDialog("Please Wait", "Loading History")
         getList()
-
     }
 
     private fun initIconsList() {
@@ -63,24 +64,15 @@ class SPServiceStatusFragment(var status: RequestStatus) : Fragment() {
 
         initIconsList();
 
-        when (status.name) {
-            RequestStatus.APPROVED.name -> {
-                var adapter = activity?.resources?.getColor(R.color.approved)
-                    ?.let { SPServiceStatusAdapter(list, listIcons, it) }
-                binding.rv.adapter = adapter
-            }
-            RequestStatus.COMPLETED.name -> {
-                var adapter = activity?.resources?.getColor(R.color.completed)
-                    ?.let { SPServiceStatusAdapter(list, listIcons, it) }
-                binding.rv.adapter = adapter
-            }
-        }
+        var adapter = activity?.resources?.getColor(R.color.requested)
+            ?.let { SPServiceStatusAdapter(list, listIcons, it) }
+        binding.rv.adapter = adapter
         progressDialog.dismiss()
     }
 
     private fun getList() {
         progressDialog.show()
-        Repository.getServices(ViewType.SERVICE_PROVIDER,status) { arrayList ->
+        Repository.getServices(ViewType.SERVICE_PROVIDER, RequestStatus.PENDING) { arrayList ->
             progressDialog.dismiss()
             initList(arrayList)
         }

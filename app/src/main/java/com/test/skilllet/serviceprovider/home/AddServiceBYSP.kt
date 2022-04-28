@@ -1,6 +1,5 @@
-package com.test.skilllet.serviceprovider
+package com.test.skilllet.serviceprovider.home
 
-import android.R
 import android.app.ProgressDialog
 import android.os.Bundle
 import android.view.View
@@ -8,8 +7,10 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 
 import androidx.appcompat.app.AppCompatActivity
+import com.test.skilllet.R
 
 import com.test.skilllet.database.Repository
+
 import com.test.skilllet.databinding.ActivityAddServiceByspBinding
 import com.test.skilllet.models.ServiceModel
 import com.test.skilllet.util.showDialogBox
@@ -34,9 +35,9 @@ class AddServiceBYSP : AppCompatActivity() {
                 progressDiaog.cancel()
                 val spAdapter: ArrayAdapter<String> = ArrayAdapter<String>(
                     this@AddServiceBYSP,
-                    R.layout.simple_list_item_1, it!!
+                    android.R.layout.simple_list_item_1, it!!
                 )
-                spAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+                spAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 binding.spServiceType.setAdapter(spAdapter)
             }
 
@@ -54,9 +55,9 @@ class AddServiceBYSP : AppCompatActivity() {
                     var arr=Repository.getServicesByName(index)
                     val spAdapter: ArrayAdapter<String> = ArrayAdapter<String>(
                         this@AddServiceBYSP,
-                        R.layout.simple_list_item_1, arr!!
+                        android.R.layout.simple_list_item_1, arr!!
                     )
-                    spAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+                    spAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                     binding.spServiceName.setAdapter(spAdapter)
                 }
 
@@ -67,7 +68,7 @@ class AddServiceBYSP : AppCompatActivity() {
             }
 
             btnAddService.setOnClickListener {
-                var service=ServiceModel()
+                var service= ServiceModel()
                 var price=etPrice.text.toString().trim()
                 var desc=etDesc.text.toString().trim()
                 if(price.isEmpty()||desc.isEmpty()){

@@ -15,7 +15,10 @@
         <entry key="app/src/main/res/layout/row_history_temp.xml" value="0.33" />
         <entry key="app/src/main/res/layout/row_home_temp.xml" value="0.19375" />
         <entry key="app/src/main/res/layout/sp_frag_history.xml" value="0.19375" />
+        <entry key="app/src/main/res/layout/sp_frag_request.xml" value="0.19375" />
         <entry key="app/src/main/res/layout/sp_home_row.xml" value="0.19375" />
+        <entry key="app/src/main/res/layout/sp_row_requests.xml" value="0.19375" />
+        <entry key="app/src/main/res/layout/temp_fragment.xml" value="0.19375" />
       </map>
     </option>
   </component>

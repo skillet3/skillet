@@ -12,7 +12,7 @@
             android:name=".client.bnfragments.home.RequestService"
             android:exported="false" />
         <activity
-            android:name=".serviceprovider.AddServiceBYSP"
+            android:name=".serviceprovider.home.AddServiceBYSP"
             android:exported="false" />
         <activity
             android:name=".RegistrationActivity"

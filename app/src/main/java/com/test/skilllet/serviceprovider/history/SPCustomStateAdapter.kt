@@ -14,9 +14,6 @@ class SPCustomStateAdapter (fragment: Fragment): FragmentStateAdapter(fragment) 
                 SPServiceStatusFragment(RequestStatus.APPROVED)
             }
             1->{
-                SPServiceStatusFragment(RequestStatus.PENDING)
-            }
-            2->{
                 SPServiceStatusFragment(RequestStatus.COMPLETED)
             }
             else->{
