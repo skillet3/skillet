@@ -379,17 +379,27 @@ class Repository {
             })
         }
 
-        fun insertServiceRequest(serviceModel: ServiceModel, block: (isSuccess:Boolean) -> Unit) {
+        fun insertOrUpdateServiceRequest(status:RequestStatus,serviceModel: ServiceModel, block: (isSuccess:Boolean) -> Unit) {
 
-            serviceModel.status= RequestStatus.PENDING.status
-            var tempUser=serviceModel.user
-            serviceModel.user= loggedInUser
-            serviceRequest?.child(ViewType.SERVICE_PROVIDER.view)?.child(serviceModel.user!!.key)
+            serviceModel.status= status.status
+            var spUser:User?=null
+            var clUser:User?=null
+            if(RequestStatus.APPROVED.status==status.status||
+                RequestStatus.DECLINE.status==status.status){
+                clUser=serviceModel.user
+                spUser= loggedInUser
+            }else if(RequestStatus.PENDING.status==status.status){
+                spUser=serviceModel.user
+                clUser= loggedInUser
+                serviceModel.user=clUser
+            }
+            serviceRequest?.child(ViewType.SERVICE_PROVIDER.view)?.child(spUser!!.key)
              ?.child(serviceModel.id)?.setValue(serviceModel)?.addOnCompleteListener {
                     if(it.isSuccessful){
-                        serviceModel.user= tempUser
-                        serviceRequest?.child(ViewType.CLIENT.view)?.child(loggedInUser!!.key)
-                            ?.child(serviceModel.id)?.setValue(serviceModel)?.addOnCompleteListener {
+                        serviceModel.user= spUser
+                        serviceRequest?.child(ViewType.CLIENT.view)?.child(clUser!!.key)
+                            ?.child(serviceModel.id)?.setValue(serviceModel)?.
+                            addOnCompleteListener {
                                 block(it.isSuccessful)
                             }
                     }else{

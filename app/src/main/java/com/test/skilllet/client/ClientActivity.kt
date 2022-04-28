@@ -2,6 +2,7 @@ package com.test.skilllet.client
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.test.skilllet.database.Repository
 import com.test.skilllet.databinding.MainActivityBinding
 
 class ClientActivity : AppCompatActivity() {
@@ -14,7 +15,10 @@ class ClientActivity : AppCompatActivity() {
 
         binding=MainActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
+    }
 
-
+    override fun onDestroy() {
+        Repository.loggedInUser=null
+        super.onDestroy()
     }
 }

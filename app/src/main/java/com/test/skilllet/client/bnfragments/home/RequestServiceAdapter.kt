@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.test.skilllet.database.Repository
 import com.test.skilllet.databinding.ClinetRowRequestServiceBinding
 import com.test.skilllet.models.ServiceModel
+import com.test.skilllet.util.RequestStatus
 import com.test.skilllet.util.showProgressDialog
 
 class RequestServiceAdapter (var context: Context,var list:ArrayList<ServiceModel>):RecyclerView.Adapter<
@@ -29,7 +30,8 @@ class RequestServiceAdapter (var context: Context,var list:ArrayList<ServiceMode
                     var progress=context.showProgressDialog("Please Wait",
                     "Sending Request")
                 progress.show()
-                Repository.insertServiceRequest(list[position]){isSuccessful:Boolean->
+                Repository.insertOrUpdateServiceRequest(RequestStatus.PENDING,
+                    list[position]){ isSuccessful:Boolean->
                     progress.cancel()
                     if(isSuccessful){
                         btnRequest.isEnabled=false
