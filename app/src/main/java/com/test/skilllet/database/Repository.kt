@@ -31,7 +31,7 @@ class Repository {
         private var servicesNameMap=HashMap<String,ArrayList<String>>()
         public var allOfferedServices:ArrayList<ServiceModel>?=null
 
-        private var allServicesHistory=ArrayList<ServiceModel>()
+
         private var database: FirebaseDatabase? = null
             get() {
                 if (field == null) {
@@ -409,11 +409,11 @@ class Repository {
         }
 
         private fun getRequestsHistory(view:ViewType,block: (list: ArrayList<ServiceModel>?) -> Unit){
-            if(allServicesHistory.isEmpty()){
                 serviceRequest?.child(view.view)?.child(loggedInUser!!.key)?.
                 addValueEventListener(object : ValueEventListener{
                     override fun onDataChange(snapshot: DataSnapshot) {
                         if(snapshot.exists()){
+                            var allServicesHistory=ArrayList<ServiceModel>()
                             snapshot.children?.forEach{ snap:DataSnapshot->
                                 allServicesHistory?.add(snap.getValue(ServiceModel::class.java)!!)
                             }
@@ -428,16 +428,13 @@ class Repository {
                     }
 
                 })
-            }else{
-                block(allServicesHistory)
-            }
         }
         fun getServices(view:ViewType,status:RequestStatus,block: (list: ArrayList<ServiceModel>?) -> Unit){
              var servicesList:ArrayList<ServiceModel>?=null
 
             getRequestsHistory(view) { list: ArrayList<ServiceModel>? ->
+                servicesList= ArrayList()
                     list?.forEach{
-                        servicesList= ArrayList()
                         if(it.status.equals(status.status)){
                             servicesList?.add(it)
                         }

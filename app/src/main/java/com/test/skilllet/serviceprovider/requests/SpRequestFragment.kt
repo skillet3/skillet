@@ -65,7 +65,7 @@ class SpRequestFragment : Fragment() {
         initIconsList();
 
         var adapter = activity?.resources?.getColor(R.color.requested)
-            ?.let { SPServiceStatusAdapter(list, listIcons, it) }
+            ?.let { SPRequestsAdapter(requireContext(),list, listIcons, it) }
         binding.rv.adapter = adapter
         progressDialog.dismiss()
     }
