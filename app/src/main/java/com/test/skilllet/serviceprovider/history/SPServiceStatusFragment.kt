@@ -74,6 +74,11 @@ class SPServiceStatusFragment(var status: RequestStatus) : Fragment() {
                     ?.let { SPServiceStatusAdapter(list, listIcons, it) }
                 binding.rv.adapter = adapter
             }
+            RequestStatus.DECLINE.name -> {
+                var adapter = activity?.resources?.getColor(R.color.completed)
+                    ?.let { SPServiceStatusAdapter(list, listIcons, it) }
+                binding.rv.adapter = adapter
+            }
         }
         progressDialog.dismiss()
     }

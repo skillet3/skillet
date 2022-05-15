@@ -6,7 +6,7 @@ import com.test.skilllet.util.RequestStatus
 
 
 class SPCustomStateAdapter (fragment: Fragment): FragmentStateAdapter(fragment) {
-    override fun getItemCount(): Int =  2
+    override fun getItemCount(): Int =  3
 
     override fun createFragment(position: Int): Fragment {
         return  when(position){
@@ -15,6 +15,9 @@ class SPCustomStateAdapter (fragment: Fragment): FragmentStateAdapter(fragment) 
             }
             1->{
                 SPServiceStatusFragment(RequestStatus.COMPLETED)
+            }
+            2->{
+                SPServiceStatusFragment(RequestStatus.DECLINE)
             }
             else->{
                 SPServiceStatusFragment(RequestStatus.APPROVED)

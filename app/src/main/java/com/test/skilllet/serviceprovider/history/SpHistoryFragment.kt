@@ -15,7 +15,7 @@ class SpHistoryFragment: Fragment() {
     lateinit var binding: SpFragHistoryBinding
     private lateinit var demoCollectionAdapter: SPCustomStateAdapter
     private lateinit var viewPager: ViewPager2
-    var arr = arrayOf("Approved",  "Completed")
+    var arr = arrayOf("Approved",  "Completed","Declined")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

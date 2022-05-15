@@ -16,6 +16,7 @@ import com.test.skilllet.models.ServiceModel
 import com.test.skilllet.util.RequestStatus
 import com.test.skilllet.util.ViewType
 import com.test.skilllet.util.showProgressDialog
+import java.security.interfaces.RSAKey
 
 class ClientServiceStatusFragment(var status: RequestStatus) : Fragment() {
     lateinit var binding: TempFragmentBinding
@@ -76,6 +77,11 @@ class ClientServiceStatusFragment(var status: RequestStatus) : Fragment() {
 
             }
             RequestStatus.COMPLETED.name -> {
+                var adapter = activity?.resources?.getColor(R.color.completed)
+                    ?.let { ClientServiceStatusAdapter(list, listIcons, it) }
+                binding.rv.adapter = adapter
+            }
+            RequestStatus.DECLINE.name->{
                 var adapter = activity?.resources?.getColor(R.color.completed)
                     ?.let { ClientServiceStatusAdapter(list, listIcons, it) }
                 binding.rv.adapter = adapter
