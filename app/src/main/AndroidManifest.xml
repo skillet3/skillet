@@ -9,6 +9,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SkillLet">
         <activity
+            android:name=".admin.HomeActivity"
+            android:exported="false" />
+        <activity
             android:name=".client.bnfragments.home.RequestService"
             android:exported="false" />
         <activity
