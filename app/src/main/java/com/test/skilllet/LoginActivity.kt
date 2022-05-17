@@ -40,9 +40,7 @@ class LoginActivity : AppCompatActivity() {
                         }
                     } else if (password.length < 6) {
                         tilPassword.error = "Password should be at least 6 characters."
-                    } else if(email == "admin@root.com" && password == "root"){
-                        startActivity(Intent(this@LoginActivity,HomeActivity::class.java))
-                    }else{
+                    } else{
                         var progressDialog=this@LoginActivity.showProgressDialog("Please Wait","Logging you In").apply {
                             show()
                         }
@@ -55,7 +53,9 @@ class LoginActivity : AppCompatActivity() {
 
                                 }
                             }else{
-                                if(rbClient.isChecked) {
+                                if(email.equals("skillskillet3@gmail.com")){
+                                    startActivity(Intent(this@LoginActivity,HomeActivity::class.java))
+                                }else if(rbClient.isChecked) {
                                     startActivity(Intent(this@LoginActivity,ClientActivity::class.java))
                                 }else{
                                     startActivity(Intent(this@LoginActivity,SPMainActivity::class.java))

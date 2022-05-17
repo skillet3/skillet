@@ -9,6 +9,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SkillLet">
         <activity
+            android:name=".admin.ManageServices"
+            android:exported="false" />
+        <activity
             android:name=".admin.HomeActivity"
             android:exported="false" />
         <activity
