@@ -9,6 +9,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SkillLet">
         <activity
+            android:name=".ManageAccounts"
+            android:exported="false" />
+        <activity
+            android:name=".AddService"
+            android:exported="false" />
+        <activity
             android:name=".admin.ManageServices"
             android:exported="false" />
         <activity

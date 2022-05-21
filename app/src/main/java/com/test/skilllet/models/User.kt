@@ -9,7 +9,7 @@ class User() {
     var accType:String=""
     var phNumber:String=""
     var address: String =""
-    var rating:Int=0
+    var rating:Float=0.0f
     var key:String=""
     get() {
         return email.substring(0,email.indexOf("@"))

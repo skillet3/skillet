@@ -8,13 +8,16 @@
         <entry key="..\:/Users/Maria Nadeem/Downloads/SkillLet/app/src/main/res/layout/activity_login.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/Maria Nadeem/Downloads/SkillLet/app/src/main/res/layout/activity_registration.xml" value="0.22826086956521738" />
         <entry key="app/src/main/res/drawable/round_ractangle.xml" value="0.161" />
+        <entry key="app/src/main/res/layout/activity_add_service.xml" value="0.1453125" />
         <entry key="app/src/main/res/layout/activity_add_service_bysp.xml" value="0.19375" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.17864583333333334" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.19375" />
+        <entry key="app/src/main/res/layout/activity_manage_accounts.xml" value="0.1453125" />
         <entry key="app/src/main/res/layout/activity_manage_services.xml" value="0.17864583333333334" />
         <entry key="app/src/main/res/layout/activity_request_service.xml" value="0.33" />
         <entry key="app/src/main/res/layout/clinet_row_request_service.xml" value="0.33" />
         <entry key="app/src/main/res/layout/history_fragment.xml" value="0.19375" />
+        <entry key="app/src/main/res/layout/row_account_details.xml" value="0.14453125" />
         <entry key="app/src/main/res/layout/row_history_temp.xml" value="0.33" />
         <entry key="app/src/main/res/layout/row_home_temp.xml" value="0.19375" />
         <entry key="app/src/main/res/layout/row_manage_services.xml" value="0.16" />

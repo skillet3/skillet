@@ -10,6 +10,7 @@ import android.graphics.drawable.ColorDrawable
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import com.test.skilllet.R
 
 enum class RequestStatus(var status:String){
@@ -23,7 +24,7 @@ enum class ViewType(var view:String){
     SERVICE_PROVIDER("spView"),
 }
 
-fun Activity.showDialogBox(msg:String,block:()->Unit) {
+fun Context.showDialogBox(msg:String,block:()->Unit) {
     val dialog = Dialog(this)
     dialog.setCancelable(false)
     dialog.setContentView(R.layout.db_msg)
@@ -49,4 +50,8 @@ fun Context.showProgressDialog(msg:String,title:String):ProgressDialog{
     progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER) // Progress Dialog Style Spinner
     progressDialog.setCancelable(false)
     return progressDialog
+}
+
+fun Context.showToast(s: String) {
+    Toast.makeText(this,s, Toast.LENGTH_SHORT).show()
 }

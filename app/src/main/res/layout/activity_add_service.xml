@@ -12,9 +12,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Add Service"
+        android:text="Add New Service"
         android:textColor="#D61507"
-        android:textSize="42sp"
+        android:textSize="35sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -48,18 +48,17 @@
                 android:layout_margin="12dp"
                 android:paddingStart="6dp"
                 android:text="Service Type"
+                android:textColor="#000000"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Spinner
+            <EditText
                 android:id="@+id/et_service_type"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_margin="12dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_service_type" />
+                tools:ignore="SpeakableTextPresentCheck" />
 
             <TextView
                 android:id="@+id/tv_service_name"
@@ -68,19 +67,18 @@
                 android:layout_margin="12dp"
                 android:paddingStart="6dp"
                 android:text="Service Name"
+                android:textColor="#000000"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/et_service_type" />
 
-            <Spinner
+            <EditText
                 android:id="@+id/et_service_name"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_margin="12dp"
                 android:paddingStart="6dp"
                 android:paddingEnd="6dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_service_name" />
+                tools:ignore="SpeakableTextPresentCheck" />
 
             <EditText
                 android:id="@+id/et_price"
