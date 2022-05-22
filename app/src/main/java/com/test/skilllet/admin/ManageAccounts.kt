@@ -5,12 +5,13 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.test.skilllet.database.Repository
 import com.test.skilllet.databinding.ActivityManageAccountsBinding
+import com.test.skilllet.models.User
 import com.test.skilllet.util.showProgressDialog
 
 class ManageAccounts : AppCompatActivity() {
 
     lateinit var binding:ActivityManageAccountsBinding
-    var accountList=ArrayList<AccountDetails>()
+    var accountList=ArrayList<User>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
