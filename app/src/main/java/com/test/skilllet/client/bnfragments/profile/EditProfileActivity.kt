@@ -52,7 +52,7 @@ class EditProfileActivity : AppCompatActivity() {
                 }else{
                     if(etName.text.equals(user?.name)&&etMobileNumber.text.equals(user?.phNumber)&&
                             etAddress.equals(user?.address)){
-                        this@EditProfileActivity.showToast("NO changes made")
+                        this@EditProfileActivity.showToast("No changes made")
                     }else{
                         user?.name=etName.text.trim().toString()
                         user?.phNumber=etMobileNumber.text.trim().toString()
