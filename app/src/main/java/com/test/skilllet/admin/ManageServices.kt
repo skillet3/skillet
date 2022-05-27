@@ -24,8 +24,8 @@ class ManageServices : AppCompatActivity() {
 
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
         var dialog=this.showProgressDialog("Please Wait","Loading Offered Services")
         dialog?.show();
         Repository.getServicesList {

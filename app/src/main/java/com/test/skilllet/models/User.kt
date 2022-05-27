@@ -10,6 +10,7 @@ class User() {
     var phNumber:String=""
     var address: String =""
     var rating:Float=0.0f
+    var url=""
     var key:String=""
     get() {
         return email.substring(0,email.indexOf("@"))

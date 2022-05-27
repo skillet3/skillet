@@ -33,7 +33,7 @@ class ManageServicesAdapter(var context: Context, var list:ArrayList<ServiceMode
                     Repository.deleteService(list[position]){
                         if (it){
                             list.removeAt(position)
-                            notifyItemRemoved(position)
+                            notifyDataSetChanged()
                         }else{
                             context.showToast("Could not delete this item")
                         }

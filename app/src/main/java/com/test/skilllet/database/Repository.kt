@@ -2,6 +2,7 @@ package com.test.skilllet.database
 
 import android.app.Activity
 import android.content.Context
+import android.net.Uri
 import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
@@ -9,6 +10,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import com.test.skilllet.models.ServiceModel
 import com.test.skilllet.models.User
 import com.test.skilllet.util.RequestStatus
@@ -52,7 +54,7 @@ class Repository {
         var addAdminServicesRef: DatabaseReference? = null
             get() {
                 if (field == null) {
-                    field = database?.getReference("service");
+                    field = database?.getReference("services");
                 }
                 return field
             }
@@ -60,6 +62,13 @@ class Repository {
             get() {
                 if (field == null) {
                     field = database?.getReference("serviceRequest");
+                }
+                return field
+            }
+        var storage: FirebaseStorage? = null
+            get() {
+                if (field == null) {
+                    field = FirebaseStorage.getInstance()
                 }
                 return field
             }
@@ -130,6 +139,7 @@ class Repository {
         }
 
         private fun registerUser(context: Context, user: User) {
+            user.rating = 5.0F
             database?.reference?.child(user.accType)?.child(user.key)?.setValue(user)
                 ?.addOnSuccessListener {
                     Toast.makeText(context, "Data Entered successfully", Toast.LENGTH_SHORT).show()
@@ -152,11 +162,7 @@ class Repository {
 
                 } else {
                     getUserInfo(email, accType) {
-                        if (it) {
-                            block(true)
-                        } else {
-                            block(false)
-                        }
+                        block(it)
                     }
                 }
             }?.addOnFailureListener {
@@ -189,86 +195,79 @@ class Repository {
         }
 
         fun getAllCleaningServices(block: (list: ArrayList<ServiceModel>?) -> Unit) {
-            if (allCleaningServices == null) {
-                allCleaningServices = ArrayList()
-                servicesRef?.child("cleaning")?.addValueEventListener(object :
-                    ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        if (snapshot.exists()) {
-                            snapshot.children.forEach { snap: DataSnapshot? ->
-                                snap?.getValue(ServiceModel::class.java)
-                                    ?.let { allCleaningServices?.add(it) }
-                            }
-                            block(allCleaningServices)
-                        } else {
-                            block(null)
-                        }
-                    }
 
-                    override fun onCancelled(error: DatabaseError) {
+            allCleaningServices = ArrayList()
+            servicesRef?.child("cleaning")?.addValueEventListener(object :
+                ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        snapshot.children.forEach { snap: DataSnapshot? ->
+                            snap?.getValue(ServiceModel::class.java)
+                                ?.let { allCleaningServices?.add(it) }
+                        }
+                        block(allCleaningServices)
+                    } else {
                         block(null)
                     }
+                }
 
-                })
-            } else {
-                block(allCleaningServices)
-            }
+                override fun onCancelled(error: DatabaseError) {
+                    block(null)
+                }
+
+            })
+
         }
 
         fun getAllPlumbingServices(block: (list: ArrayList<ServiceModel>?) -> Unit) {
-            if (allPlumbingServices == null) {
-                allPlumbingServices = ArrayList()
-                servicesRef?.child("plumbing")?.addValueEventListener(object :
-                    ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        if (snapshot.exists()) {
-                            snapshot.children.forEach { snap: DataSnapshot? ->
-                                snap?.getValue(ServiceModel::class.java)
-                                    ?.let { allPlumbingServices?.add(it) }
-                            }
-                            block(allPlumbingServices)
-                        } else {
-                            block(null)
+            allPlumbingServices = ArrayList()
+            servicesRef?.child("plumbing")?.addValueEventListener(object :
+                ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        snapshot.children.forEach { snap: DataSnapshot? ->
+                            snap?.getValue(ServiceModel::class.java)
+                                ?.let { allPlumbingServices?.add(it) }
                         }
-                    }
-
-                    override fun onCancelled(error: DatabaseError) {
+                        block(allPlumbingServices)
+                    } else {
                         block(null)
                     }
+                }
 
-                })
+                override fun onCancelled(error: DatabaseError) {
+                    block(null)
+                }
 
-            } else {
-                block(allPlumbingServices)
-            }
+            })
+
+
         }
 
         fun getAllElectricianServices(block: (list: ArrayList<ServiceModel>?) -> Unit) {
-            if (allElectricianServices == null) {
-                allElectricianServices = ArrayList()
-                servicesRef?.child("electrician")?.addValueEventListener(object :
-                    ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        if (snapshot.exists()) {
-                            snapshot.children.forEach { snap: DataSnapshot? ->
-                                snap?.getValue(ServiceModel::class.java)
-                                    ?.let { allElectricianServices?.add(it) }
-                            }
-                            block(allElectricianServices)
-                        } else {
-                            block(null)
-                        }
-                    }
 
-                    override fun onCancelled(error: DatabaseError) {
+            allElectricianServices = ArrayList()
+            servicesRef?.child("electrician")?.addValueEventListener(object :
+                ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        snapshot.children.forEach { snap: DataSnapshot? ->
+                            snap?.getValue(ServiceModel::class.java)
+                                ?.let { allElectricianServices?.add(it) }
+                        }
+                        block(allElectricianServices)
+                    } else {
                         block(null)
                     }
+                }
 
-                })
+                override fun onCancelled(error: DatabaseError) {
+                    block(null)
+                }
 
-            } else {
-                block(allElectricianServices)
-            }
+            })
+
+
         }
 
 
@@ -282,16 +281,16 @@ class Repository {
                 serviceModel.user = user
                 addServicesRef?.child(ViewType.SERVICE_PROVIDER.view)?.child(user.key)?.child(it)
                     ?.setValue(serviceModel)?.addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        addServicesRef?.child(ViewType.CLIENT.view)?.child(serviceModel.type)
-                            ?.child(serviceModel.name)?.child(serviceModel.id)
-                            ?.setValue(serviceModel)?.addOnCompleteListener {
-                            block(it.isSuccessful);
+                        if (it.isSuccessful) {
+                            addServicesRef?.child(ViewType.CLIENT.view)?.child(serviceModel.type)
+                                ?.child(serviceModel.name)?.child(serviceModel.id)
+                                ?.setValue(serviceModel)?.addOnCompleteListener {
+                                    block(it.isSuccessful);
+                                }
+                        } else {
+                            block(it.isSuccessful)
                         }
-                    } else {
-                        block(it.isSuccessful)
                     }
-                }
 
 
             }
@@ -504,48 +503,116 @@ class Repository {
 
             addAdminServicesRef?.child(serviceModel.type)?.child(serviceModel.name)
                 ?.setValue(serviceModel)?.addOnCompleteListener {
-                block(it.isSuccessful)
-            }
+                    block(it.isSuccessful)
+                }
         }
 
         fun getAccountsList(block: (ArrayList<User>?) -> Unit) {
-            database?.reference?.addListenerForSingleValueEvent(object :ValueEventListener{
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    var list=ArrayList<User>()
-                    snapshot.children.forEach{ shot ->
-                        shot.children.forEach { item->
-                            var user=item.getValue(User::class.java)
+            database?.reference?.child("Client")
+                ?.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        var list = ArrayList<User>()
+                        snapshot.children.forEach { shot ->
+
+                            var user = shot.getValue(User::class.java)
                             if (user != null) {
                                 list.add(user)
                             }
+
                         }
+                        database?.reference?.child("ServiceProvider")
+                            ?.addListenerForSingleValueEvent(object : ValueEventListener {
+                                override fun onDataChange(snapshot: DataSnapshot) {
+                                    snapshot.children.forEach { shot ->
+                                        var user = shot.getValue(User::class.java)
+                                        if (user != null) {
+                                            list.add(user)
+                                        }
+
+                                    }
+                                    block(list)
+                                }
+
+                                override fun onCancelled(error: DatabaseError) {
+                                    block(null)
+                                }
+                            })
+
+
                     }
-                    block(list)
-                }
 
-                override fun onCancelled(error: DatabaseError) {
-                    block(null)
-                }
+                    override fun onCancelled(error: DatabaseError) {
+                        block(null)
+                    }
 
-            })
+                })
         }
 
         fun deleteService(service: ServiceModel, block: (Boolean) -> Unit) {
-            servicesRef?.child(service.type)?.child(service.name)?.removeValue()?.addOnCompleteListener {
-                block(it.isSuccessful)
-            }
+            servicesRef?.child(service.type)?.child(service.name)?.removeValue()
+                ?.addOnCompleteListener {
+                    block(it.isSuccessful)
+                }
         }
 
         fun deleteAccount(accountDetails: User, function: (Boolean) -> Unit) {
-            database?.reference?.child(accountDetails.accType)?.child(accountDetails?.key)?.
-            removeValue()?.addOnCompleteListener {
-                function(it.isSuccessful)
+            database?.reference?.child(accountDetails.accType)?.child(accountDetails?.key)
+                ?.removeValue()?.addOnCompleteListener {
+
+                    function(it.isSuccessful)
+                }
+        }
+
+        fun updateUserProfile(uri: Uri?, user: User?, function: (b: Boolean) -> Unit) {
+            if (uri != null) {
+                uploadImage(uri, user?.key) { url: String? ->
+                    if (url != null) {
+                        user?.url = url
+                    }
+                    uploadUserProfile(user) { b: Boolean ->
+                        function(b)
+                    }
+                }
+            } else {
+                uploadUserProfile(user) {
+                    function(it)
+                }
+
             }
         }
 
+        private fun uploadUserProfile(user: User?, function: (Boolean) -> Unit) {
+            database?.reference?.child(user?.accType!!)?.child(user.key)
+                ?.setValue(user)?.addOnCompleteListener {
+                    loggedInUser = user
+                    function(it.isSuccessful)
+                }
+        }
+
+        private fun uploadImage(uri: Uri?, key: String?, function: (String?) -> Unit) {
+            val ref = storage?.getReference(key!!)
+            val uploadTask = ref?.putFile(uri!!)
+            val urlTask = uploadTask?.continueWithTask { task ->
+                if (!task.isSuccessful) {
+                    task.exception?.let {
+                        throw it
+                    }
+                }
+                ref.downloadUrl
+            }?.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val downloadUri = task.result
+                    function(downloadUri.toString())
+                } else {
+                    function(null)
+                }
+
+            }
+
+
+        }
 
     }
-
 }
 
 

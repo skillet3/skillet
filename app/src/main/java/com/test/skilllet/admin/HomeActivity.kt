@@ -15,7 +15,7 @@ class HomeActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.manAcc.setOnClickListener {
-
+            startActivity(Intent(this@HomeActivity,ManageAccounts::class.java))
         }
         binding.manSer.setOnClickListener {
             startActivity(Intent(this@HomeActivity,ManageServices::class.java))

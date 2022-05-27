@@ -38,10 +38,10 @@ class AddServiceBYSP : AppCompatActivity() {
                     android.R.layout.simple_list_item_1, it!!
                 )
                 spAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                binding.spServiceType.setAdapter(spAdapter)
+                binding.etServiceName.setAdapter(spAdapter)
             }
 
-            spServiceType.onItemSelectedListener=object: AdapterView.OnItemSelectedListener{
+            etServiceName.onItemSelectedListener=object: AdapterView.OnItemSelectedListener{
                 override fun onItemSelected(
                     parent: AdapterView<*>?,
                     view: View?,
@@ -58,7 +58,7 @@ class AddServiceBYSP : AppCompatActivity() {
                         android.R.layout.simple_list_item_1, arr!!
                     )
                     spAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    binding.spServiceName.setAdapter(spAdapter)
+                    binding.etServiceName.setAdapter(spAdapter)
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -76,8 +76,8 @@ class AddServiceBYSP : AppCompatActivity() {
                 }else{
                     service.price=price
                     service.description=desc
-                    service.type=spServiceType.selectedItem as String
-                    service.name=spServiceName.selectedItem as String
+                    service.type=etServiceType.selectedItem as String
+                    service.name=etServiceName.selectedItem as String
 
                     var progressDialog=this@AddServiceBYSP.showProgressDialog("Please Wait",
                         "Adding Service"

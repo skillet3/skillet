@@ -18,14 +18,11 @@ class ManageAccounts : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding=ActivityManageAccountsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-
-
     }
 
     override fun onStart() {
         super.onStart()
-        var dialog=this.showProgressDialog("Please Wait","Loading Offered Services")
+        var dialog=this.showProgressDialog("Please Wait","Loading Accounts")
         dialog?.show();
         Repository.getAccountsList {
             dialog.cancel()

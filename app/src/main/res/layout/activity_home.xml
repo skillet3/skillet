@@ -4,31 +4,78 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="30dp"
+    android:padding="16dp"
     tools:context=".admin.HomeActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_info_graphic"
+        android:layout_width="330dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/admin_panel"
+        app:layout_constraintBottom_toTopOf="@+id/man_ser"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView9">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
         android:id="@+id/man_ser"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_width="160dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="30dp"
         android:text="Manage Services"
         app:cornerRadius="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/man_acc"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+
+        app:icon="@drawable/ic_services"
+        app:layout_constraintEnd_toStartOf="@+id/man_acc"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/cl_info_graphic" />
 
     <Button
         android:id="@+id/man_acc"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="40dp"
+        android:layout_width="160dp"
+        android:layout_height="100dp"
         android:text="Mangae Account"
         app:cornerRadius="30dp"
+        app:icon="@drawable/ic_person"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/man_ser"
+        app:layout_constraintTop_toTopOf="@+id/man_ser" />
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="57dp"
+        android:layout_height="67dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/man_ser" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Skill Skillet"
+        android:textColor="#D16644"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView9"
+        app:layout_constraintStart_toEndOf="@+id/imageView9"
+        app:layout_constraintTop_toTopOf="@+id/imageView9" />
+
+    <Button
+        android:id="@+id/man_subscription"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_marginTop="15dp"
+        android:text="Manage Subscription"
+        android:visibility="gone"
+        app:cornerRadius="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/man_acc" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

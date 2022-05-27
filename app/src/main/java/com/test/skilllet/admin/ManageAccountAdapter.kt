@@ -24,7 +24,7 @@ class ManageAccountAdapter(var context: Context, var list:ArrayList<User>):
             tvName.text=list[position].name
             rbAccount.rating= list[position].rating
             rbClient.isChecked=list[position].accType=="Client"
-            rbServiceProvider.isChecked=list[position].accType=="Client"
+            rbServiceProvider.isChecked=list[position].accType=="ServiceProvider"
 
             ivCancel.setOnClickListener {
                 context.showDialogBox("You will be deleting the following User\n" +

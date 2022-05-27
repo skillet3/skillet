@@ -44,7 +44,7 @@ class AddService : AppCompatActivity() {
 
                     Repository.addServiceByAdmin(service){
                         if(it){
-                            this@AddService.showDialogBox("A new Service has been Successfully added wih the following information.\n" +
+                            this@AddService.showDialogBox("Service has been Successfully added/updated with the following information.\n" +
                                     "Type : ${service.type}\n" +
                                     "Name : ${service.name}\n" +
                                     "Price : ${service.price}"){
@@ -52,6 +52,7 @@ class AddService : AppCompatActivity() {
                                 etPrice.text.clear()
                                 etServiceName.text.clear()
                                 etServiceType.text.clear()
+                                finish()
                             }
                         }else{
                             this@AddService.showDialogBox("Not able to add new Service.\n" +
