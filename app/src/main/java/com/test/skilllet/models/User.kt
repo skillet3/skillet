@@ -11,6 +11,7 @@ class User() {
     var address: String =""
     var rating:Float=0.0f
     var url=""
+    var token=""
     var key:String=""
     get() {
         return email.substring(0,email.indexOf("@"))

@@ -5,11 +5,13 @@ import android.content.Context
 import android.net.Uri
 import android.util.Log
 import android.widget.Toast
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.FirebaseStorage
 import com.test.skilllet.models.ServiceModel
 import com.test.skilllet.models.User
@@ -103,7 +105,7 @@ class Repository {
                 return field
             }
 
-        public var user: FirebaseUser? = null
+        public var currentFirebaseUser: FirebaseUser? = null
             get() = mAuth?.currentUser
 
 
@@ -157,11 +159,12 @@ class Repository {
             mAuth?.signInWithEmailAndPassword(email, password)?.addOnSuccessListener {
                 if (email.equals("skillskillet3@gmail.com")) {
                     block(true)
-                } else if (!user?.isEmailVerified!!) {
+                } else if (!currentFirebaseUser?.isEmailVerified!!) {
                     mAuth?.signOut()
 
                 } else {
                     getUserInfo(email, accType) {
+                        registerToken()
                         block(it)
                     }
                 }
@@ -611,7 +614,22 @@ class Repository {
 
 
         }
+        fun registerToken(){
+            FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                    return@OnCompleteListener
+                }
 
+                // Get new FCM registration token
+                val token = task.result
+                loggedInUser?.token=token
+                loggedInUser?.accType?.let { accType ->
+                    loggedInUser?.key?.let { key -> database?.reference?.child(accType)?.child(key)?.setValue(loggedInUser) }
+                }
+
+            })
+        }
     }
 }
 

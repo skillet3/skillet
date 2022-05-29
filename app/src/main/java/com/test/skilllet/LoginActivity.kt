@@ -53,6 +53,7 @@ class LoginActivity : AppCompatActivity() {
 
                                 }
                             }else{
+
                                 if(email.equals("skillskillet3@gmail.com")){
                                     startActivity(Intent(this@LoginActivity,HomeActivity::class.java))
                                 }else if(rbClient.isChecked) {
@@ -78,7 +79,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun checkIfLoggedIn(): Boolean {
-        if (Repository.user != null) {
+        if (Repository.currentFirebaseUser != null) {
             //already logged in
             return true
         }

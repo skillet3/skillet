@@ -1,10 +1,8 @@
 package com.test.skilllet
 
 import android.app.ProgressDialog
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.auth.FirebaseAuth
 import com.test.skilllet.database.Repository
 import com.test.skilllet.databinding.ActivityRegistrationBinding
 import com.test.skilllet.models.User
@@ -48,7 +46,7 @@ class RegistrationActivity : AppCompatActivity() {
                     Repository.createUserAccount(this@RegistrationActivity,user) { _user: User, isSuccess: Boolean ->
                         progressDialog.cancel()
                         if(isSuccess){
-                            var user=Repository.user
+                            var user=Repository.currentFirebaseUser
                             user!!.sendEmailVerification()
                                 .addOnCompleteListener { task ->
 

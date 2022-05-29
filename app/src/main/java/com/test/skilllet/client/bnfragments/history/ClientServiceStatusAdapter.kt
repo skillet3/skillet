@@ -27,6 +27,7 @@ class ClientServiceStatusAdapter (var list:ArrayList<ServiceModel>, var iconsLis
             binding.clIcon.setBackgroundColor(color)
             binding.tvType.text=list[position].type
             binding.tvDes.text=list[position].description
+
         }
     }
 

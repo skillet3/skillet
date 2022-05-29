@@ -1,16 +1,20 @@
 package com.test.skilllet.serviceprovider.history
 
 
+import android.content.Context
+import android.content.Intent
 import android.graphics.drawable.Drawable
+import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.ColorInt
 import androidx.recyclerview.widget.RecyclerView
 import com.test.skilllet.databinding.RowHistoryTempBinding
 import com.test.skilllet.models.ServiceModel
+import com.test.skilllet.serviceprovider.paments.PaymentRequest
 
 
-class SPServiceStatusAdapter (var list:ArrayList<ServiceModel>, var iconsList: ArrayList<Drawable>, @ColorInt var color: Int):
+class SPServiceStatusAdapter (var context: Context, var visibility: Int, var list:ArrayList<ServiceModel>, var iconsList: ArrayList<Drawable>, @ColorInt var color: Int):
     RecyclerView.Adapter<SPServiceStatusAdapter.ViewHolder>() {
 
     //comment
@@ -21,12 +25,16 @@ class SPServiceStatusAdapter (var list:ArrayList<ServiceModel>, var iconsList: A
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        with(holder){
-            binding.tvName.text=list[position].name
-            binding.ivIcon.setImageDrawable(iconsList[position])
-            binding.clIcon.setBackgroundColor(color)
-            binding.tvType.text=list[position].type
-            binding.tvDes.text=list[position].description
+        with(holder.binding){
+            tvName.text=list[position].name
+            ivIcon.setImageDrawable(iconsList[position])
+            clIcon.setBackgroundColor(color)
+            tvType.text=list[position].type
+            tvDes.text=list[position].description
+            btnRequestPayment.visibility=visibility
+            btnRequestPayment.setOnClickListener {
+                context.startActivity(Intent(context,PaymentRequest::class.java))
+            }
         }
     }
 

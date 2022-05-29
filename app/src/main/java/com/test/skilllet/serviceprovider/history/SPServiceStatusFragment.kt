@@ -66,17 +66,17 @@ class SPServiceStatusFragment(var status: RequestStatus) : Fragment() {
         when (status.name) {
             RequestStatus.APPROVED.name -> {
                 var adapter = activity?.resources?.getColor(R.color.approved)
-                    ?.let { SPServiceStatusAdapter(list, listIcons, it) }
+                    ?.let { SPServiceStatusAdapter(View.VISIBLE,list, listIcons, it) }
                 binding.rv.adapter = adapter
             }
             RequestStatus.COMPLETED.name -> {
                 var adapter = activity?.resources?.getColor(R.color.completed)
-                    ?.let { SPServiceStatusAdapter(list, listIcons, it) }
+                    ?.let { SPServiceStatusAdapter(View.GONE,list, listIcons, it) }
                 binding.rv.adapter = adapter
             }
             RequestStatus.DECLINE.name -> {
                 var adapter = activity?.resources?.getColor(R.color.completed)
-                    ?.let { SPServiceStatusAdapter(list, listIcons, it) }
+                    ?.let { SPServiceStatusAdapter(View.GONE,list, listIcons, it) }
                 binding.rv.adapter = adapter
             }
         }
