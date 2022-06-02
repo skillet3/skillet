@@ -3,6 +3,7 @@ package com.test.skilllet.admin
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.test.skilllet.database.Repository
 import com.test.skilllet.databinding.ActivityManageServicesBinding
@@ -32,12 +33,18 @@ class ManageServices : AppCompatActivity() {
         dialog.cancel()
             if (it != null) {
                 servicesList=it
-            }
-            var adapter= ManageServicesAdapter(this@ManageServices,servicesList)
+                var adapter= ManageServicesAdapter(this@ManageServices,servicesList)
 
-            binding.rv.layoutManager= LinearLayoutManager(this.applicationContext,
-                LinearLayoutManager.VERTICAL,false)
-            binding.rv.adapter=adapter
+                binding.rv.layoutManager= LinearLayoutManager(this.applicationContext,
+                    LinearLayoutManager.VERTICAL,false)
+                binding.rv.adapter=adapter
+                binding.ivEmpty.visibility= View.GONE
+                binding.rv.visibility=View.VISIBLE
+            }else{
+                binding.ivEmpty.visibility= View.VISIBLE
+                binding.rv.visibility=View.GONE
+            }
+
         }
     }
 }

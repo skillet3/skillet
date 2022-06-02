@@ -44,10 +44,7 @@ class ManageServicesAdapter(var context: Context, var list:ArrayList<ServiceMode
             }
             btnEdit.setOnClickListener {
                 context.startActivity(Intent(context,AddService::class.java).apply {
-                    putExtra("name",list[position].name)
-                    putExtra("type",list[position].type)
-                    putExtra("desc",list[position].description)
-                    putExtra("price",list[position].price)
+                    putExtra("service",list[position])
                 })
 
             }

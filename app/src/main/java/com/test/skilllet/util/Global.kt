@@ -1,30 +1,43 @@
 package com.test.skilllet.util
 
 
-import android.app.Activity
 import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.util.Log
+import android.view.View
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import com.google.gson.JsonObject
 import com.test.skilllet.R
+import com.test.skilllet.notifications.APIClient.apiService
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-enum class RequestStatus(var status:String){
+enum class RequestStatus(var status: String) {
     PENDING("pending"),
     APPROVED("approved"),
     COMPLETED("completed"),
     DECLINE("decline")
 }
-enum class ViewType(var view:String){
+
+enum class ViewType(var view: String) {
     CLIENT("clientView"),
     SERVICE_PROVIDER("spView"),
 }
 
-fun Context.showDialogBox(msg:String,block:()->Unit) {
+enum class PaymentStatus(var value: String) {
+    PAYED("Payed"),
+    REQUESTED("Requested"),
+    NOT_REQUESTED("NotRequested")
+}
+
+fun Context.showDialogBox(msg: String, block: () -> Unit) {
     val dialog = Dialog(this)
     dialog.setCancelable(false)
     dialog.setContentView(R.layout.db_msg)
@@ -36,14 +49,41 @@ fun Context.showDialogBox(msg:String,block:()->Unit) {
     val text: TextView = dialog.findViewById(R.id.tv_msg)
     text.text = msg
     val btnOk: Button = dialog.findViewById(R.id.btn_done)
-    btnOk.setOnClickListener{
+    btnOk.setOnClickListener {
         block()
         dialog.cancel()
     }
     dialog.show()
 }
 
-fun Context.showProgressDialog(msg:String,title:String):ProgressDialog{
+fun Context.showExitDialogBox(msg: String, block: (boolean:Boolean) -> Unit) {
+    val dialog = Dialog(this)
+    dialog.setCancelable(false)
+    dialog.setContentView(R.layout.db_msg)
+    dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    dialog.window!!.setLayout(
+        WindowManager.LayoutParams.MATCH_PARENT,
+        WindowManager.LayoutParams.MATCH_PARENT
+    )
+    val text: TextView = dialog.findViewById(R.id.tv_msg)
+    text.text = msg
+    dialog.findViewById<TextView>(R.id.tv_title).text="Exit"
+    val btnExit: Button = dialog.findViewById(R.id.btn_done)
+    btnExit.text="Exit"
+    val btnCancel:Button=dialog.findViewById(R.id.btn_cancel)
+    btnCancel.visibility= View.VISIBLE
+    btnExit.setOnClickListener {
+        block(true)
+        dialog.cancel()
+    }
+    btnCancel.setOnClickListener {
+        block(false)
+        dialog.cancel()
+    }
+    dialog.show()
+}
+
+fun Context.showProgressDialog(msg: String, title: String="Please Wait"): ProgressDialog {
     var progressDialog = ProgressDialog(this)
     progressDialog.setMessage(msg) // Setting Message
     progressDialog.setTitle(title) // Setting Title
@@ -53,5 +93,46 @@ fun Context.showProgressDialog(msg:String,title:String):ProgressDialog{
 }
 
 fun Context.showToast(s: String) {
-    Toast.makeText(this,s, Toast.LENGTH_SHORT).show()
+    Toast.makeText(this, s, Toast.LENGTH_SHORT).show()
+}
+
+fun Context.sendNotification(token:String,title:String,msg:String) {
+    val payload = buildNotificationPayload(token,  title, msg)
+    apiService.sendNotification(payload)!!.enqueue(
+        object : Callback<JsonObject?> {
+            override fun onResponse(call: Call<JsonObject?>?, response: Response<JsonObject?>) {
+                if (response.isSuccessful()) {
+//                    Toast.makeText(
+//                        this, "Notification send successful",
+//                        Toast.LENGTH_LONG
+//                    ).show()
+                    Log.d("927277", "Notification sent: " + response.toString())
+                } else {
+                    Log.d("927277", "Error responce: " + response.toString())
+                }
+            }
+
+            override fun onFailure(call: Call<JsonObject?>?, t: Throwable?) {
+                Log.d("927277", "Error failed: ")
+            }
+        })
+}
+
+private fun buildNotificationPayload(
+    token: String,
+    title: String,
+    msg: String
+): JsonObject? {
+
+
+    // compose notification json payload
+    val payload = JsonObject()
+    payload.addProperty("to", token)
+    // compose data payload here
+    val data = JsonObject()
+    data.addProperty("title", title)
+    data.addProperty("msg", msg)
+    // add data payload
+    payload.add("data", data)
+    return payload
 }

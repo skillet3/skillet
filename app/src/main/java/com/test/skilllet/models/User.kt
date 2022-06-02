@@ -1,8 +1,9 @@
 package com.test.skilllet.models
 
+import java.io.Serializable
 
 
-class User() {
+class User():Serializable {
     var name:String=""
     var email:String=""
     var password:String=""
@@ -12,6 +13,7 @@ class User() {
     var rating:Float=0.0f
     var url=""
     var token=""
+    var totalFeedbacks:Int=1
     var key:String=""
     get() {
         return email.substring(0,email.indexOf("@"))

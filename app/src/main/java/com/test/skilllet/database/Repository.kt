@@ -14,6 +14,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.FirebaseStorage
 import com.test.skilllet.models.ServiceModel
+import com.test.skilllet.models.ServiceType
 import com.test.skilllet.models.User
 import com.test.skilllet.util.RequestStatus
 import com.test.skilllet.util.ViewType
@@ -22,13 +23,14 @@ import com.test.skilllet.util.ViewType
 class Repository {
     companion object {
         private val TAG: String = "9272"
-        public var loggedInUser: User? = null
+         var loggedInUser: User? = null
         private var allCleaningServices: ArrayList<ServiceModel>? = null
         private var allPlumbingServices: ArrayList<ServiceModel>? = null
         private var allElectricianServices: ArrayList<ServiceModel>? = null
         private var allServicesTypes: ArrayList<String>? = null
         private var servicesNameMap = HashMap<String, ArrayList<String>>()
-        public var allOfferedServices: ArrayList<ServiceModel>? = null
+         var allOfferedServices: ArrayList<ServiceModel>? = null
+        private val SERVICE_TYPES="ServiceTypes"
 
 
         private var database: FirebaseDatabase? = null
@@ -161,10 +163,10 @@ class Repository {
                     block(true)
                 } else if (!currentFirebaseUser?.isEmailVerified!!) {
                     mAuth?.signOut()
-
                 } else {
                     getUserInfo(email, accType) {
-                        registerToken()
+                       if(it)
+                           registerToken()
                         block(it)
                     }
                 }
@@ -186,6 +188,7 @@ class Repository {
                             loggedInUser = snapshot.getValue(User::class.java)
                             block(true)
                         } else {
+                            removeAuthUser()
                             mAuth?.signOut()
                             block(false)
                         }
@@ -200,7 +203,7 @@ class Repository {
         fun getAllCleaningServices(block: (list: ArrayList<ServiceModel>?) -> Unit) {
 
             allCleaningServices = ArrayList()
-            servicesRef?.child("cleaning")?.addValueEventListener(object :
+            servicesRef?.child("Cleaning")?.addValueEventListener(object :
                 ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
@@ -224,7 +227,7 @@ class Repository {
 
         fun getAllPlumbingServices(block: (list: ArrayList<ServiceModel>?) -> Unit) {
             allPlumbingServices = ArrayList()
-            servicesRef?.child("plumbing")?.addValueEventListener(object :
+            servicesRef?.child("Plumbing")?.addValueEventListener(object :
                 ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
@@ -247,10 +250,14 @@ class Repository {
 
         }
 
+        fun removeAuthUser(){
+            mAuth?.currentUser?.delete()
+        }
+
         fun getAllElectricianServices(block: (list: ArrayList<ServiceModel>?) -> Unit) {
 
             allElectricianServices = ArrayList()
-            servicesRef?.child("electrician")?.addValueEventListener(object :
+            servicesRef?.child("Electrician")?.addValueEventListener(object :
                 ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
@@ -496,7 +503,11 @@ class Repository {
                     plumbingServices?.let { list.addAll(it) }
                     getAllElectricianServices { electricianServices ->
                         electricianServices?.let { list.addAll(it) }
-                        block(list)
+                        if(list.isEmpty()){
+                            block(null)
+                        }else{
+                            block(list)
+                        }
                     }
                 }
             }
@@ -629,6 +640,52 @@ class Repository {
                 }
 
             })
+        }
+
+        fun addOrUpdateServiceByAdmin(service: ServiceModel, function: (b:Boolean) -> Unit) {
+            if(service.key.isEmpty()){
+                addAdminServicesRef?.child(service.type)?.push()?.key?.let {
+                    service.key=it
+                }
+            }
+            addAdminServicesRef?.child(service.type)?.child(service.key)?.setValue(service)
+                ?.addOnCompleteListener {
+                    function(it.isSuccessful)
+                }
+        }
+
+        fun getListOfServiceTypes(callBack:(list:ArrayList<ServiceType>?)->Unit){
+
+            database?.reference?.child(SERVICE_TYPES)?.addValueEventListener(
+                object :ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val list=ArrayList<ServiceType>()
+                        if(snapshot.exists()){
+                            for(snap in snapshot.children){
+                                snap.getValue(ServiceType::class.java)?.let { list.add(it) }
+                            }
+                            callBack(list)
+                        }else{
+                            callBack(null)
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        callBack(null)
+                    }
+
+                }
+            )
+        }
+
+        fun addNewServiceType(name:String,function: (b: Boolean) -> Unit){
+            database?.reference?.child(SERVICE_TYPES)?.child(name)?.push()?.key?.let{
+                var type= ServiceType(it,name)
+                database?.reference?.child(SERVICE_TYPES)?.child(type.name)?.setValue(type)
+                    ?.addOnCompleteListener {
+                        function(it.isSuccessful)
+                    }
+            }
         }
     }
 }

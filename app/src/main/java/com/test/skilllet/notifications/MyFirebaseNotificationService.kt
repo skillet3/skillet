@@ -159,53 +159,5 @@ class MyFirebaseNotificationService : FirebaseMessagingService() {
 //        notification1.manager!!.notify(92727, builder.build())
 //    }
 
-  /*  private fun buildNotificationPayload(
-        token: String,
-        proID: String,
-        proname: String,
-        msg: String
-    ): JsonObject? {
 
-// to send notification
-        val payload = buildNotificationPayload(token, proID, name, msg)
-        apiService.sendNotification(payload)!!.enqueue(
-            object : Callback<JsonObject?>() {
-                fun onResponse(call: Call<JsonObject?>?, response: Response<JsonObject?>) {
-                    if (response.isSuccessful()) {
-                        Toast.makeText(
-                            this@Messaging, "Notification send successful",
-                            Toast.LENGTH_LONG
-                        ).show()
-                        Log.d("927277", "Notification sent: " + response.toString())
-                    } else {
-                        Log.d("927277", "Error responce: " + response.toString())
-                    }
-                }
-
-                fun onFailure(call: Call<JsonObject?>?, t: Throwable?) {
-                    Log.d("927277", "Error failed: ")
-                }
-            })
-
-// till here
-        // compose notification json payload
-        val payload = JsonObject()
-        payload.addProperty("to", token)
-        // compose data payload here
-        val data = JsonObject()
-        data.addProperty("title", cusName)
-        data.addProperty("subtext", "New Message")
-        data.addProperty("message", msg)
-        data.addProperty("proname", proname)
-        data.addProperty("proNo", proID)
-        data.addProperty("cusName", cusName)
-        data.addProperty("cusNo", cusNo)
-        data.addProperty("orderNo", orderNo)
-        data.addProperty("intent", "1")
-        data.addProperty("icon", R.drawable.icon)
-        // add data payload
-        payload.add("data", data)
-        return payload
-    }
-*/
 }

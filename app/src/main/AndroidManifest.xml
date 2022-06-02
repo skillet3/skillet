@@ -9,6 +9,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SkillLet">
         <activity
+            android:name=".ManageProfile"
+            android:exported="false" />
+        <activity
             android:name=".PaymentRequest"
             android:exported="false" />
         <activity
@@ -54,6 +57,7 @@
             android:name=".client.ClientActivity"
             android:exported="false" />
         <activity android:name=".serviceprovider.paments.PaymentRequest" />
+        <activity android:name=".admin.ManageProfile" />
 
         <service
             android:name=".notifications.MyFirebaseNotificationService"

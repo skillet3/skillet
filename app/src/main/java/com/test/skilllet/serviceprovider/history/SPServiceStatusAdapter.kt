@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.ColorInt
 import androidx.recyclerview.widget.RecyclerView
+import com.test.skilllet.database.Repository
 import com.test.skilllet.databinding.RowHistoryTempBinding
 import com.test.skilllet.models.ServiceModel
 import com.test.skilllet.serviceprovider.paments.PaymentRequest
@@ -33,7 +34,8 @@ class SPServiceStatusAdapter (var context: Context, var visibility: Int, var lis
             tvDes.text=list[position].description
             btnRequestPayment.visibility=visibility
             btnRequestPayment.setOnClickListener {
-                context.startActivity(Intent(context,PaymentRequest::class.java))
+                context.startActivity(Intent(context,PaymentRequest::class.java)
+                    .putExtra("service",list[position]))
             }
         }
     }

@@ -76,7 +76,7 @@ class AddServiceBYSP : AppCompatActivity() {
                 }else{
                     service.price=price
                     service.description=desc
-                    service.type=etServiceType.selectedItem as String
+                    service.type=spServiceType.selectedItem as String
                     service.name=etServiceName.selectedItem as String
 
                     var progressDialog=this@AddServiceBYSP.showProgressDialog("Please Wait",
