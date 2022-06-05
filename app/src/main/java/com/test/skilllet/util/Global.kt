@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.google.gson.JsonObject
@@ -26,6 +27,13 @@ enum class RequestStatus(var status: String) {
     DECLINE("decline")
 }
 
+enum class ServiceRequest(){
+    OFFERED(),
+    REQUESTED(),
+    REJECTED()
+}
+
+
 enum class ViewType(var view: String) {
     CLIENT("clientView"),
     SERVICE_PROVIDER("spView"),
@@ -37,7 +45,7 @@ enum class PaymentStatus(var value: String) {
     NOT_REQUESTED("NotRequested")
 }
 
-fun Context.showDialogBox(msg: String, block: () -> Unit) {
+fun Context.showDialogBox(msg: String,title:String="Please note", block: () -> Unit) {
     val dialog = Dialog(this)
     dialog.setCancelable(false)
     dialog.setContentView(R.layout.db_msg)
@@ -48,6 +56,7 @@ fun Context.showDialogBox(msg: String, block: () -> Unit) {
     )
     val text: TextView = dialog.findViewById(R.id.tv_msg)
     text.text = msg
+    dialog.findViewById<TextView>(R.id.tv_title).text=title
     val btnOk: Button = dialog.findViewById(R.id.btn_done)
     btnOk.setOnClickListener {
         block()
@@ -56,7 +65,7 @@ fun Context.showDialogBox(msg: String, block: () -> Unit) {
     dialog.show()
 }
 
-fun Context.showExitDialogBox(msg: String, block: (boolean:Boolean) -> Unit) {
+fun Context.showMultiButtonDialogBox(msg: String, title:String="Exit", block: (boolean:Boolean) -> Unit) {
     val dialog = Dialog(this)
     dialog.setCancelable(false)
     dialog.setContentView(R.layout.db_msg)
@@ -67,9 +76,9 @@ fun Context.showExitDialogBox(msg: String, block: (boolean:Boolean) -> Unit) {
     )
     val text: TextView = dialog.findViewById(R.id.tv_msg)
     text.text = msg
-    dialog.findViewById<TextView>(R.id.tv_title).text="Exit"
+    dialog.findViewById<TextView>(R.id.tv_title).text=title
     val btnExit: Button = dialog.findViewById(R.id.btn_done)
-    btnExit.text="Exit"
+    btnExit.text="Yes"
     val btnCancel:Button=dialog.findViewById(R.id.btn_cancel)
     btnCancel.visibility= View.VISIBLE
     btnExit.setOnClickListener {
@@ -136,3 +145,34 @@ private fun buildNotificationPayload(
     payload.add("data", data)
     return payload
 }
+
+fun Context.showEditDialogBox(title:String,msg: String, block: (s:String) -> Unit) {
+    val dialog = Dialog(this)
+    dialog.setCancelable(false)
+    dialog.setContentView(R.layout.db_get_string)
+    dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    dialog.window!!.setLayout(
+        WindowManager.LayoutParams.MATCH_PARENT,
+        WindowManager.LayoutParams.WRAP_CONTENT
+    )
+    val text: TextView = dialog.findViewById(R.id.tv_title)
+    text.text = title
+    val et: EditText =dialog.findViewById(R.id.et)
+    et.setHint(msg)
+    val btnAdd: Button = dialog.findViewById(R.id.btn_add)
+    btnAdd.setOnClickListener {
+        var s=et.text.toString()
+        if(s.isEmpty()){
+            block("")
+        }else{
+            block(et.text.toString())
+        }
+        dialog.cancel()
+    }
+    dialog.findViewById<Button>(R.id.btn_cancel).setOnClickListener {
+        block("")
+        dialog.cancel()
+    }
+    dialog.show()
+}
+

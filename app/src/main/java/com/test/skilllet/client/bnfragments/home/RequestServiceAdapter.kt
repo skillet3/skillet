@@ -23,7 +23,7 @@ class RequestServiceAdapter (var context: Context,var list:ArrayList<ServiceMode
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder.binding){
-            tvName.text=list[position].user?.name
+           // tvName.text=list[position].user?.name
             tvDesc.text=list[position].description
             tvPrice.text=list[position].price
             btnRequest.setOnClickListener {

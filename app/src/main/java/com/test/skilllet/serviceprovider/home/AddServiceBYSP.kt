@@ -1,106 +1,176 @@
 package com.test.skilllet.serviceprovider.home
 
+import android.app.Dialog
 import android.app.ProgressDialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
+import android.view.WindowManager
+import android.widget.*
 
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
 import com.test.skilllet.R
 
 import com.test.skilllet.database.Repository
+import com.test.skilllet.databinding.ActivityAddServiceBinding
 
 import com.test.skilllet.databinding.ActivityAddServiceByspBinding
 import com.test.skilllet.models.ServiceModel
-import com.test.skilllet.util.showDialogBox
-import com.test.skilllet.util.showProgressDialog
+import com.test.skilllet.models.ServiceType
+import com.test.skilllet.util.*
 
 
 class AddServiceBYSP : AppCompatActivity() {
 
-    lateinit var binding: ActivityAddServiceByspBinding
+    lateinit var binding: ActivityAddServiceBinding
+    var list:ArrayList<ServiceType>?=null
+    var service:ServiceModel?=null
+    var tagsList=ArrayList<String>()
+    var adapter:TagsAdapter?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityAddServiceByspBinding.inflate(layoutInflater)
+        binding= ActivityAddServiceBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        with(binding) {
-            var progressDiaog:ProgressDialog=this@AddServiceBYSP.showProgressDialog(
-                "Please Wait",
-                "Loading Service Types"
-            )
-            progressDiaog.show()
-            Repository.getAllServicesTypes {
-                progressDiaog.cancel()
-                val spAdapter: ArrayAdapter<String> = ArrayAdapter<String>(
-                    this@AddServiceBYSP,
-                    android.R.layout.simple_list_item_1, it!!
-                )
-                spAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                binding.etServiceName.setAdapter(spAdapter)
-            }
+        if(intent.getSerializableExtra("service")!=null){
+            service=intent.getSerializableExtra("service") as ServiceModel
+            binding.tvScreenTitle.text="Update Service"
+            binding.btnRequestService.text="Update"
+            binding.spServiceType.isEnabled=false
+            binding.ivAddServiceType.isEnabled=false
+            binding.etDesc.setText(service?.description)
+            binding.etPrice.setText(service?.price)
+            binding.etServiceName.setText(service?.name)
+            tagsList= service?.tags!!
 
-            etServiceName.onItemSelectedListener=object: AdapterView.OnItemSelectedListener{
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    var index=""
-                    Repository.getAllServicesTypes {
-                        index= it?.get(position).toString()
-                    }
-                    var arr=Repository.getServicesByName(index)
-                    val spAdapter: ArrayAdapter<String> = ArrayAdapter<String>(
-                        this@AddServiceBYSP,
-                        android.R.layout.simple_list_item_1, arr!!
-                    )
-                    spAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    binding.etServiceName.setAdapter(spAdapter)
-                }
+        }
+         adapter= TagsAdapter(tagsList)
 
-                override fun onNothingSelected(parent: AdapterView<*>?) {
 
-                }
-
-            }
-
-            btnAddService.setOnClickListener {
-                var service= ServiceModel()
-                var price=etPrice.text.toString().trim()
-                var desc=etDesc.text.toString().trim()
-                if(price.isEmpty()||desc.isEmpty()){
-
+        with(binding){
+            rvTags.layoutManager= GridLayoutManager(this@AddServiceBYSP,2)
+            rvTags.adapter=adapter
+            ivAddTag.setOnClickListener {
+                if(tagsList.size<5){
+                    addNewTag()
                 }else{
-                    service.price=price
-                    service.description=desc
-                    service.type=spServiceType.selectedItem as String
-                    service.name=etServiceName.selectedItem as String
+                    this@AddServiceBYSP.showToast("Max 5 tags are allowed")
+                }
+            }
 
-                    var progressDialog=this@AddServiceBYSP.showProgressDialog("Please Wait",
-                        "Adding Service"
-                        )
-                    progressDialog.show()
-                    Repository.addServiceBySP(Repository.loggedInUser!!,service){
-                        progressDialog.cancel()
+            ivAddServiceType.setOnClickListener {
+                addNewService()
+            }
+
+            btnRequestService.setOnClickListener {
+                if(!isValidated()){
+                    showToast("No field should be empty")
+                }else{
+                    if(service==null){
+                        service= ServiceModel()
+                    }
+                    service?.apply {
+                        description=etDesc.text.toString()
+                        price=etPrice.text.toString()
+                        type=spServiceType.selectedItem.toString()
+                        name=etServiceName.text.toString()
+                        tags=tagsList
+                        userKey=Repository.loggedInUser!!.key
+                        offeringStatus=ServiceRequest.REQUESTED.name
+                    }
+                    val dialog:ProgressDialog?=this@AddServiceBYSP.showProgressDialog("Adding/Updating Service").apply {
+                        show()
+                    }
+                    Repository.addOrUpdateService(service!!){
+                        dialog?.cancel()
                         if(it){
-
-                            this@AddServiceBYSP.showDialogBox("Service has been added Successfully."){
-
+                            this@AddServiceBYSP.showDialogBox("Service has been Successfully added/updated with the following information.\n" +
+                                    "Type : ${service!!.type}\n" +
+                                    "Name : ${service!!.name}\n"
+                                +"Price : ${service!!.price}"
+                            ){
+                                finish()
                             }
                         }else{
-                            this@AddServiceBYSP.showDialogBox("Service Could not be added."){
-
-                            }
+                            this@AddServiceBYSP.showDialogBox("Not able to add new Service.\n" +
+                                    "Reason Unknown"){}
                         }
                     }
-
                 }
             }
         }
 
 
+        Repository.getListOfServiceTypes {
+            if(it!=null){
+                list=it
+                var arr=getTypesList(list)
+                val spAdapter: ArrayAdapter<String> = ArrayAdapter<String>(
+                    this@AddServiceBYSP,
+                    android.R.layout.simple_list_item_1, arr!!
+                )
+                spAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                binding.spServiceType.adapter = spAdapter
+                if(intent.getSerializableExtra("service")!=null){
+                    binding.spServiceType.setSelection(arr.indexOf(service?.type))
+                }
+            }else{
+                addNewService()
+            }
+
+        }
+
+    }
+
+    private fun addNewService() {
+        this.showEditDialogBox("Add New Service Type","Enter Service Type Here"){
+            if(it.isNotEmpty()){
+                val dialog=this@AddServiceBYSP.showProgressDialog("Adding New Service Type",
+                    "Please Wait").apply {
+                    show()
+                }
+                Repository.addNewServiceType(it){
+                    dialog.cancel()
+                    if(it){
+                        this@AddServiceBYSP.showToast("Service added")
+                    }else{
+                        this@AddServiceBYSP.showToast("Services not added")
+                    }
+                }
+            }
+        }
+    }
+
+
+    private fun isValidated():Boolean{
+        with(binding){
+            if(etServiceName.text.trim().isEmpty()||etPrice.text.trim().isEmpty()||etDesc.text.trim().isEmpty()||
+                    tagsList.isEmpty()){
+                return false
+            }
+            return true
+        }
+    }
+
+
+
+    private fun getTypesList(list: ArrayList<ServiceType>?): ArrayList<String> {
+        val slist=ArrayList<String>()
+        for(type in list!!){
+            slist.add(type.name)
+        }
+        return slist
+    }
+
+
+    fun addNewTag(){
+        this.showEditDialogBox("Add New Tag","Enter Tag Here"){
+            if(it.isNotEmpty()){
+                tagsList.add(it)
+                adapter?.notifyItemInserted(tagsList.lastIndex)
+            }
+        }
     }
 }

@@ -36,7 +36,7 @@ class AddService : AppCompatActivity() {
         if(intent.getSerializableExtra("service")!=null){
             service=intent.getSerializableExtra("service") as ServiceModel
             binding.tvScreenTitle.text="Update Service"
-            binding.btnAddService.text="Update"
+            binding.btnRequestService.text="Update"
             binding.etDesc.setText(service?.description)
             //binding.etServiceType.setText(service.type)
             binding.etPrice.setText(service?.price)
@@ -66,7 +66,7 @@ class AddService : AppCompatActivity() {
                 addNewService()
             }
 
-            btnAddService.setOnClickListener {
+            btnRequestService.setOnClickListener {
                 if(!isValidated()){
                     showToast("No field should be empty")
                 }else{
@@ -84,7 +84,7 @@ class AddService : AppCompatActivity() {
                     val dialog:ProgressDialog?=this@AddService.showProgressDialog("Adding/Updating Service").apply {
                         show()
                     }
-                    Repository.addOrUpdateServiceByAdmin(service!!){
+                    Repository.addOrUpdateService(service!!){
                         dialog?.cancel()
                         if(it){
                             this@AddService.showDialogBox("Service has been Successfully added/updated with the following information.\n" +

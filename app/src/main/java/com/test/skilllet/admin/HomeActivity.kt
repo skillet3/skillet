@@ -3,10 +3,9 @@ package com.test.skilllet.admin
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.test.skilllet.R
 import com.test.skilllet.databinding.ActivityHomeBinding
-import com.test.skilllet.util.showDialogBox
-import com.test.skilllet.util.showExitDialogBox
+import com.test.skilllet.util.ServiceRequest
+import com.test.skilllet.util.showMultiButtonDialogBox
 
 class HomeActivity : AppCompatActivity() {
     lateinit var binding:ActivityHomeBinding
@@ -20,13 +19,21 @@ class HomeActivity : AppCompatActivity() {
             startActivity(Intent(this@HomeActivity,ManageAccounts::class.java))
         }
         binding.manSer.setOnClickListener {
-            startActivity(Intent(this@HomeActivity,ManageServices::class.java))
+            startActivity(Intent(this@HomeActivity,ManageServices::class.java).apply {
+                putExtra("status",ServiceRequest.OFFERED.name)
+            })
+        }
+
+        binding.btnReq.setOnClickListener {
+            startActivity(Intent(this@HomeActivity,ManageServices::class.java).apply {
+                putExtra("status",ServiceRequest.REQUESTED.name)
+            })
         }
 
     }
 
     override fun onBackPressed() {
-        this@HomeActivity.showExitDialogBox("Are you sure you want to exit?"){
+        this@HomeActivity.showMultiButtonDialogBox("Are you sure you want to exit?"){
             if(it){
                 finish()
             }

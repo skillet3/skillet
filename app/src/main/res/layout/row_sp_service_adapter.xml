@@ -14,46 +14,17 @@
         android:padding="16dp">
 
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cv_profile"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            app:cardCornerRadius="25dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/imageView11"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:srcCompat="@tools:sample/avatars" />
-        </androidx.cardview.widget.CardView>
-
-        <TextView
-            android:id="@+id/tv_sp_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="sp name"
-            android:textColor="#4CAF50"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/cv_profile"
-            app:layout_constraintStart_toEndOf="@+id/cv_profile"
-            app:layout_constraintTop_toTopOf="@+id/cv_profile" />
-
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="Type : "
             android:textColor="#F44336"
             android:textSize="18sp"
-
             android:textStyle="bold"
+
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cv_profile" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_type"
@@ -70,7 +41,6 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="Name : "
             android:textColor="#B100CF"
             android:textSize="18sp"
@@ -87,8 +57,10 @@
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/textView3"
+            app:layout_constraintTop_toBottomOf="@id/tv_type"
 
-            app:layout_constraintTop_toTopOf="@+id/textView3" />
+            />
+
         <TextView
             android:id="@+id/textView5"
             android:layout_width="wrap_content"
@@ -97,8 +69,8 @@
             android:textColor="#FF0000"
             app:layout_constraintEnd_toStartOf="@id/tv_price"
 
-            app:layout_constraintTop_toTopOf="@id/tv_price"
-            />
+            app:layout_constraintTop_toTopOf="@id/tv_price" />
+
         <TextView
             android:id="@+id/tv_price"
             android:layout_width="wrap_content"
@@ -112,7 +84,6 @@
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="Description"
             android:textColor="#575757"
             app:layout_constraintStart_toStartOf="parent"
@@ -122,7 +93,6 @@
             android:id="@+id/tv_des"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:maxHeight="100dp"
             android:text="Description"
             android:textColor="@color/black"
@@ -131,62 +101,60 @@
             app:layout_constraintTop_toBottomOf="@id/textView4" />
 
         <TextView
-            android:id="@+id/textView11"
+            android:id="@+id/tvr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Tags"
+            android:text="Reason"
             android:textColor="#575757"
             app:layout_constraintStart_toStartOf="@+id/tv_des"
             app:layout_constraintTop_toBottomOf="@+id/tv_des" />
 
         <TextView
-            android:id="@+id/tv_tags"
+            android:id="@+id/tv_reason"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Tags"
-            android:textColor="#151515"
+            android:text="Reason"
+            android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/textView11"
-            app:layout_constraintTop_toBottomOf="@+id/textView11" />
+            app:layout_constraintStart_toStartOf="@+id/tvr"
+            app:layout_constraintTop_toBottomOf="@+id/tvr" />
 
         <Button
-            android:id="@+id/btn_reject"
-            style="@style/Widget.Material3.Button.OutlinedButton.Icon"
-            android:layout_width="120dp"
+            android:id="@+id/btn_delete"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:text="Reject"
+            android:text="Delete"
             android:textColor="#F44336"
             android:textSize="16sp"
-            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btn_approve"
-            app:layout_constraintStart_toStartOf="@+id/tv_tags"
-            app:layout_constraintTop_toBottomOf="@+id/tv_tags"
+            app:layout_constraintEnd_toStartOf="@+id/btn_edit"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_reason"
             app:strokeColor="#F44336"
             app:strokeWidth="2dp" />
 
         <Button
-            android:id="@+id/btn_approve"
-            style="@style/Widget.Material3.Button.OutlinedButton.Icon"
-            android:layout_width="120dp"
+            android:id="@+id/btn_edit"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Approve"
+            android:layout_marginBottom="8dp"
+            android:text="Edit"
             android:textColor="#4CAF50"
             android:textSize="16sp"
-            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/btn_reject"
-            app:layout_constraintTop_toBottomOf="@+id/tv_tags"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/btn_delete"
+            app:layout_constraintTop_toBottomOf="@+id/tv_reason"
             app:strokeColor="#4CAF50"
             app:strokeWidth="2dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </androidx.cardview.widget.CardView>

@@ -2,6 +2,7 @@ package com.test.skilllet.models
 
 import com.test.skilllet.serviceprovider.paments.PaymentRequest
 import com.test.skilllet.util.PaymentStatus
+import com.test.skilllet.util.ServiceRequest
 import java.io.Serializable
 
 class ServiceModel():Serializable {
@@ -10,17 +11,16 @@ class ServiceModel():Serializable {
     var name:String=""
     var type:String=""
     var price:String=""
-    var id:String=""
-    var userKey:String?=null
-    var user:User?=null
+    var userKey:String=""
     var status:String=""
     var paymentStatus=PaymentStatus.NOT_REQUESTED.value
     var tags=ArrayList<String>()
-    constructor(description:String,name:String,type:String,price:String,id:String) : this() {
+    var offeringStatus=ServiceRequest.REQUESTED.name
+    var rejectionReason=""
+    constructor(description:String,name:String,type:String,price:String) : this() {
         this.description=description
         this.name=name
         this.price=price
         this.type=type
-        this.id=id
     }
 }

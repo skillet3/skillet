@@ -28,8 +28,7 @@ class SPServiceStatusAdapter (var context: Context, var visibility: Int, var lis
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder.binding){
             tvName.text=list[position].name
-            ivIcon.setImageDrawable(iconsList[position])
-            clIcon.setBackgroundColor(color)
+
             tvType.text=list[position].type
             tvDes.text=list[position].description
             btnRequestPayment.visibility=visibility

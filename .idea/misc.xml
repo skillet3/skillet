@@ -32,7 +32,8 @@
         <entry key="app/src/main/res/layout/row_account_details.xml" value="0.21" />
         <entry key="app/src/main/res/layout/row_history_temp.xml" value="0.33" />
         <entry key="app/src/main/res/layout/row_home_temp.xml" value="0.19375" />
-        <entry key="app/src/main/res/layout/row_manage_services.xml" value="0.16" />
+        <entry key="app/src/main/res/layout/row_manage_services.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/row_sp_service_adapter.xml" value="0.33" />
         <entry key="app/src/main/res/layout/row_tags.xml" value="0.25" />
         <entry key="app/src/main/res/layout/sp_frag_history.xml" value="0.19375" />
         <entry key="app/src/main/res/layout/sp_frag_home.xml" value="0.1453125" />

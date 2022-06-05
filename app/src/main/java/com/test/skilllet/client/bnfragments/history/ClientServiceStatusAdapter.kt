@@ -23,8 +23,6 @@ class ClientServiceStatusAdapter (var list:ArrayList<ServiceModel>, var iconsLis
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder){
             binding.tvName.text=list[position].name
-            binding.ivIcon.setImageDrawable(iconsList[position])
-            binding.clIcon.setBackgroundColor(color)
             binding.tvType.text=list[position].type
             binding.tvDes.text=list[position].description
 

@@ -8,14 +8,23 @@ import android.view.ViewGroup
 
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayoutMediator
+import com.test.skilllet.R
 import com.test.skilllet.database.Repository
+import com.test.skilllet.databinding.SpFragHistoryBinding
 import com.test.skilllet.databinding.SpFragHomeBinding
 import com.test.skilllet.models.ServiceModel
+import com.test.skilllet.serviceprovider.history.SPCustomStateAdapter
+import com.test.skilllet.util.ServiceRequest
 import com.test.skilllet.util.showProgressDialog
 
 class SpHomeFragment : Fragment() {
     lateinit var binding: SpFragHomeBinding
-    var list=ArrayList<ServiceModel>()
+    private lateinit var demoCollectionAdapter: SPHomeStateAdapter
+    private lateinit var viewPager: ViewPager2
+    var tabsList = arrayOf(ServiceRequest.OFFERED.name,ServiceRequest.REQUESTED.name,
+        ServiceRequest.REJECTED.name)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -27,30 +36,18 @@ class SpHomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        demoCollectionAdapter = SPHomeStateAdapter(this,tabsList)
+        viewPager = view.findViewById(R.id.pager)
+        viewPager.adapter = demoCollectionAdapter
 
-        getData()
+        val tabLayout =binding.tabLayout
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.text = tabsList[position]
+        }.attach()
 
-        binding.addService.setOnClickListener{
-            activity?.startActivity(Intent(activity, AddServiceBYSP::class.java))
+        binding.offerService.setOnClickListener {
+            startActivity(Intent(this.requireContext(),AddServiceBYSP::class.java))
         }
 
-    }
-
-    private fun getData() {
-        var dialog=activity?.showProgressDialog("Please Wait","Loading Offered Services")
-        dialog?.show();
-        Repository.getOfferedServicesBySp(Repository.loggedInUser){
-            dialog?.cancel()
-            if (it){
-                list= ArrayList(Repository.allOfferedServices)
-                var adapter= SpHomeAdapter(list)
-
-                binding.rv.layoutManager=LinearLayoutManager(activity?.applicationContext,
-                    LinearLayoutManager.VERTICAL,false)
-                binding.rv.adapter=adapter
-            }else{
-                //TODO("no services availabel ka msg in layout")
-            }
-        }
     }
 }

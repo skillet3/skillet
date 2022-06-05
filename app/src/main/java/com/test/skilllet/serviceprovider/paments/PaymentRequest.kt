@@ -23,8 +23,8 @@ class PaymentRequest : AppCompatActivity() {
 
         with(binding){
             var service:ServiceModel=intent?.getSerializableExtra("service") as ServiceModel
-            tvName.text=service.user?.name
-            tvAddress.text=service.user?.address
+//            tvName.text=service.user?.name
+//            tvAddress.text=service.user?.address
             tvSpName.text=Repository.loggedInUser?.name
             tvPrice.text=service.price
             tvType.text=service.type
@@ -40,17 +40,17 @@ class PaymentRequest : AppCompatActivity() {
                     return@setOnClickListener
                 }
 
-                var newRating=((service.user?.rating?.times(service.user?.totalFeedbacks!!))?.plus(ratingBar.rating))
-                service?.user?.totalFeedbacks?.inc()
-                service?.user?.rating= service?.user?.totalFeedbacks?.let { it1 ->
-                    newRating?.div(
-                        it1
-                    )
-                }!!
+//                var newRating=((service.user?.rating?.times(service.user?.totalFeedbacks!!))?.plus(ratingBar.rating))
+//                service?.user?.totalFeedbacks?.inc()
+//                service?.user?.rating= service?.user?.totalFeedbacks?.let { it1 ->
+//                    newRating?.div(
+//                        it1
+//                    )
+//                }!!
                 service.paymentStatus=PaymentStatus.REQUESTED.value
-                this@PaymentRequest.sendNotification(service.user?.token!!,"Payment Request","${Repository.loggedInUser?.name} has" +
-                        "requested payment for ${service.name} service.")
-
+//                this@PaymentRequest.sendNotification(service.user?.token!!,"Payment Request","${Repository.loggedInUser?.name} has" +
+//                        "requested payment for ${service.name} service.")
+//
 
 
             }
