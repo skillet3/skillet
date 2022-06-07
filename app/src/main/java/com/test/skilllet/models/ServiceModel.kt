@@ -12,8 +12,6 @@ class ServiceModel():Serializable {
     var type:String=""
     var price:String=""
     var userKey:String=""
-    var status:String=""
-    var paymentStatus=PaymentStatus.NOT_REQUESTED.value
     var tags=ArrayList<String>()
     var offeringStatus=ServiceRequest.REQUESTED.name
     var rejectionReason=""

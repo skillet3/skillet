@@ -76,6 +76,7 @@ class LoginActivity : AppCompatActivity() {
         if(checkIfLoggedIn()){
             Repository.mAuth?.signOut()
         }
+        Repository.getListOfServiceTypes {  }
     }
 
     private fun checkIfLoggedIn(): Boolean {

@@ -34,7 +34,7 @@ class SPMainFragment: Fragment() {
         viewPager=binding.spVp
         bottomNavigationView=binding.spBnv
         viewPager.adapter=spCollectionAdapter
-
+        viewPager.offscreenPageLimit=3
         bottomNavigationView.setOnItemSelectedListener { menuItem: MenuItem ->
             when(menuItem.itemId){
                 R.id.mi_sp_home->{

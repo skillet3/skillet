@@ -13,10 +13,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.FirebaseStorage
-import com.test.skilllet.models.ServiceModel
-import com.test.skilllet.models.ServiceType
-import com.test.skilllet.models.User
-import com.test.skilllet.models.WorkingServiceModel
+import com.test.skilllet.models.*
 import com.test.skilllet.util.RequestStatus
 import com.test.skilllet.util.ViewType
 
@@ -28,11 +25,10 @@ class Repository {
         private var allCleaningServices: ArrayList<ServiceModel>? = null
         private var allPlumbingServices: ArrayList<ServiceModel>? = null
         private var allElectricianServices: ArrayList<ServiceModel>? = null
-        private var allServicesTypes: ArrayList<String>? = null
         private var servicesNameMap = HashMap<String, ArrayList<String>>()
          var allOfferedServices: ArrayList<ServiceModel>? = null
         private val SERVICE_TYPES="ServiceTypes"
-
+        var serviceTypes=ArrayList<String>()
 
         private var database: FirebaseDatabase? = null
             get() {
@@ -58,7 +54,7 @@ class Repository {
             }
 
 
-        var serviceRequest: DatabaseReference? = null
+        var serviceRequestRef: DatabaseReference? = null
             get() {
                 if (field == null) {
                     field = database?.getReference("serviceRequest");
@@ -324,50 +320,6 @@ class Repository {
         //service id
         //service details
 
-
-        fun getAllServicesTypes(block: (serviceTypes: ArrayList<String>?) -> Unit) {
-            if (allServicesTypes == null) {
-                this.servicesRef?.addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        if (snapshot.exists()) {
-                            val arr = ArrayList<String>()
-                            for (snap in snapshot.children) {
-                                snap.key?.let { arr.add(it) }
-                                for (s in snap.children) {
-                                    s.key?.let {
-                                        if (!servicesNameMap.containsKey(snap.key)) {
-                                            servicesNameMap.set(snap!!.key.toString(), ArrayList())
-                                        }
-                                        var arr: ArrayList<String>? = servicesNameMap.get(snap.key)
-                                        arr?.add(s.key.toString())
-                                        servicesNameMap.set(
-                                            snap!!.key.toString(),
-                                            arr!!
-                                        )
-                                    }
-                                }
-                            }
-                            allServicesTypes = ArrayList(arr)
-                            block(allServicesTypes)
-                        } else {
-                            block(null)
-                        }
-                    }
-
-                    override fun onCancelled(error: DatabaseError) {
-                        block(null)
-                    }
-
-                })
-            } else {
-                block(allServicesTypes);
-            }
-        }
-
-        fun getServicesByName(key: String): ArrayList<String>? {
-            return servicesNameMap.get(key)
-        }
-
         fun getOfferedServicesBySp(loggedInUser: User?, block: (isSuccess: Boolean) -> Unit) {
             if (allOfferedServices == null) {
                 allOfferedServices = ArrayList()
@@ -430,7 +382,7 @@ class Repository {
             block: (isSuccess: Boolean) -> Unit
         ) {
 
-            serviceModel.status = status.status
+           // serviceModel.status = status.status
             var spUser: User? = null
             var clUser: User? = null
             if (RequestStatus.APPROVED.status == status.status ||
@@ -462,7 +414,7 @@ class Repository {
             view: ViewType,
             block: (list: ArrayList<ServiceModel>?) -> Unit
         ) {
-            serviceRequest?.child(view.view)?.child(loggedInUser!!.key)
+            serviceRequestRef?.child(view.view)?.child(loggedInUser!!.key)
                 ?.addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         if (snapshot.exists()) {
@@ -493,39 +445,15 @@ class Repository {
             getRequestsHistory(view) { list: ArrayList<ServiceModel>? ->
                 servicesList = ArrayList()
                 list?.forEach {
-                    if (it.status.equals(status.status)) {
-                        servicesList?.add(it)
-                    }
+//                    if (it.status.equals(status.status)) {
+//                        servicesList?.add(it)
+//                    }
                 }
                 block(servicesList)
             }
         }
 
-        fun getServicesList(block: (ArrayList<ServiceModel>?) -> Unit) {
-            var list = ArrayList<ServiceModel>()
-            getAllCleaningServices { cleaningServices ->
-                cleaningServices?.let { list.addAll(it) }
-                getAllPlumbingServices { plumbingServices ->
-                    plumbingServices?.let { list.addAll(it) }
-                    getAllElectricianServices { electricianServices ->
-                        electricianServices?.let { list.addAll(it) }
-                        if(list.isEmpty()){
-                            block(null)
-                        }else{
-                            block(list)
-                        }
-                    }
-                }
-            }
-        }
 
-        fun addServiceByAdmin(serviceModel: ServiceModel, block: (isSuccess: Boolean) -> Unit) {
-
-            this.servicesRef?.child(serviceModel.type)?.child(serviceModel.name)
-                ?.setValue(serviceModel)?.addOnCompleteListener {
-                    block(it.isSuccessful)
-                }
-        }
 
         fun getAccountsList(block: (ArrayList<User>?) -> Unit) {
             database?.reference?.child("Client")
@@ -631,7 +559,7 @@ class Repository {
 
 
         }
-        fun registerToken(){
+        private fun registerToken(){
             FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
                 if (!task.isSuccessful) {
                     Log.w(TAG, "Fetching FCM registration token failed", task.exception)
@@ -660,16 +588,20 @@ class Repository {
                 }
         }
 
-        fun getListOfServiceTypes(callBack:(list:ArrayList<ServiceType>?)->Unit){
-
+        fun getListOfServiceTypes(callBack:(list:ArrayList<String>?)->Unit){
+            if(serviceTypes.isNotEmpty()){
+                callBack(serviceTypes)
+                return
+            }
             database?.reference?.child(SERVICE_TYPES)?.addValueEventListener(
                 object :ValueEventListener{
                     override fun onDataChange(snapshot: DataSnapshot) {
-                        val list=ArrayList<ServiceType>()
+                        val list=ArrayList<String>()
                         if(snapshot.exists()){
                             for(snap in snapshot.children){
-                                snap.getValue(ServiceType::class.java)?.let { list.add(it) }
+                                snap.getValue(ServiceType::class.java)?.let { list.add(it.name) }
                             }
+                            serviceTypes=list
                             callBack(list)
                         }else{
                             callBack(null)
@@ -725,7 +657,7 @@ class Repository {
                 })
         }
 
-        fun getServicesByType(
+        fun getServicesByOfferingStatus(
             offeringStatus: String,
             callBack: (ArrayList<WorkingServiceModel>?) -> Unit
         ) {
@@ -761,6 +693,115 @@ class Repository {
 
                 })
         }
+
+        fun getServicesByServiceType(
+            type: String,
+            callBack: (ArrayList<WorkingServiceModel>?) -> Unit
+        ) {
+            servicesRef?.orderByChild("type")?.equalTo(type)
+                ?.addListenerForSingleValueEvent(object :ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if(snapshot.exists()){
+                            var list=ArrayList<WorkingServiceModel>()
+                            for(snap in snapshot.children){
+                                snap.getValue(ServiceModel::class.java)?.let {
+                                    val service=it;
+                                    getUserInfo(service.userKey,"ServiceProvider"){isSuccess:Boolean,
+                                                                                   u:User?->
+                                        u?.let { it1 ->
+                                            list.add(WorkingServiceModel(service,
+                                                it1
+                                            ))
+                                        }
+                                        callBack(list)
+                                    }
+                                }
+                            }
+
+                        }else{
+                            callBack(null)
+                        }
+
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        callBack(null)
+                    }
+
+                })
+        }
+
+        fun sendRequest(workingServiceModel: WorkingServiceModel, callBack: (Boolean) -> Unit) {
+            var serviceRequest= ServiceRequestModel(workingServiceModel.service.key,
+                workingServiceModel.serviceProvider?.key!!, loggedInUser?.key!!)
+            serviceRequestRef?.push()?.key?.let{
+                serviceRequestRef?.child(it)?.setValue(serviceRequest)?.addOnCompleteListener {
+                    callBack(it.isSuccessful)
+                }
+            }
+
+        }
+
+        fun getServiceByClientAndStatus(status:String,clientKey:String,callBack: (ArrayList<WorkingServiceModel>?  ) -> Unit){
+            serviceRequestRef?.orderByChild("clientKey")?.equalTo(clientKey)?.
+                    addValueEventListener(object : ValueEventListener{
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            if(snapshot.exists()){
+                                val list=ArrayList<WorkingServiceModel>()
+                                for(snap in snapshot.children){
+                                    val serviceRequest=snap.getValue(ServiceRequestModel::class.java)
+                                    if(serviceRequest?.serviceStatus!=status){
+                                        continue
+                                    }
+                                    getServiceByServiceKey(serviceRequest!!.serviceKey){service:ServiceModel?->
+                                        if(service!=null){
+                                            getUserInfo(serviceRequest.serviceProviderKey,"ServiceProvider"){it:Boolean,
+                                                                                                             provider:User?->
+                                                if(it){
+                                                    list.add(WorkingServiceModel(service!!,provider))
+                                                }else{
+                                                    callBack(null)
+                                                }
+                                            }
+                                            callBack(list)
+                                        }else{
+                                            callBack(null)
+                                        }
+                                    }
+                                }
+                            }else{
+                                callBack(null)
+                            }
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            callBack(null)
+                        }
+
+                    })
+        }
+
+        private fun getServiceByServiceKey(key:String,callBack: (ServiceModel?) -> Unit) {
+            servicesRef?.child(key)?.addListenerForSingleValueEvent(
+                object:ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if(snapshot.exists()){
+                            val service=snapshot.getValue(ServiceModel::class.java)
+                            callBack(service)
+                        }else{
+                            callBack(null)
+                        }
+
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        callBack(null)
+                    }
+
+                }
+            )
+        }
+
     }
 }
 

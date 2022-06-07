@@ -1,14 +1,11 @@
 package com.test.skilllet.admin
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.test.skilllet.database.Repository
 import com.test.skilllet.databinding.ActivityManageServicesBinding
-import com.test.skilllet.models.ServiceModel
 import com.test.skilllet.models.WorkingServiceModel
 import com.test.skilllet.util.ServiceRequest
 import com.test.skilllet.util.showProgressDialog
@@ -40,7 +37,7 @@ class ManageServices : AppCompatActivity() {
         }
         var dialog=this.showProgressDialog("Please Wait","Loading Offered Services")
         dialog.show();
-        Repository.getServicesByType(status) {
+        Repository.getServicesByOfferingStatus(status) {
             dialog.cancel()
             if (it != null&&it.isNotEmpty()) {
                 servicesList=it

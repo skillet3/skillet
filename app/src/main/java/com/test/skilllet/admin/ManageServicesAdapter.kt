@@ -1,7 +1,6 @@
 package com.test.skilllet.admin
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -31,7 +30,7 @@ class ManageServicesAdapter(
             tvType.text = list[position].service.type
             tvPrice.text = "${list[position].service.price.toString()}"
             tvName.text = list[position].service.name
-            tvSpName.text = list[position].user.name
+            tvSpName.text = list[position].serviceProvider?.name
             tvDes.text = list[position].service.description
             var str = ""
             for (s in list[position].service.tags) {
@@ -40,7 +39,7 @@ class ManageServicesAdapter(
             tvTags.text = str
             Glide
                 .with(context)
-                .load(list[position].user.url)
+                .load(list[position].serviceProvider?.url)
                 .centerCrop()
                 .placeholder(R.drawable.profile_charachter)
                 .into(imageView11)

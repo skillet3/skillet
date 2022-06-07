@@ -13,20 +13,18 @@ import com.test.skilllet.database.Repository
 
 import com.test.skilllet.databinding.TempFragmentBinding
 import com.test.skilllet.models.ServiceModel
+import com.test.skilllet.models.WorkingServiceModel
 import com.test.skilllet.util.RequestStatus
 import com.test.skilllet.util.ViewType
 import com.test.skilllet.util.showProgressDialog
 import java.security.interfaces.RSAKey
+import javax.net.ssl.SSLEngineResult
 
-class ClientServiceStatusFragment(var status: RequestStatus) : Fragment() {
+class ClientServiceStatusFragment(var status: String) : Fragment() {
     lateinit var binding: TempFragmentBinding
 
-    var services = arrayOf("cleaning", "plumbing", "electrician")
-    lateinit var list: ArrayList<ServiceModel>
-    var listIcons = ArrayList<Drawable>()
-    lateinit var cleaningDrawable: Drawable
-    lateinit var plumbingDrawable: Drawable
-    lateinit var electricianDrawable: Drawable
+
+    lateinit var list: ArrayList<WorkingServiceModel>
     lateinit var progressDialog: ProgressDialog
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,72 +38,55 @@ class ClientServiceStatusFragment(var status: RequestStatus) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        cleaningDrawable = activity?.getDrawable(R.drawable.ic_cleaning)!!
-        plumbingDrawable = activity?.getDrawable(R.drawable.ic_plumbing)!!
-        electricianDrawable = activity?.getDrawable(R.drawable.ic_electrician)!!
-        progressDialog = requireActivity().showProgressDialog("Please Wait", "Loading History")
+        progressDialog = requireActivity().showProgressDialog("Please Wait", "Loading Services}")
         getList()
 
     }
 
-    private fun initIconsList() {
-        for (service in list) {
-            if (service.type == services[0]) {
-                listIcons.add(cleaningDrawable)
-            } else if (service.type == services[1]) {
-                listIcons.add(plumbingDrawable)
-            } else if (service.type == services[2]) {
-                listIcons.add(electricianDrawable)
-            }
-        }
-    }
+
 
     private fun setupAdapter() {
-
-        initIconsList();
-
-        when (status.name) {
-            RequestStatus.APPROVED.name -> {
-                var adapter = activity?.resources?.getColor(R.color.approved)
-                    ?.let { ClientServiceStatusAdapter(list, listIcons, it) }
-                binding.rv.adapter = adapter
+        progressDialog.dismiss()
+        binding.rv.layoutManager=LinearLayoutManager(this.requireContext(),LinearLayoutManager.VERTICAL,false)
+        when(status){
+            RequestStatus.PENDING.name->{
+                binding.rv.adapter=ClientServiceStatusAdapter(list,View.VISIBLE,View.VISIBLE)
             }
-            RequestStatus.PENDING.name -> {
-                var adapter = activity?.resources?.getColor(R.color.requested)
-                    ?.let { ClientServiceStatusAdapter(list, listIcons, it) }
-                binding.rv.adapter = adapter
-
+            RequestStatus.APPROVED.name->{
+                binding.rv.adapter=ClientServiceStatusAdapter(list,View.VISIBLE,View.GONE)
             }
-            RequestStatus.COMPLETED.name -> {
-                var adapter = activity?.resources?.getColor(R.color.completed)
-                    ?.let { ClientServiceStatusAdapter(list, listIcons, it) }
-                binding.rv.adapter = adapter
+            RequestStatus.COMPLETED.name->{
+                binding.rv.adapter=ClientServiceStatusAdapter(list,View.GONE,View.GONE)
+
             }
             RequestStatus.DECLINE.name->{
-                var adapter = activity?.resources?.getColor(R.color.completed)
-                    ?.let { ClientServiceStatusAdapter(list, listIcons, it) }
-                binding.rv.adapter = adapter
+                binding.rv.adapter=ClientServiceStatusAdapter(list,View.GONE,View.VISIBLE)
+
             }
         }
-        progressDialog.dismiss()
+
+
     }
 
     private fun getList() {
         progressDialog.show()
-        Repository.getServices(ViewType.CLIENT,status) { arrayList ->
-            progressDialog.dismiss()
+        Repository.getServiceByClientAndStatus(status,Repository.loggedInUser!!.key) { arrayList ->
             initList(arrayList)
         }
     }
 
 
-    fun initList(arrayList: ArrayList<ServiceModel>?) {
-
+    fun initList(arrayList: ArrayList<WorkingServiceModel>?) {
+        progressDialog.cancel()
         if (arrayList != null) {
             list = ArrayList(arrayList)
             setupAdapter()
+            binding.rv.visibility=View.VISIBLE
+            binding.ivEmpty.visibility=View.GONE
         } else {
-            progressDialog.cancel()
+            binding.rv.visibility=View.GONE
+            binding.ivEmpty.visibility=View.VISIBLE
+
         }
     }
 

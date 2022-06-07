@@ -27,10 +27,11 @@
         <entry key="app/src/main/res/layout/db_get_string.xml" value="0.14453125" />
         <entry key="app/src/main/res/layout/db_msg.xml" value="0.18" />
         <entry key="app/src/main/res/layout/history_fragment.xml" value="0.19375" />
+        <entry key="app/src/main/res/layout/home_fragment.xml" value="0.1453125" />
         <entry key="app/src/main/res/layout/payment.xml" value="0.1453125" />
         <entry key="app/src/main/res/layout/profile_fragment.xml" value="0.1453125" />
         <entry key="app/src/main/res/layout/row_account_details.xml" value="0.21" />
-        <entry key="app/src/main/res/layout/row_history_temp.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/row_history_temp.xml" value="0.22" />
         <entry key="app/src/main/res/layout/row_home_temp.xml" value="0.19375" />
         <entry key="app/src/main/res/layout/row_manage_services.xml" value="0.18" />
         <entry key="app/src/main/res/layout/row_sp_service_adapter.xml" value="0.33" />

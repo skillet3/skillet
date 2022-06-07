@@ -9,13 +9,16 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.test.skilllet.R
 import com.test.skilllet.databinding.HistoryFragmentBinding
+import com.test.skilllet.util.RequestStatus
+import com.test.skilllet.util.ServiceRequest
 
 
 class HistoryFragment : Fragment() {
     lateinit var binding: HistoryFragmentBinding
     private lateinit var demoCollectionAdapter: CustomStateAdapter
     private lateinit var viewPager: ViewPager2
-    var arr = arrayOf("Approved", "Pending", "Completed","Declined")
+    var arr = arrayOf(RequestStatus.PENDING.name,RequestStatus.APPROVED.name,
+        RequestStatus.COMPLETED.name,RequestStatus.DECLINE.name)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -26,7 +29,7 @@ class HistoryFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        demoCollectionAdapter = CustomStateAdapter(this)
+        demoCollectionAdapter = CustomStateAdapter(this,arr)
         viewPager = view.findViewById(R.id.pager)
         viewPager.adapter = demoCollectionAdapter
 

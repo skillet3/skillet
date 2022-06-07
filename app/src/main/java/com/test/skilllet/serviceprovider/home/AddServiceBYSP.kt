@@ -25,7 +25,7 @@ import com.test.skilllet.util.*
 class AddServiceBYSP : AppCompatActivity() {
 
     lateinit var binding: ActivityAddServiceBinding
-    var list:ArrayList<ServiceType>?=null
+    var list:ArrayList<String>?=null
     var service:ServiceModel?=null
     var tagsList=ArrayList<String>()
     var adapter:TagsAdapter?=null
@@ -106,15 +106,15 @@ class AddServiceBYSP : AppCompatActivity() {
         Repository.getListOfServiceTypes {
             if(it!=null){
                 list=it
-                var arr=getTypesList(list)
+
                 val spAdapter: ArrayAdapter<String> = ArrayAdapter<String>(
                     this@AddServiceBYSP,
-                    android.R.layout.simple_list_item_1, arr!!
+                    android.R.layout.simple_list_item_1, list!!
                 )
                 spAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 binding.spServiceType.adapter = spAdapter
                 if(intent.getSerializableExtra("service")!=null){
-                    binding.spServiceType.setSelection(arr.indexOf(service?.type))
+                    binding.spServiceType.setSelection(list!!.indexOf(service?.type))
                 }
             }else{
                 addNewService()
@@ -156,13 +156,7 @@ class AddServiceBYSP : AppCompatActivity() {
 
 
 
-    private fun getTypesList(list: ArrayList<ServiceType>?): ArrayList<String> {
-        val slist=ArrayList<String>()
-        for(type in list!!){
-            slist.add(type.name)
-        }
-        return slist
-    }
+
 
 
     fun addNewTag(){

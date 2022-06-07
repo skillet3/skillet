@@ -33,7 +33,7 @@ class MainFragment : Fragment() {
         viewPager = binding.vp
         viewPager.adapter = bnCollectionAdapter
         bNavigation=binding.bnv
-
+        viewPager.offscreenPageLimit=3
 
 
         bNavigation.setOnItemSelectedListener { menuItem ->
