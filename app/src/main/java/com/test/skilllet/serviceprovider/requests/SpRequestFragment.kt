@@ -17,7 +17,7 @@ import com.test.skilllet.util.RequestStatus
 import com.test.skilllet.util.ViewType
 import com.test.skilllet.util.showProgressDialog
 
-class SpRequestFragment : Fragment() {
+class SpRequestFragment() : Fragment() {
 
     lateinit var binding: SpFragRequestBinding
 

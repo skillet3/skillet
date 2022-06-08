@@ -12,7 +12,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.test.skilllet.R
 import com.test.skilllet.databinding.SpMainFragmentBinding
 
-class SPMainFragment: Fragment() {
+class SPMainFragment(): Fragment() {
     lateinit var binding: SpMainFragmentBinding
 
     lateinit var viewPager:ViewPager2

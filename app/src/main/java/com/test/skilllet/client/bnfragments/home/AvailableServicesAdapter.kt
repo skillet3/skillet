@@ -55,18 +55,14 @@ open class AvailableServicesAdapter(
                 var dialog = context.showProgressDialog("Sending Request")
                 dialog.show()
                 Repository.sendRequest(list[position]) { it: Boolean ->
+                    dialog.cancel()
                     if (it) {
                         context.showToast("Request Sent Successfully")
                     } else {
                         context.showToast("Could not sent Request.")
                     }
-
-
                 }
-
-
             }
-
             // ivIcon.setImageDrawable(list[position].icon)
         }
     }

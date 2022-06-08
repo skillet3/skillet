@@ -10,10 +10,9 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.test.skilllet.R
 import com.test.skilllet.databinding.HistoryFragmentBinding
 import com.test.skilllet.util.RequestStatus
-import com.test.skilllet.util.ServiceRequest
 
 
-class HistoryFragment : Fragment() {
+class HistoryFragment() : Fragment() {
     lateinit var binding: HistoryFragmentBinding
     private lateinit var demoCollectionAdapter: CustomStateAdapter
     private lateinit var viewPager: ViewPager2

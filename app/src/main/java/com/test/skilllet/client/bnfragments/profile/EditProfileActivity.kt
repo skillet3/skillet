@@ -63,7 +63,7 @@ class EditProfileActivity : AppCompatActivity() {
                             progressDialog.cancel()
                             if(it){
                                 this@EditProfileActivity.showToast("Profile updated")
-                                finish()
+                               onBackPressed()
                             }else{
                                 this@EditProfileActivity.showToast("Error in updating profile.\nError 404")
 

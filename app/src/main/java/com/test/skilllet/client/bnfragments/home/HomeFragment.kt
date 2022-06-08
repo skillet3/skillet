@@ -11,7 +11,7 @@ import com.test.skilllet.R
 import com.test.skilllet.database.Repository
 import com.test.skilllet.databinding.HomeFragmentBinding
 
-class HomeFragment : Fragment() {
+class HomeFragment() : Fragment() {
     lateinit var binding: HomeFragmentBinding
 
     private lateinit var demoCollectionAdapter: CategoriesFragmentAdapter

@@ -27,7 +27,7 @@ enum class RequestStatus(var status: String) {
     DECLINE("decline")
 }
 
-enum class ServiceRequest(){
+enum class OfferingStatus(){
     OFFERED(),
     REQUESTED(),
     REJECTED()

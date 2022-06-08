@@ -1,8 +1,6 @@
 package com.test.skilllet.models
 
-import com.test.skilllet.serviceprovider.paments.PaymentRequest
-import com.test.skilllet.util.PaymentStatus
-import com.test.skilllet.util.ServiceRequest
+import com.test.skilllet.util.OfferingStatus
 import java.io.Serializable
 
 class ServiceModel():Serializable {
@@ -13,7 +11,7 @@ class ServiceModel():Serializable {
     var price:String=""
     var userKey:String=""
     var tags=ArrayList<String>()
-    var offeringStatus=ServiceRequest.REQUESTED.name
+    var offeringStatus=OfferingStatus.REQUESTED.name
     var rejectionReason=""
     constructor(description:String,name:String,type:String,price:String) : this() {
         this.description=description

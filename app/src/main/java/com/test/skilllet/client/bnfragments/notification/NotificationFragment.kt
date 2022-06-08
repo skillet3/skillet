@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.test.skilllet.R
 import com.test.skilllet.databinding.NotificationFragmentBinding
 
-class NotificationFragment : Fragment() {
+class NotificationFragment() : Fragment() {
     lateinit var binding: NotificationFragmentBinding
     var list = ArrayList<String>()
     var listIcons = ArrayList<Drawable>()

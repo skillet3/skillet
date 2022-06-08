@@ -46,7 +46,7 @@ class ManageServicesAdapter(
             btnApprove.visibility = visible
             btnReject.visibility=visible
             btnApprove.setOnClickListener {
-                list[position].service.offeringStatus = ServiceRequest.OFFERED.name
+                list[position].service.offeringStatus = OfferingStatus.OFFERED.name
                 val dialog=context.showProgressDialog("Accepting Service")
                 dialog.show()
                 Repository.addOrUpdateService(list[position].service) {
@@ -66,7 +66,7 @@ class ManageServicesAdapter(
 
                 context.showEditDialogBox("Rejection Reason","Reason Here"){
                     if(it.trim().isNotEmpty()){
-                        list[position].service.offeringStatus = ServiceRequest.REJECTED.name
+                        list[position].service.offeringStatus = OfferingStatus.REJECTED.name
                         list[position].service.rejectionReason=it.trim()
                         val dialog=context.showProgressDialog("Rejecting Service")
                             dialog.show()

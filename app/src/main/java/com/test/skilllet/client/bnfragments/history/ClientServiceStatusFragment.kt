@@ -1,24 +1,17 @@
 package com.test.skilllet.client.bnfragments.history
 
 import android.app.ProgressDialog
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.test.skilllet.R
 import com.test.skilllet.database.Repository
-
 import com.test.skilllet.databinding.TempFragmentBinding
-import com.test.skilllet.models.ServiceModel
 import com.test.skilllet.models.WorkingServiceModel
 import com.test.skilllet.util.RequestStatus
-import com.test.skilllet.util.ViewType
 import com.test.skilllet.util.showProgressDialog
-import java.security.interfaces.RSAKey
-import javax.net.ssl.SSLEngineResult
 
 class ClientServiceStatusFragment(var status: String) : Fragment() {
     lateinit var binding: TempFragmentBinding
@@ -38,30 +31,56 @@ class ClientServiceStatusFragment(var status: String) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        progressDialog = requireActivity().showProgressDialog("Please Wait", "Loading Services}")
+        progressDialog = requireActivity().showProgressDialog("Please Wait", "Loading Services")
         getList()
 
     }
 
 
-
     private fun setupAdapter() {
         progressDialog.dismiss()
-        binding.rv.layoutManager=LinearLayoutManager(this.requireContext(),LinearLayoutManager.VERTICAL,false)
-        when(status){
-            RequestStatus.PENDING.name->{
-                binding.rv.adapter=ClientServiceStatusAdapter(list,View.VISIBLE,View.VISIBLE)
+        binding.rv.layoutManager =
+            LinearLayoutManager(this.requireContext(), LinearLayoutManager.VERTICAL, false)
+        when (status) {
+            RequestStatus.PENDING.name -> {
+                binding.rv.adapter = ClientServiceStatusAdapter(
+                    this.requireContext(),
+                    list,
+                    View.VISIBLE,
+                    View.VISIBLE,
+                    View.GONE,
+                    View.GONE
+                )
             }
-            RequestStatus.APPROVED.name->{
-                binding.rv.adapter=ClientServiceStatusAdapter(list,View.VISIBLE,View.GONE)
+            RequestStatus.APPROVED.name -> {
+                binding.rv.adapter = ClientServiceStatusAdapter(
+                    this.requireContext(),
+                    list,
+                    View.VISIBLE,
+                    View.GONE,
+                    View.GONE,
+                    View.VISIBLE
+                )
             }
-            RequestStatus.COMPLETED.name->{
-                binding.rv.adapter=ClientServiceStatusAdapter(list,View.GONE,View.GONE)
-
+            RequestStatus.COMPLETED.name -> {
+                binding.rv.adapter = ClientServiceStatusAdapter(
+                    this.requireContext(),
+                    list,
+                    View.GONE,
+                    View.GONE,
+                    View.VISIBLE,
+                    View.GONE
+                )
             }
-            RequestStatus.DECLINE.name->{
-                binding.rv.adapter=ClientServiceStatusAdapter(list,View.GONE,View.VISIBLE)
-
+            RequestStatus.DECLINE.name -> {
+                binding.rv.adapter = ClientServiceStatusAdapter(
+                    this.requireContext(),
+                    list,
+                    View.GONE,
+                    View.VISIBLE,
+                    View.GONE,
+                    View.GONE
+                )
             }
         }
 
@@ -70,7 +89,8 @@ class ClientServiceStatusFragment(var status: String) : Fragment() {
 
     private fun getList() {
         progressDialog.show()
-        Repository.getServiceByClientAndStatus(status,Repository.loggedInUser!!.key) { arrayList ->
+        Repository.getServiceByClientAndStatus(status, Repository.loggedInUser!!.key) { arrayList ->
+            progressDialog.cancel()
             initList(arrayList)
         }
     }
@@ -78,14 +98,14 @@ class ClientServiceStatusFragment(var status: String) : Fragment() {
 
     fun initList(arrayList: ArrayList<WorkingServiceModel>?) {
         progressDialog.cancel()
-        if (arrayList != null) {
+        if ((arrayList != null) && arrayList.isNotEmpty()) {
             list = ArrayList(arrayList)
             setupAdapter()
-            binding.rv.visibility=View.VISIBLE
-            binding.ivEmpty.visibility=View.GONE
+            binding.rv.visibility = View.VISIBLE
+            binding.ivEmpty.visibility = View.GONE
         } else {
-            binding.rv.visibility=View.GONE
-            binding.ivEmpty.visibility=View.VISIBLE
+            binding.rv.visibility = View.GONE
+            binding.ivEmpty.visibility = View.VISIBLE
 
         }
     }

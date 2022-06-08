@@ -1,24 +1,16 @@
 package com.test.skilllet.serviceprovider.home
 
-import android.app.Dialog
 import android.app.ProgressDialog
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.View
-import android.view.WindowManager
 import android.widget.*
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import com.test.skilllet.R
 
 import com.test.skilllet.database.Repository
 import com.test.skilllet.databinding.ActivityAddServiceBinding
 
-import com.test.skilllet.databinding.ActivityAddServiceByspBinding
 import com.test.skilllet.models.ServiceModel
-import com.test.skilllet.models.ServiceType
 import com.test.skilllet.util.*
 
 
@@ -78,7 +70,7 @@ class AddServiceBYSP : AppCompatActivity() {
                         name=etServiceName.text.toString()
                         tags=tagsList
                         userKey=Repository.loggedInUser!!.key
-                        offeringStatus=ServiceRequest.REQUESTED.name
+                        offeringStatus=OfferingStatus.REQUESTED.name
                     }
                     val dialog:ProgressDialog?=this@AddServiceBYSP.showProgressDialog("Adding/Updating Service").apply {
                         show()
@@ -91,7 +83,7 @@ class AddServiceBYSP : AppCompatActivity() {
                                     "Name : ${service!!.name}\n"
                                 +"Price : ${service!!.price}"
                             ){
-                                finish()
+                                onBackPressed()
                             }
                         }else{
                             this@AddServiceBYSP.showDialogBox("Not able to add new Service.\n" +

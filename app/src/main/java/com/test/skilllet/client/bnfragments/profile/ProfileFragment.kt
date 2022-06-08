@@ -12,7 +12,7 @@ import com.test.skilllet.database.Repository
 import com.test.skilllet.databinding.ProfileFragmentBinding
 import com.test.skilllet.models.User
 
-class ProfileFragment  : Fragment() {
+class ProfileFragment()  : Fragment() {
 
     lateinit var binding:ProfileFragmentBinding
     lateinit var user: User

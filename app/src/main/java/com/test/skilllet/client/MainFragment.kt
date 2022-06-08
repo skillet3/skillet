@@ -13,7 +13,7 @@ import com.test.skilllet.R
 import com.test.skilllet.databinding.MainFragmentBinding
 
 
-class MainFragment : Fragment() {
+class MainFragment() : Fragment() {
     private lateinit var bnCollectionAdapter: BNCollectionAdapter
     private lateinit var viewPager: ViewPager2
     private lateinit var binding: MainFragmentBinding

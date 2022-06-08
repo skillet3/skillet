@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.test.skilllet.databinding.ActivityHomeBinding
-import com.test.skilllet.util.ServiceRequest
+import com.test.skilllet.util.OfferingStatus
 import com.test.skilllet.util.showMultiButtonDialogBox
 
 class HomeActivity : AppCompatActivity() {
@@ -20,13 +20,13 @@ class HomeActivity : AppCompatActivity() {
         }
         binding.manSer.setOnClickListener {
             startActivity(Intent(this@HomeActivity,ManageServices::class.java).apply {
-                putExtra("status",ServiceRequest.OFFERED.name)
+                putExtra("status",OfferingStatus.OFFERED.name)
             })
         }
 
         binding.btnReq.setOnClickListener {
             startActivity(Intent(this@HomeActivity,ManageServices::class.java).apply {
-                putExtra("status",ServiceRequest.REQUESTED.name)
+                putExtra("status",OfferingStatus.REQUESTED.name)
             })
         }
 

@@ -89,11 +89,10 @@
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="20dp"
         android:text="Price"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_sp_name" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_service_name" />
 
     <TextView
         android:id="@+id/tv_type"
@@ -148,18 +147,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_price" />
-
-    <TextView
-        android:id="@+id/tv_sp_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="36dp"
-        android:text="Service Provider"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_service_name" />
 
     <ImageButton
         android:id="@+id/btn_back"

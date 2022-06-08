@@ -14,7 +14,7 @@ import com.test.skilllet.database.Repository
 import com.test.skilllet.databinding.ProfileFragmentBinding
 import com.test.skilllet.models.User
 
-class SpProfileFragment: Fragment() {
+class SpProfileFragment(): Fragment() {
     lateinit var binding: ProfileFragmentBinding
     var user: User?=null
     override fun onCreateView(
