@@ -3,6 +3,8 @@ package com.test.skilllet.client.bnfragments.home
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.test.skilllet.R
@@ -11,14 +13,16 @@ import com.test.skilllet.databinding.RowHomeTempBinding
 import com.test.skilllet.models.WorkingServiceModel
 import com.test.skilllet.util.showProgressDialog
 import com.test.skilllet.util.showToast
+import java.util.*
 
 
 open class AvailableServicesAdapter(
     var list: ArrayList<WorkingServiceModel>,
     var context: Context
 ) :
-    RecyclerView.Adapter<AvailableServicesAdapter.ViewHolder>() {
+    RecyclerView.Adapter<AvailableServicesAdapter.ViewHolder>() , Filterable {
 
+    var tempList= ArrayList(list)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         var binding = RowHomeTempBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -32,19 +36,19 @@ open class AvailableServicesAdapter(
 
         with(holder.binding) {
             //tvDesc.text = list[position].description
-            tvType.text = list[position].service.type
-            tvPrice.text = "${list[position].service.price.toString()}"
-            tvName.text = list[position].service.name
-            tvSpName.text = list[position].serviceProvider?.name
-            tvDes.text = list[position].service.description
+            tvType.text = tempList[position].service.type
+            tvPrice.text = "${tempList[position].service.price.toString()}"
+            tvName.text = tempList[position].service.name
+            tvSpName.text = tempList[position].serviceProvider?.name
+            tvDes.text = tempList[position].service.description
             var str = ""
-            for (s in list[position].service.tags) {
+            for (s in tempList[position].service.tags) {
                 str += " , " + s
             }
             tvTags.text = str
             Glide
                 .with(context)
-                .load(list[position].serviceProvider?.url)
+                .load(tempList[position].serviceProvider?.url)
                 .centerCrop()
                 .placeholder(R.drawable.profile_charachter)
                 .into(imageView11)
@@ -54,7 +58,7 @@ open class AvailableServicesAdapter(
 
                 var dialog = context.showProgressDialog("Sending Request")
                 dialog.show()
-                Repository.sendRequest(list[position]) { it: Boolean ->
+                Repository.sendRequest(tempList[position]) { it: Boolean ->
                     dialog.cancel()
                     if (it) {
                         context.showToast("Request Sent Successfully")
@@ -67,8 +71,52 @@ open class AvailableServicesAdapter(
         }
     }
 
-    override fun getItemCount() = list!!.size
+    override fun getItemCount() = tempList!!.size
     class ViewHolder(val binding: RowHomeTempBinding) : RecyclerView.ViewHolder(binding.root) {
 
     }
+
+
+    private val exampleFilter: Filter = object : Filter() {
+         override fun performFiltering(constraint: CharSequence?): FilterResults? {
+            val filteredList: MutableList<WorkingServiceModel> = ArrayList()
+            if (constraint == null || constraint.length == 0) {
+                filteredList.addAll(list)
+            } else {
+                val filterPattern =
+                    constraint.toString().lowercase(Locale.getDefault()).trim { it <= ' ' }
+                for (item in list) {
+                    if (item.service.name.lowercase().contains(filterPattern)||
+                            item.service.tags.containsString(filterPattern)) {
+                        filteredList.add(item)
+                    }
+                }
+            }
+            val results = FilterResults()
+            results.values = filteredList
+            return results
+        }
+
+         override fun publishResults(constraint: CharSequence?, results: FilterResults) {
+            tempList.clear()
+            tempList.addAll(results.values as List<WorkingServiceModel>)
+            notifyDataSetChanged()
+        }
+
+       fun ArrayList<String>.containsString(s:String):Boolean{
+           for(str in this){
+               if(str.lowercase().contains(s)){
+                   return true
+               }
+           }
+           return false
+       }
+
+
+    }
+
+    override fun getFilter(): Filter {
+        return exampleFilter
+    }
+
 }

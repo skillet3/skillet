@@ -81,7 +81,7 @@ class PaymentRequest : AppCompatActivity() {
                     workingServiceModel.serviceRequest?.paymentStatus= PaymentStatus.PAYED.name
                     workingServiceModel.serviceRequest?.serviceStatus=RequestStatus.COMPLETED.name
                     workingServiceModel.serviceRequest?.feedbackByClient= etFeedback.text.toString()
-                    workingServiceModel.serviceRequest?.ratingByClient=user.rating
+                    workingServiceModel.serviceRequest?.ratingByClient=ratingBar.rating
                 }else{
                     workingServiceModel.client=user
                     workingServiceModel.serviceRequest?.paymentStatus= PaymentStatus.REQUESTED.name

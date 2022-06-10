@@ -32,6 +32,7 @@ class ClientServiceStatusFragment(var status: String) : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.rv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         progressDialog = requireActivity().showProgressDialog("Please Wait", "Loading Services")
+
         getList()
 
     }
