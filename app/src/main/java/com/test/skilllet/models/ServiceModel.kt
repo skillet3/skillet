@@ -13,6 +13,7 @@ class ServiceModel():Serializable {
     var tags=ArrayList<String>()
     var offeringStatus=OfferingStatus.REQUESTED.name
     var rejectionReason=""
+    var isAvailable:Boolean=true
     constructor(description:String,name:String,type:String,price:String) : this() {
         this.description=description
         this.name=name

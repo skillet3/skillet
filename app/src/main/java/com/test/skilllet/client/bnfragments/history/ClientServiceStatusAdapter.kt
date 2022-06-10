@@ -41,6 +41,8 @@ class ClientServiceStatusAdapter(
             tvFeedback.text=list[position].serviceRequest?.feedbackByProvider
             tvPrice.text=list[position].service.price
             tvSpName.text=list[position].serviceProvider?.name
+            tvPass.text="Password : ${list[position].serviceRequest?.secretCode}"
+            tvDate.text="Date : ${list[position].serviceRequest?.date}"
             var str = ""
             for (s in list[position].service.tags) {
                 str += " , " + s

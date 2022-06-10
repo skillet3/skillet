@@ -9,16 +9,15 @@ import android.graphics.drawable.ColorDrawable
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import com.google.gson.JsonObject
 import com.test.skilllet.R
 import com.test.skilllet.notifications.APIClient.apiService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.*
 
 enum class RequestStatus(var status: String) {
     PENDING("pending"),
@@ -175,4 +174,80 @@ fun Context.showEditDialogBox(title:String,msg: String, block: (s:String) -> Uni
     }
     dialog.show()
 }
+
+public fun getProperDate(date: Int, month: Int, year: Int): String {
+    var d=""
+    var m=""
+    var y=""
+    if(date<=9){
+        d="0$date"
+    }else{
+        d="$date"
+    }
+    var mm=month
+    mm+=1
+    if(mm<=9){
+        m="0$mm"
+    }else{
+        m="$mm"
+    }
+    if(year<=9){
+        y="0$year"
+    }else{
+        y="$year"
+    }
+
+    return "$d/$m/$y"
+}
+
+
+fun getDate(milliSeconds: Long, ): String {
+    var dateFormat="dd/MM/yyyy"
+    // Create a DateFormatter object for displaying date in specified format.
+    val formatter = SimpleDateFormat(dateFormat)
+
+    // Create a calendar object that will convert the date and time value in milliseconds to date.
+    val calendar: Calendar = Calendar.getInstance()
+    calendar.timeInMillis = milliSeconds
+    return formatter.format(calendar.time)
+}
+
+public fun Context.showDialoguePickerDialogue(milliSeconds: Long,callBack:(str:String)->Unit) {
+    val dialog = Dialog(this)
+    dialog.setCancelable(false)
+    dialog.setContentView(R.layout.db_date_picker_dialogue)
+    dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    dialog.window!!.setLayout(
+        WindowManager.LayoutParams.MATCH_PARENT,
+        WindowManager.LayoutParams.WRAP_CONTENT
+    )
+    var calendarView=dialog.findViewById<CalendarView>(R.id.calendarView)
+    calendarView.date=milliSeconds
+    calendarView.minDate=milliSeconds
+    var pickedDtae=""
+    calendarView.setOnDateChangeListener(object : CalendarView.OnDateChangeListener{
+        override fun onSelectedDayChange(
+            view: CalendarView,
+            year: Int,
+            month: Int,
+            dayOfMonth: Int
+        ) {
+            pickedDtae=getProperDate(dayOfMonth,month,year)
+        }
+    })
+
+    val btnPick: Button = dialog.findViewById(R.id.btn_pick)
+    val btnCancel: Button = dialog.findViewById(R.id.btn_cancel)
+    btnPick.setOnClickListener {
+        callBack(pickedDtae)
+        dialog.cancel()
+    }
+    btnCancel.setOnClickListener {
+        callBack(pickedDtae)
+        dialog.cancel()
+    }
+    dialog.show()
+}
+
+
 

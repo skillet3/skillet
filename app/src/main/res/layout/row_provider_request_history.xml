@@ -165,11 +165,23 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
             android:text="Feedback"
             android:textColor="#151515"
+            app:layout_constraintBottom_toTopOf="@+id/btn_cancel_request"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tv_feedback_tag"
             app:layout_constraintTop_toBottomOf="@+id/tv_feedback_tag" />
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date :"
+            android:translationY="3dp"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <Button
             android:id="@+id/btn_delete_request"
@@ -177,7 +189,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
             android:text="Delete"
             android:textColor="#F44336"
             android:textSize="16sp"
@@ -194,7 +206,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
             android:text="Cancel"
             android:textColor="#F44336"
             android:textSize="16sp"
@@ -211,7 +223,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
             android:text="Accept"
             android:textColor="#4CAF50"
             android:textSize="16sp"
@@ -228,7 +240,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
             android:text="Request Payment"
             android:textColor="#4CAF50"
             android:textSize="16sp"
@@ -239,6 +251,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:strokeColor="#4CAF50"
             app:strokeWidth="2dp" />
+
+        <TextView
+            android:id="@+id/tv_pass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Password : "
+            android:textColor="#151515"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_price" />
+
+
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"

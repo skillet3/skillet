@@ -14,6 +14,7 @@ class User():Serializable {
     var url=""
     var token=""
     var totalFeedbacks:Int=1
+    var isAvailable:Boolean=true
     var key:String=""
     get() {
         return email.substring(0,email.indexOf("@"))

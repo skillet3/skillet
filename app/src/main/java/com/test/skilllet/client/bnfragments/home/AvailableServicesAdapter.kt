@@ -11,8 +11,7 @@ import com.test.skilllet.R
 import com.test.skilllet.database.Repository
 import com.test.skilllet.databinding.RowHomeTempBinding
 import com.test.skilllet.models.WorkingServiceModel
-import com.test.skilllet.util.showProgressDialog
-import com.test.skilllet.util.showToast
+import com.test.skilllet.util.*
 import java.util.*
 
 
@@ -55,17 +54,28 @@ open class AvailableServicesAdapter(
 
 
             btnRequest.setOnClickListener {
-
-                var dialog = context.showProgressDialog("Sending Request")
-                dialog.show()
-                Repository.sendRequest(tempList[position]) { it: Boolean ->
-                    dialog.cancel()
-                    if (it) {
-                        context.showToast("Request Sent Successfully")
-                    } else {
-                        context.showToast("Could not sent Request.")
+                context.showDialoguePickerDialogue(System.currentTimeMillis()){
+                    if(it.isNotEmpty()){
+                        var date=it
+                        var dialog = context.showProgressDialog("Sending Request")
+                        dialog.show()
+                        Repository.sendRequest(tempList[position],date) { it1: Boolean ->
+                            dialog.cancel()
+                            if (it1) {
+                                context.showToast("Request Sent Successfully")
+                            } else {
+                                context.showToast("Could not sent Request.")
+                            }
+                        }
+                    }else{
+                        context.showToast("No Date picked")
                     }
                 }
+
+
+
+
+
             }
             // ivIcon.setImageDrawable(list[position].icon)
         }

@@ -57,6 +57,10 @@ class ProfileFragment()  : Fragment() {
             btnEdit.setOnClickListener {
             startActivity(Intent(activity,EditProfileActivity::class.java))
             }
+            ivLogout.setOnClickListener {
+                Repository.mAuth?.signOut()
+                activity?.finish()
+            }
         }
     }
 }

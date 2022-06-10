@@ -14,10 +14,9 @@ class ServiceRequestModel(
     var feedbackByClient:String="",
     var feedbackByProvider:String="",
     var ratingByProvider:Float=0.0F,
-    var ratingByClient:Float=0.0F
-
+    var ratingByClient:Float=0.0F,
+    var secretCode:String?=null,
+    var date:String = ""
     ):Serializable {
-
-
 
 }

@@ -14,6 +14,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.FirebaseStorage
 import com.test.skilllet.models.*
+import com.test.skilllet.util.OfferingStatus
 import com.test.skilllet.util.RequestStatus
 import com.test.skilllet.util.ViewType
 
@@ -158,7 +159,7 @@ class Repository {
                             loggedInUser = user;
                             registerToken()
                             block(true)
-                        } else if (isSuccess&&user?.accType != accType) {
+                        } else if (isSuccess && user?.accType != accType) {
                             block(false)
                             mAuth?.signOut()
                         } else {
@@ -223,13 +224,9 @@ class Repository {
         }
 
 
-
         fun removeAuthUser() {
             mAuth?.currentUser?.delete()
         }
-
-
-
 
 
         fun getServicesListByClient(
@@ -584,19 +581,25 @@ class Repository {
                             for (snap in snapshot.children) {
                                 snap.getValue(ServiceModel::class.java)?.let {
                                     val service = it;
-                                    getUserInfo(
-                                        service.userKey,
-                                        "ServiceProvider"
-                                    ) { isSuccess: Boolean,
-                                        u: User? ->
-                                        u?.let { it1 ->
-                                            list.add(
-                                                WorkingServiceModel(
-                                                    service,
-                                                    it1
+                                    if (it.isAvailable) {
+
+
+                                        getUserInfo(
+                                            service.userKey,
+                                            "ServiceProvider"
+                                        ) { isSuccess: Boolean,
+                                            u: User? ->
+                                            u?.let { it1 ->
+                                                list.add(
+                                                    WorkingServiceModel(
+                                                        service,
+                                                        it1
+                                                    )
                                                 )
-                                            )
+                                            }
+                                            callBack(list)
                                         }
+                                    }else{
                                         callBack(list)
                                     }
                                 }
@@ -615,13 +618,19 @@ class Repository {
                 })
         }
 
-        fun sendRequest(workingServiceModel: WorkingServiceModel, callBack: (Boolean) -> Unit) {
+        fun sendRequest(
+            workingServiceModel: WorkingServiceModel,
+            date: String,
+            callBack: (Boolean) -> Unit
+        ) {
             var serviceRequest = ServiceRequestModel(
                 workingServiceModel.service.key,
                 workingServiceModel.serviceProvider?.key!!, loggedInUser?.key!!
             )
             serviceRequestRef?.push()?.key?.let {
                 serviceRequest.key = it
+                serviceRequest.date=date
+                serviceRequest.secretCode=(100000..999999).random().toString()
                 serviceRequestRef?.child(it)?.setValue(serviceRequest)?.addOnCompleteListener {
                     callBack(it.isSuccessful)
                 }
@@ -646,6 +655,8 @@ class Repository {
 
                                     getServiceByServiceKey(serviceRequest!!.serviceKey) { service: ServiceModel? ->
                                         if (service != null) {
+
+
                                             getUserInfo(
                                                 serviceRequest.serviceProviderKey,
                                                 "ServiceProvider"
@@ -666,6 +677,8 @@ class Repository {
                                                 }
 
                                             }
+
+
                                         } else {
                                             callBack(null)
                                         }
@@ -787,9 +800,10 @@ class Repository {
             serviceRequest: ServiceRequestModel,
             callBack: (Boolean) -> Unit
         ) {
-            serviceRequestRef?.child(serviceRequest.key!!)?.setValue(serviceRequest)?.addOnCompleteListener {
-                callBack(it.isSuccessful)
-            }
+            serviceRequestRef?.child(serviceRequest.key!!)?.setValue(serviceRequest)
+                ?.addOnCompleteListener {
+                    callBack(it.isSuccessful)
+                }
         }
 
         fun updateUser(user: User, callBack: (Boolean) -> Unit) {
@@ -798,6 +812,36 @@ class Repository {
                 ?.addOnCompleteListener {
                     callBack(it.isSuccessful)
                 }
+        }
+
+        fun setUserAvailability(user: User?, callBack: (Boolean) -> Unit) {
+            loggedInUser = user
+            updateUser(user!!) {
+                if (it) {
+                    getServicesOffered(OfferingStatus.OFFERED.name, loggedInUser!!.key) {
+                        if (it != null) {
+                            val list = it
+                            for (service in list!!) {
+                                service.isAvailable = loggedInUser!!.isAvailable
+                                addOrUpdateService(service) {
+
+                                }
+                            }
+                            callBack(true)
+                        } else {
+                            loggedInUser?.isAvailable = !loggedInUser?.isAvailable!!
+                            updateUser(user) {
+                                callBack(false)
+                            }
+
+                        }
+                    }
+                } else {
+                    callBack(false)
+                }
+            }
+
+
         }
 
     }

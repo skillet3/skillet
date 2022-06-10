@@ -1,10 +1,12 @@
 package com.test.skilllet.client.bnfragments.profile
 
+import android.graphics.Bitmap
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.graphics.drawable.toBitmap
 import com.bumptech.glide.Glide
 import com.test.skilllet.R
 import com.test.skilllet.database.Repository
@@ -81,6 +83,7 @@ class EditProfileActivity : AppCompatActivity() {
         _uri?.let{
             this.uri=_uri
             binding.ivProfilePic.setImageURI(uri)
+
         }
     }
 

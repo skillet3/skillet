@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.test.skilllet.R
 import com.test.skilllet.database.Repository
-import com.test.skilllet.databinding.RowHistoryTempBinding
 import com.test.skilllet.databinding.RowProviderRequestHistoryBinding
 import com.test.skilllet.models.ServiceModel
 import com.test.skilllet.models.WorkingServiceModel
@@ -47,6 +46,8 @@ class SPServiceStatusAdapter(
             tvFeedback.text=list[position].serviceRequest?.feedbackByClient
             tvPrice.text=list[position].service.price
             tvSpName.text=list[position].client?.name
+            tvDate.text="Date : ${list[position].serviceRequest?.date}"
+            tvPass.text="Password : ${list[position].serviceRequest?.secretCode}"
             Glide.with(context).load(list[position].client?.url)
                 .centerCrop()
                 .placeholder(R.drawable.profile_charachter)
