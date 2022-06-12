@@ -104,7 +104,7 @@ fun Context.showToast(s: String) {
     Toast.makeText(this, s, Toast.LENGTH_SHORT).show()
 }
 
-fun Context.sendNotification(token:String,title:String,msg:String) {
+fun sendNotification(token:String,title:String,msg:String) {
     val payload = buildNotificationPayload(token,  title, msg)
     apiService.sendNotification(payload)!!.enqueue(
         object : Callback<JsonObject?> {

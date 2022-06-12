@@ -15,10 +15,7 @@ import com.test.skilllet.databinding.RowProviderRequestHistoryBinding
 import com.test.skilllet.models.ServiceModel
 import com.test.skilllet.models.WorkingServiceModel
 import com.test.skilllet.serviceprovider.paments.PaymentRequest
-import com.test.skilllet.util.PaymentStatus
-import com.test.skilllet.util.RequestStatus
-import com.test.skilllet.util.showProgressDialog
-import com.test.skilllet.util.showToast
+import com.test.skilllet.util.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -95,6 +92,8 @@ class SPServiceStatusAdapter(
                         list.removeAt(position)
                         context.showToast("Request Accepted Successfully")
                         notifyItemRemoved(position)
+                        sendNotification(list[position].client!!.token,"Request accepted",
+                            "${Repository.loggedInUser!!.name} has accepted your request of ${list[position].service.name} service")
                     } else {
                         context.showToast("Could not Accept Request.")
                     }

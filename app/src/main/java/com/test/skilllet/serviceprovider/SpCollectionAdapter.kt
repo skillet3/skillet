@@ -8,7 +8,7 @@ import com.test.skilllet.serviceprovider.profile.SpProfileFragment
 import com.test.skilllet.serviceprovider.requests.SpRequestFragment
 
 class SpCollectionAdapter(fragment: Fragment) :FragmentStateAdapter(fragment) {
-    override fun getItemCount() = 4
+    override fun getItemCount() = 3
 
     override fun createFragment(position: Int): Fragment {
         return when(position){
@@ -18,10 +18,10 @@ class SpCollectionAdapter(fragment: Fragment) :FragmentStateAdapter(fragment) {
             1->{
                 SpHistoryFragment()
             }
-            2->{
+            /*2->{
                 SpRequestFragment()
-            }
-            3->{
+            }*/
+            2->{
                 SpProfileFragment()
             }
             else->{

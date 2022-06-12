@@ -62,7 +62,7 @@ open class AvailableServicesAdapter(
                         Repository.sendRequest(tempList[position],date) { it1: Boolean ->
                             dialog.cancel()
                             if (it1) {
-                                context.sendNotification(tempList[position].serviceProvider!!.token,
+                                sendNotification(tempList[position].serviceProvider!!.token,
                                 title = "Service Request","${Repository.loggedInUser!!.name}" +
                                             " has sent you a service request.")
                                 context.showToast("Request Sent Successfully")

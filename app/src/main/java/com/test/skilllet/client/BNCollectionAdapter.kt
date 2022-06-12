@@ -9,7 +9,7 @@ import com.test.skilllet.client.bnfragments.profile.ProfileFragment
 
 class BNCollectionAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
     override fun getItemCount(): Int {
-        return 4
+        return 3
     }
 
     override fun createFragment(position: Int): Fragment {
@@ -20,10 +20,10 @@ class BNCollectionAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
             1->{
                 HistoryFragment()
             }
+            //2->{
+                //NotificationFragment()
+            //}
             2->{
-                NotificationFragment()
-            }
-            3->{
                 ProfileFragment()
             }
             else->{
