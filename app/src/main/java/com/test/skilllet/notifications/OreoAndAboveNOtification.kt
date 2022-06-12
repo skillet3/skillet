@@ -41,37 +41,25 @@ class OreoAndAboveNotification(base: Context?) :
     fun getNotifictions(
         title: String?,
         body: String?,
-        pIntent: PendingIntent?,
-        soundUri: Uri?,
-        ref: String,
-        subtext: String?
+        soundUri: Uri?
     ): Notification.Builder {
-        return if (ref == "0") {
-            Notification.Builder(applicationContext, ID)
-                .setContentIntent(pIntent)
+         return   Notification.Builder(applicationContext, ID)
                 .setContentTitle(title)
                 .setStyle(
                     Notification.BigTextStyle()
                         .bigText(body)
                 )
+             .setContentText(body)
+             .setSubText(body)
                 .setSound(soundUri)
-                .setSubText(subtext)
                 .setAutoCancel(true)
                 .setPriority(Notification.PRIORITY_HIGH)
                 .setSmallIcon(R.drawable.logo)
-        } else Notification.Builder(applicationContext, ID)
-            .setContentIntent(pIntent)
-            .setContentTitle(title)
-            .setContentText(body)
-            .setSound(soundUri)
-            .setSubText(subtext)
-            .setAutoCancel(true)
-            .setPriority(Notification.PRIORITY_HIGH)
-            .setSmallIcon(R.drawable.logo)
+
     }
 
     companion object {
-        private const val ID = "some_id"
+        private const val ID = "notification_channel"
         const val NAME = "FirebaseAPP"
     }
 

@@ -9,22 +9,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SkillLet">
         <activity
-            android:name=".ManageProfile"
-            android:exported="false" />
-        <activity
-            android:name=".PaymentRequest"
-            android:exported="false" />
-        <activity
-            android:name=".Pymentequest"
-            android:exported="false" />
-        <activity
             android:name=".client.bnfragments.profile.EditProfileActivity"
             android:exported="false" />
         <activity
             android:name=".admin.ManageAccounts"
-            android:exported="false" />
-        <activity
-            android:name=".admin.AddService"
             android:exported="false" />
         <activity
             android:name=".admin.ManageServices"

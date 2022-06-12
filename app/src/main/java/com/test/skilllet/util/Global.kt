@@ -224,7 +224,7 @@ public fun Context.showDialoguePickerDialogue(milliSeconds: Long,callBack:(str:S
     var calendarView=dialog.findViewById<CalendarView>(R.id.calendarView)
     calendarView.date=milliSeconds
     calendarView.minDate=milliSeconds
-    var pickedDtae=""
+    var pickedDtae= getDate(milliSeconds)
     calendarView.setOnDateChangeListener(object : CalendarView.OnDateChangeListener{
         override fun onSelectedDayChange(
             view: CalendarView,
