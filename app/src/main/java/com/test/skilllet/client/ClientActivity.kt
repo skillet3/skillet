@@ -24,7 +24,7 @@ class ClientActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        this@ClientActivity.showMultiButtonDialogBox("Are you sure you want to exit?"){
+        this@ClientActivity.showMultiButtonDialogBox("Are you sure you want to Logout?"){
             if(it){
                 finish()
             }

@@ -53,7 +53,8 @@ class LoginActivity : AppCompatActivity() {
 
                                 }
                             }else{
-
+                                etEmail.setText("")
+                                etPassword.setText("")
                                 if(email.equals("skillskillet3@gmail.com")){
                                     startActivity(Intent(this@LoginActivity,HomeActivity::class.java))
                                 }else if(rbClient.isChecked) {

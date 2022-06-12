@@ -3,6 +3,8 @@ package com.test.skilllet.admin
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.test.skilllet.database.Repository
 import com.test.skilllet.databinding.ActivityManageServicesBinding
@@ -14,6 +16,9 @@ class ManageServices : AppCompatActivity() {
     lateinit var binding:ActivityManageServicesBinding
     var status=OfferingStatus.REQUESTED.name;
     var servicesList=ArrayList<WorkingServiceModel>()
+
+    var adapter:ManageServicesAdapter?=null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityManageServicesBinding.inflate(layoutInflater)
@@ -23,12 +28,26 @@ class ManageServices : AppCompatActivity() {
         }else{
             status=OfferingStatus.REQUESTED.name
         }
+        val searchView: SearchView = binding.searchView
+        searchView.visibility=View.VISIBLE
+        searchView.imeOptions = EditorInfo.IME_ACTION_DONE
 
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                adapter?.getFilter()?.filter(newText)
+                return false
+            }
+        })
     }
 
     override fun onResume() {
         super.onResume()
         init()
+
     }
 
     fun init(){
@@ -41,7 +60,7 @@ class ManageServices : AppCompatActivity() {
             dialog.cancel()
             if (it != null&&it.isNotEmpty()) {
                 servicesList=it
-                var adapter= ManageServicesAdapter(this@ManageServices,servicesList,
+                adapter= ManageServicesAdapter(this@ManageServices,servicesList,
                     if(status==OfferingStatus.OFFERED.name){
                         View.GONE
                     }else{

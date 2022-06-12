@@ -29,11 +29,14 @@ class HomeActivity : AppCompatActivity() {
                 putExtra("status",OfferingStatus.REQUESTED.name)
             })
         }
+        binding.ivLogout.setOnClickListener {
+            finish()
+        }
 
     }
 
     override fun onBackPressed() {
-        this@HomeActivity.showMultiButtonDialogBox("Are you sure you want to exit?"){
+        this@HomeActivity.showMultiButtonDialogBox("Are you sure you want to Logout?"){
             if(it){
                 finish()
             }

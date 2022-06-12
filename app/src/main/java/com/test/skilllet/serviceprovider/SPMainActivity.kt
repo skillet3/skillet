@@ -25,7 +25,7 @@ class SPMainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        this@SPMainActivity.showMultiButtonDialogBox("Are you sure you want to exit?"){
+        this@SPMainActivity.showMultiButtonDialogBox("Are you sure you want to Logout?"){
             if(it){
                 finish()
             }

@@ -17,6 +17,8 @@ import com.test.skilllet.models.*
 import com.test.skilllet.util.OfferingStatus
 import com.test.skilllet.util.RequestStatus
 import com.test.skilllet.util.ViewType
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class Repository {
@@ -630,11 +632,17 @@ class Repository {
             serviceRequestRef?.push()?.key?.let {
                 serviceRequest.key = it
                 serviceRequest.date=date
-                serviceRequest.secretCode=(100000..999999).random().toString()
+                serviceRequest.secretCode=getRandomNumber()
                 serviceRequestRef?.child(it)?.setValue(serviceRequest)?.addOnCompleteListener {
                     callBack(it.isSuccessful)
                 }
             }
+
+        }
+
+        private fun getRandomNumber(): String? {
+            val random=Random()
+            return (100000+random.nextInt(900000)).toString()
 
         }
 

@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.test.skilllet.database.Repository
@@ -22,7 +24,7 @@ class SPServiceStatusFragment() : Fragment() {
     constructor( status: String):this(){
         this.status=status
     }
-
+    var adapter:SPServiceStatusAdapter?=null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -38,12 +40,27 @@ class SPServiceStatusFragment() : Fragment() {
 
         progressDialog = requireActivity().showProgressDialog("Please Wait", "Loading History")
 
+        val searchView: SearchView = binding.searchView
+        searchView.visibility=View.VISIBLE
+        searchView.imeOptions = EditorInfo.IME_ACTION_DONE
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                adapter?.getFilter()?.filter(newText)
+                return false
+            }
+        })
 
     }
 
     override fun onResume() {
         super.onResume()
         getList()
+
     }
     private fun setupAdapter() {
         progressDialog.dismiss()
@@ -51,7 +68,7 @@ class SPServiceStatusFragment() : Fragment() {
             LinearLayoutManager(this.requireContext(), LinearLayoutManager.VERTICAL, false)
         when (status) {
             RequestStatus.PENDING.name -> {
-                binding.rv.adapter = SPServiceStatusAdapter(
+                adapter= SPServiceStatusAdapter(
                     this.requireContext(),
                     list,
                     canReject = View.VISIBLE,
@@ -61,9 +78,10 @@ class SPServiceStatusFragment() : Fragment() {
                     canShowFeedback = View.GONE,
                     canRequestPayment=View.GONE
                 )
+                binding.rv.adapter=adapter
             }
             RequestStatus.APPROVED.name -> {
-                binding.rv.adapter = SPServiceStatusAdapter(
+               adapter = SPServiceStatusAdapter(
                     this.requireContext(),
                     list,
                     canReject = View.GONE,
@@ -73,9 +91,10 @@ class SPServiceStatusFragment() : Fragment() {
                     canShowFeedback = View.GONE,
                     canRequestPayment=View.VISIBLE
                 )
+                binding.rv.adapter=adapter
             }
             RequestStatus.COMPLETED.name -> {
-                binding.rv.adapter =
+               adapter =
                     SPServiceStatusAdapter(
                         this.requireContext(),
                         list,
@@ -86,9 +105,10 @@ class SPServiceStatusFragment() : Fragment() {
                         canShowFeedback = View.VISIBLE,
                         canRequestPayment=View.GONE
                     )
+                binding.rv.adapter=adapter
             }
             RequestStatus.DECLINE.name -> {
-                binding.rv.adapter = SPServiceStatusAdapter(
+                adapter = SPServiceStatusAdapter(
                     this.requireContext(),
                     list,
                     canApprove  =View.GONE,
@@ -98,6 +118,7 @@ class SPServiceStatusFragment() : Fragment() {
                     canShowFeedback = View.GONE,
                     canRequestPayment=View.GONE
                 )
+                binding.rv.adapter=adapter
             }
         }
 

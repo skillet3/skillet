@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.test.skilllet.R
@@ -17,6 +19,8 @@ import com.test.skilllet.util.PaymentStatus
 import com.test.skilllet.util.RequestStatus
 import com.test.skilllet.util.showProgressDialog
 import com.test.skilllet.util.showToast
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class SPServiceStatusAdapter(
@@ -28,9 +32,10 @@ class SPServiceStatusAdapter(
     var canShowFeedback: Int,
     var canRequestPayment: Int
 ) :
-    RecyclerView.Adapter<SPServiceStatusAdapter.ViewHolder>() {
+    RecyclerView.Adapter<SPServiceStatusAdapter.ViewHolder>() ,Filterable{
 
     //comment
+    var listFull=ArrayList(list)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         var binding =
@@ -134,4 +139,48 @@ class SPServiceStatusAdapter(
     class ViewHolder(val binding: RowProviderRequestHistoryBinding) : RecyclerView.ViewHolder(binding.root) {
 
     }
+    private val exampleFilter: Filter = object : Filter() {
+        override fun performFiltering(constraint: CharSequence?): FilterResults? {
+            val filteredList: MutableList<WorkingServiceModel> = ArrayList()
+            if (constraint == null || constraint.length == 0) {
+                filteredList.addAll(listFull)
+            } else {
+                val filterPattern =
+                    constraint.toString().lowercase(Locale.getDefault()).trim { it <= ' ' }
+                for (item in listFull) {
+                    if (item.service.name.lowercase().contains(filterPattern)||
+                        item.service.tags.containsString(filterPattern)) {
+                        filteredList.add(item)
+                    }
+                }
+            }
+            val results = FilterResults()
+            results.values = filteredList
+            return results
+        }
+
+        override fun publishResults(constraint: CharSequence?, results: FilterResults) {
+            list.clear()
+            list.addAll(results.values as List<WorkingServiceModel>)
+            notifyDataSetChanged()
+        }
+
+        fun ArrayList<String>.containsString(s:String):Boolean{
+            for(str in this){
+                if(str.lowercase().contains(s)){
+                    return true
+                }
+            }
+            return false
+        }
+
+
+    }
+
+    override fun getFilter(): Filter {
+        return exampleFilter
+    }
+
+
+
 }
