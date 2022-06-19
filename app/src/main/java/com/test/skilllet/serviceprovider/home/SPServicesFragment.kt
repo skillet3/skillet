@@ -51,7 +51,8 @@ class SPServicesFragment() : Fragment() {
 
     private fun setupAdapter() {
         binding.rv.layoutManager=LinearLayoutManager(this.context,LinearLayoutManager.VERTICAL,false)
-        binding.rv.adapter=SPServiceAdapter(this.requireContext(),list,if(status==OfferingStatus.REJECTED.name){
+        binding.rv.adapter=SPServiceAdapter(this.requireContext(),list,if(status==OfferingStatus.REJECTED.name||
+                status==OfferingStatus.OFFERED.name){
             View.VISIBLE
         }else{
             View.GONE

@@ -194,12 +194,14 @@
             android:textColor="#F44336"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_accept_request"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_feedback"
-            app:layout_constraintEnd_toStartOf="@id/btn_accept_request"
             app:strokeColor="#F44336"
             app:strokeWidth="2dp" />
+
         <Button
             android:id="@+id/btn_cancel_request"
             style="@style/Widget.Material3.Button.OutlinedButton"
@@ -207,16 +209,17 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:text="Cancel"
+            android:text="Decline"
             android:textColor="#F44336"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_accept_request"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_feedback"
-            app:layout_constraintEnd_toStartOf="@id/btn_accept_request"
             app:strokeColor="#F44336"
             app:strokeWidth="2dp" />
+
         <Button
             android:id="@+id/btn_accept_request"
             style="@style/Widget.Material3.Button.OutlinedButton"
@@ -229,9 +232,9 @@
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/btn_delete_request"
-            app:layout_constraintTop_toBottomOf="@+id/tv_feedback"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btn_cancel_request"
+            app:layout_constraintTop_toBottomOf="@+id/tv_feedback"
             app:strokeColor="#4CAF50"
             app:strokeWidth="2dp" />
         <Button

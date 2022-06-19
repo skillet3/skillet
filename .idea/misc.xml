@@ -23,9 +23,11 @@
         <entry key="..\:/Users/Maria Nadeem/Downloads/SkillLet/app/src/main/res/layout/activity_registration.xml" value="0.22826086956521738" />
         <entry key="app/src/main/res/drawable/elipse.xml" value="0.161" />
         <entry key="app/src/main/res/drawable/ic_camera.xml" value="0.161" />
+        <entry key="app/src/main/res/drawable/iv_rectangle.xml" value="0.126" />
         <entry key="app/src/main/res/drawable/round_ractangle.xml" value="0.161" />
         <entry key="app/src/main/res/drawable/rounded_colored_rect.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/rounder_rectangle_stroke.xml" value="0.161" />
+        <entry key="app/src/main/res/drawable/text_view_rectangle.xml" value="0.126" />
         <entry key="app/src/main/res/layout/activity_add_service.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_add_service_bysp.xml" value="0.19375" />
         <entry key="app/src/main/res/layout/activity_edit_profile.xml" value="0.38055555555555554" />
@@ -38,6 +40,7 @@
         <entry key="app/src/main/res/layout/activity_pymentequest.xml" value="0.1453125" />
         <entry key="app/src/main/res/layout/activity_request_service.xml" value="0.33" />
         <entry key="app/src/main/res/layout/clinet_row_request_service.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/db_date_picker_dialogue.xml" value="0.18" />
         <entry key="app/src/main/res/layout/db_get_string.xml" value="0.14453125" />
         <entry key="app/src/main/res/layout/db_msg.xml" value="0.18" />
         <entry key="app/src/main/res/layout/history_fragment.xml" value="0.19375" />

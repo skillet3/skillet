@@ -3,6 +3,7 @@ package com.test.skilllet.database
 import android.app.Activity
 import android.content.Context
 import android.net.Uri
+import android.telephony.ServiceState
 import android.util.Log
 import android.widget.Toast
 import com.google.android.gms.tasks.OnCompleteListener
@@ -640,6 +641,8 @@ class Repository {
 
         }
 
+
+
         private fun getRandomNumber(): String? {
             val random=Random()
             return (100000+random.nextInt(900000)).toString()
@@ -794,12 +797,12 @@ class Repository {
         }
 
         fun changeServiceRequestStatus(
-            serviceKey: String?,
+            service: ServiceRequestModel?,
             status: String,
             callBack: (Boolean) -> Unit
         ) {
-            serviceRequestRef?.child(serviceKey!!)?.child("serviceStatus")
-                ?.setValue(status)?.addOnCompleteListener {
+            serviceRequestRef?.child(service?.key!!)
+                ?.setValue(service)?.addOnCompleteListener {
                     callBack(it.isSuccessful)
                 }
         }
@@ -849,6 +852,32 @@ class Repository {
                 }
             }
 
+
+        }
+
+        fun isServiceInProcess(workingServiceModel: ServiceModel, callBack: (Boolean) -> Unit) {
+            serviceRequestRef?.orderByChild("serviceKey")?.equalTo(workingServiceModel.key)
+                ?.addListenerForSingleValueEvent(object : ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if(snapshot.exists()){
+                            var isInProcess=false
+                            for(snap in snapshot.children){
+                                val service: ServiceRequestModel? =snap.getValue(ServiceRequestModel::class.java)
+                                if(service?.serviceStatus==RequestStatus.APPROVED.name){
+                                    isInProcess=true
+                                    break
+                                }
+                            }
+                            callBack(isInProcess)
+                        }else{
+                            callBack(false)
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        callBack(false)
+                    }
+                })
 
         }
 

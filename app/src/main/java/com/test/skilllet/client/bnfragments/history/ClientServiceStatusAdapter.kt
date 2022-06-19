@@ -4,6 +4,7 @@ package com.test.skilllet.client.bnfragments.history
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
@@ -14,9 +15,7 @@ import com.test.skilllet.database.Repository
 import com.test.skilllet.databinding.RowHistoryTempBinding
 import com.test.skilllet.models.WorkingServiceModel
 import com.test.skilllet.serviceprovider.paments.PaymentRequest
-import com.test.skilllet.util.PaymentStatus
-import com.test.skilllet.util.showProgressDialog
-import com.test.skilllet.util.showToast
+import com.test.skilllet.util.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -26,7 +25,8 @@ class ClientServiceStatusAdapter(
     var list: ArrayList<WorkingServiceModel>,
     var canChat: Int,var canCancel: Int,
     var canShowFeedback:Int,
-    var canConfirmPayment:Int
+    var canConfirmPayment:Int,
+    var canEdit:Int
 ) :
     RecyclerView.Adapter<ClientServiceStatusAdapter.ViewHolder>(), Filterable {
 
@@ -48,6 +48,7 @@ class ClientServiceStatusAdapter(
             tvSpName.text=list[position].serviceProvider?.name
             tvPass.text="Password : ${list[position].serviceRequest?.secretCode}"
             tvDate.text="Date : ${list[position].serviceRequest?.date}"
+            tvReason.text=list[position].serviceRequest?.rejectionReason
             var str = ""
             for (s in list[position].service.tags) {
                 str += " , " + s
@@ -65,7 +66,9 @@ class ClientServiceStatusAdapter(
             tvFeedbackTag.visibility=canShowFeedback
             btnConfirmPayment.visibility=canConfirmPayment
             rtProfile.visibility=canShowFeedback
-
+            btnEdit.visibility= canEdit
+            tvReason.visibility=canEdit
+            tvReasonTag.visibility=canEdit
             btnConfirmPayment.isEnabled= list[position].serviceRequest?.paymentStatus == PaymentStatus.REQUESTED.name
             btnDeleteRequest.setOnClickListener {
                 var dialog = context.showProgressDialog("Deleting Request")
@@ -84,24 +87,39 @@ class ClientServiceStatusAdapter(
             }
             btnConfirmPayment.setOnClickListener {
 
-                context?.startActivity(Intent(context,PaymentRequest::class.java).apply {
-                    putExtra("service",list[position])
+                context?.startActivity(Intent(context, PaymentRequest::class.java).apply {
+                    putExtra("service", list[position])
                 })
-
-
-//                var dialog = context.showProgressDialog("Confirm Payment")
-//                dialog.show()
-//                Repository.deleteServiceRequest(list[position].serviceRequest?.key){
-//                    dialog.cancel()
-//                    if (it) {
-//                        list.removeAt(position)
-//                        context.showToast("Request deleted Successfully")
-//                        notifyItemRemoved(position)
-//                    } else {
-//                        context.showToast("Could not delete Request.")
-//                    }
-//                }
             }
+                btnEdit.setOnClickListener {
+                    var split=list[position].serviceRequest?.date?.split(" ")
+                    context.showDialoguePickerDialogue(split?.get(0), split?.get(1)){
+                        if(it.isNotEmpty()){
+                            var date=it
+                            var dialog = context.showProgressDialog("Sending Request")
+                            dialog.show()
+                            list[position].serviceRequest?.serviceStatus=RequestStatus.PENDING.name
+                            list[position].serviceRequest?.date=date
+                            Repository.changeServiceRequestStatus(list[position]?.serviceRequest,RequestStatus.PENDING.name) { it1: Boolean ->
+                                dialog.cancel()
+                                if (it1) {
+                                    sendNotification(list[position].serviceProvider!!.token,
+                                        title = "Service Request","${Repository.loggedInUser!!.name}" +
+                                                " has sent you a service request.")
+                                    context.showToast("Request Sent Successfully")
+                                    list.removeAt(position)
+                                    notifyItemRemoved(position)
+                                } else {
+                                    context.showToast("Could not sent Request.")
+                                }
+                            }
+                        }else{
+                            context.showToast("No Date picked")
+                        }
+                    }
+                }
+
+
         }
     }
 

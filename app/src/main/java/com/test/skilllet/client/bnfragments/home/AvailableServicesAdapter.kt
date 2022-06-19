@@ -54,7 +54,7 @@ open class AvailableServicesAdapter(
 
 
             btnRequest.setOnClickListener {
-                context.showDialoguePickerDialogue(System.currentTimeMillis()){
+                context.showDialoguePickerDialogue(getDate(System.currentTimeMillis()), getTime(System.currentTimeMillis())){
                     if(it.isNotEmpty()){
                         var date=it
                         var dialog = context.showProgressDialog("Sending Request")

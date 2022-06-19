@@ -16,7 +16,8 @@ class ServiceRequestModel(
     var ratingByProvider:Float=0.0F,
     var ratingByClient:Float=0.0F,
     var secretCode:String?=null,
-    var date:String = ""
+    var date:String = "",
+    var rejectionReason:String=""
     ):Serializable {
 
 }

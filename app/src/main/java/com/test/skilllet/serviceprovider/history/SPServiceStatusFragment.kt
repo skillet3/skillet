@@ -113,7 +113,7 @@ class SPServiceStatusFragment() : Fragment() {
                     list,
                     canApprove  =View.GONE,
                     canReject = View.GONE,
-                    canDelete = View.VISIBLE,
+                    canDelete = View.GONE,
                     canChat = View.GONE,
                     canShowFeedback = View.GONE,
                     canRequestPayment=View.GONE

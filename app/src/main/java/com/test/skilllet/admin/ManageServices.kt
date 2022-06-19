@@ -51,9 +51,11 @@ class ManageServices : AppCompatActivity() {
     }
 
     fun init(){
+
         if(!servicesList.isEmpty()){
             return
         }
+
         var dialog=this.showProgressDialog("Please Wait","Loading Offered Services")
         dialog.show();
         Repository.getServicesByOfferingStatus(status) {

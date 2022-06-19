@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.*
+import androidx.core.view.isVisible
 import com.google.gson.JsonObject
 import com.test.skilllet.R
 import com.test.skilllet.notifications.APIClient.apiService
@@ -185,7 +186,7 @@ public fun getProperDate(date: Int, month: Int, year: Int): String {
         d="$date"
     }
     var mm=month
-    mm+=1
+    //mm+=1
     if(mm<=9){
         m="0$mm"
     }else{
@@ -201,7 +202,7 @@ public fun getProperDate(date: Int, month: Int, year: Int): String {
 }
 
 
-fun getDate(milliSeconds: Long, ): String {
+fun getDate(milliSeconds: Long): String {
     var dateFormat="dd/MM/yyyy"
     // Create a DateFormatter object for displaying date in specified format.
     val formatter = SimpleDateFormat(dateFormat)
@@ -211,8 +212,17 @@ fun getDate(milliSeconds: Long, ): String {
     calendar.timeInMillis = milliSeconds
     return formatter.format(calendar.time)
 }
+fun getTime(milliSeconds: Long): String {
+    var dateFormat="hh:mm:ss"
+    // Create a DateFormatter object for displaying date in specified format.
+    val formatter = SimpleDateFormat(dateFormat)
 
-public fun Context.showDialoguePickerDialogue(milliSeconds: Long,callBack:(str:String)->Unit) {
+    // Create a calendar object that will convert the date and time value in milliseconds to date.
+    val calendar: Calendar = Calendar.getInstance()
+    calendar.timeInMillis = milliSeconds
+    return formatter.format(calendar.time)
+}
+public fun Context.showDialoguePickerDialogue(date: String?,time:String?,callBack:(str:String)->Unit) {
     val dialog = Dialog(this)
     dialog.setCancelable(false)
     dialog.setContentView(R.layout.db_date_picker_dialogue)
@@ -222,31 +232,78 @@ public fun Context.showDialoguePickerDialogue(milliSeconds: Long,callBack:(str:S
         WindowManager.LayoutParams.WRAP_CONTENT
     )
     var calendarView=dialog.findViewById<CalendarView>(R.id.calendarView)
-    calendarView.date=milliSeconds
-    calendarView.minDate=milliSeconds
-    var pickedDtae= getDate(milliSeconds)
-    calendarView.setOnDateChangeListener(object : CalendarView.OnDateChangeListener{
-        override fun onSelectedDayChange(
-            view: CalendarView,
-            year: Int,
-            month: Int,
-            dayOfMonth: Int
-        ) {
-            pickedDtae=getProperDate(dayOfMonth,month,year)
+    calendarView.date= getDate(date)
+    calendarView.minDate=System.currentTimeMillis()
+    var pickedDtae= date
+    var pickedTime=time
+    var tvDate=dialog.findViewById<TextView>(R.id.tv_date)
+    var tvTime=dialog.findViewById<TextView>(R.id.tv_time)
+    tvDate.setText(pickedDtae)
+    tvTime.setText(pickedTime)
+    var timePicker=dialog.findViewById<TimePicker>(R.id.timePicker)
+    timePicker.setIs24HourView(false)
+    calendarView.visibility=View.GONE
+    timePicker.visibility=View.GONE
+    dialog.findViewById<ImageView>(R.id.iv_pick_date).setOnClickListener {
+        if(calendarView.isVisible){
+            calendarView.visibility=View.GONE
+            timePicker.visibility=View.GONE
+        }else{
+            calendarView.visibility=View.VISIBLE
+            timePicker.visibility=View.GONE
         }
-    })
+    }
+    dialog.findViewById<ImageView>(R.id.iv_pick_time).setOnClickListener {
+        if(timePicker.isVisible){
+            calendarView.visibility=View.GONE
+            timePicker.visibility=View.GONE
+        }else{
+            calendarView.visibility=View.GONE
+            timePicker.visibility=View.VISIBLE
+        }
+    }
+    calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
+        pickedDtae = getProperDate(dayOfMonth, month, year)
+        tvDate.setText(pickedDtae)
+    }
+    timePicker.setOnTimeChangedListener { view, hourOfDay, minute ->
+        pickedTime=getProperTime(hourOfDay,minute)
+        tvTime.setText(pickedTime)
+    }
 
     val btnPick: Button = dialog.findViewById(R.id.btn_pick)
     val btnCancel: Button = dialog.findViewById(R.id.btn_cancel)
     btnPick.setOnClickListener {
-        callBack(pickedDtae)
+        callBack(pickedDtae+" "+pickedTime)
         dialog.cancel()
     }
     btnCancel.setOnClickListener {
-        callBack(pickedDtae)
+        callBack("")
         dialog.cancel()
     }
     dialog.show()
+}
+
+fun getProperTime(hourOfDay: Int, minute: Int): String {
+    var time=""
+    if(hourOfDay<9){
+        time="0$hourOfDay:"
+    }else{
+        time="$hourOfDay:"
+    }
+    if(minute<9){
+        time+="0$minute:00"
+    }else{
+        time+="$minute:00"
+    }
+    return time
+}
+fun getDate(d: String?): Long{
+    val myDate = "$d"
+    val sdf = SimpleDateFormat("dd/MM/yyyy")
+    val date = sdf.parse(myDate)
+    val millis = date.time
+    return millis
 }
 
 

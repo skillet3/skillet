@@ -14,6 +14,27 @@
         android:padding="16dp">
 
 
+        <TextView
+            android:id="@+id/tv_reason_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Reason"
+            android:textColor="#575757"
+            app:layout_constraintStart_toStartOf="@+id/tv_des"
+            app:layout_constraintTop_toBottomOf="@+id/tv_feedback" />
+
+        <TextView
+            android:id="@+id/tv_reason"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Reason"
+            android:textColor="#151515"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tv_feedback_tag"
+            app:layout_constraintTop_toBottomOf="@id/tv_reason_tag" />
+
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_profile"
             android:layout_width="50dp"
@@ -89,6 +110,7 @@
             app:layout_constraintStart_toEndOf="@id/textView3"
 
             app:layout_constraintTop_toTopOf="@+id/textView3" />
+
         <TextView
             android:id="@+id/textView5"
             android:layout_width="wrap_content"
@@ -97,8 +119,8 @@
             android:textColor="#FF0000"
             app:layout_constraintEnd_toStartOf="@id/tv_price"
 
-            app:layout_constraintTop_toTopOf="@id/tv_price"
-            />
+            app:layout_constraintTop_toTopOf="@id/tv_price" />
+
         <TextView
             android:id="@+id/tv_price"
             android:layout_width="wrap_content"
@@ -150,6 +172,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textView11"
             app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
         <TextView
             android:id="@+id/tv_feedback_tag"
             android:layout_width="wrap_content"
@@ -170,15 +193,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tv_feedback_tag"
             app:layout_constraintTop_toBottomOf="@+id/tv_feedback_tag" />
+
         <TextView
             android:id="@+id/tv_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Date :"
-            android:translationY="3dp"
             android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            android:translationY="3dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
         <Button
             android:id="@+id/btn_delete_request"
             style="@style/Widget.Material3.Button.OutlinedButton"
@@ -186,17 +211,38 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:text="Cancel Request"
+            android:text="Cancel"
             android:textColor="#F44336"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tv_tags"
-            app:layout_constraintTop_toBottomOf="@+id/tv_feedback"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_edit"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_reason"
             app:strokeColor="#F44336"
             app:strokeWidth="2dp" />
 
+
+        <Button
+            android:id="@+id/btn_edit"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="Edit"
+            android:textColor="#4CAF50"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/btn_delete_request"
+            app:layout_constraintTop_toBottomOf="@id/tv_reason"
+            app:layout_constraintVertical_bias="0.133"
+            app:strokeColor="#4CAF50"
+            app:strokeWidth="2dp" />
 
         <Button
             android:id="@+id/btn_confirm_payment"
@@ -210,11 +256,12 @@
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tv_tags"
-            app:layout_constraintTop_toBottomOf="@+id/tv_feedback"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tv_tags"
+            app:layout_constraintTop_toBottomOf="@+id/tv_reason"
             app:strokeColor="#F44336"
             app:strokeWidth="2dp" />
+
         <TextView
             android:id="@+id/tv_pass"
             android:layout_width="wrap_content"

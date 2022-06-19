@@ -86,7 +86,8 @@ class SPServiceStatusAdapter(
             btnAcceptRequest.setOnClickListener {
                 var dialog = context.showProgressDialog("Accepting Request")
                 dialog.show()
-                Repository.changeServiceRequestStatus(list[position].serviceRequest?.key,RequestStatus.APPROVED.name){it:Boolean->
+                list[position].serviceRequest?.serviceStatus=RequestStatus.APPROVED.name
+                Repository.changeServiceRequestStatus(list[position].serviceRequest,RequestStatus.APPROVED.name){it:Boolean->
                     dialog.cancel()
                     if (it) {
                         list.removeAt(position)
@@ -100,16 +101,25 @@ class SPServiceStatusAdapter(
                 }
             }
             btnCancelRequest.setOnClickListener {
-                var dialog = context.showProgressDialog("Rejecting Request")
-                dialog.show()
-                Repository.changeServiceRequestStatus(list[position].serviceRequest?.key,RequestStatus.DECLINE.name){it:Boolean->
-                    dialog.cancel()
-                    if (it) {
-                        list.removeAt(position)
-                        context.showToast("Request Rejected Successfully")
-                        notifyItemRemoved(position)
-                    } else {
-                        context.showToast("Could not Reject Request.")
+                context.showEditDialogBox("Rejection Reason,","Enter Reason Here"){
+                    if(it.isNotEmpty()){
+
+                        var dialog = context.showProgressDialog("Rejecting Request")
+                        dialog.show()
+                        list[position].serviceRequest?.rejectionReason=it
+                        list[position].serviceRequest?.serviceStatus=RequestStatus.DECLINE.name
+                        Repository.changeServiceRequestStatus(list[position].serviceRequest,RequestStatus.DECLINE.name){it:Boolean->
+                            dialog.cancel()
+                            if (it) {
+                                list.removeAt(position)
+                                context.showToast("Request Rejected Successfully")
+                                notifyItemRemoved(position)
+                            } else {
+                                context.showToast("Could not Reject Request.")
+                            }
+                        }
+                    }else{
+
                     }
                 }
             }

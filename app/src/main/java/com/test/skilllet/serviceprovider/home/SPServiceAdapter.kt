@@ -9,10 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.test.skilllet.database.Repository
 import com.test.skilllet.databinding.RowSpServiceAdapterBinding
 import com.test.skilllet.models.ServiceModel
-import com.test.skilllet.util.showDialogBox
-import com.test.skilllet.util.showMultiButtonDialogBox
-import com.test.skilllet.util.showProgressDialog
-import com.test.skilllet.util.showToast
+import com.test.skilllet.util.*
 
 
 class SPServiceAdapter(
@@ -40,27 +37,20 @@ class SPServiceAdapter(
             tvr.visibility = visible
             tvReason.text=list[position].rejectionReason
             btnEdit.setOnClickListener {
-                context.startActivity(Intent(context,AddServiceBYSP::class.java).apply {
-                    putExtra("service",list[position])
-                })
+                if(list[position].offeringStatus==OfferingStatus.OFFERED.name){
+                    canEditService(position)
+                }else{
+                    context.startActivity(Intent(context,AddServiceBYSP::class.java).apply {
+                        putExtra("service",list[position])
+                    })
+                }
             }
 
             btnDelete.setOnClickListener {
-                context.showMultiButtonDialogBox("Are you sure you want to delete this Service?","Deleting Service"){
-                    if(it){
-                        val dialog=context.showProgressDialog("Deleting Service")
-                        dialog.show()
-                        Repository.deleteService(list[position]){
-                            dialog.cancel()
-                            if(it){
-                                list.removeAt(position)
-                                callBack(list.size)
-                                notifyItemRemoved(position)
-                            }else{
-                                context.showToast("Failed to delete")
-                            }
-                        }
-                    }
+                if(list[position].offeringStatus==OfferingStatus.OFFERED.name){
+                    canDeleteService(position)
+                }else{
+                    deleteService(position)
                 }
             }
         }
@@ -70,5 +60,51 @@ class SPServiceAdapter(
     class ViewHolder(val binding: RowSpServiceAdapterBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+    }
+
+    private fun canEditService(position: Int) {
+        var dialog=context.showProgressDialog("Checking Service Status")
+        dialog.show()
+        Repository.isServiceInProcess(list[position]) { isItInProcess: Boolean ->
+            dialog.cancel()
+            if (!isItInProcess) {
+                context.startActivity(Intent(context,AddServiceBYSP::class.java).apply {
+                    putExtra("service",list[position])
+                })
+            } else {
+                context.showDialogBox("Sorry This service is under process.") {}
+            }
+        }
+    }
+    private fun canDeleteService(position: Int) {
+        var dialog=context.showProgressDialog("Checking Service Status")
+        dialog.show()
+        Repository.isServiceInProcess(list[position]) { isItInProcess: Boolean ->
+            dialog.cancel()
+            if (!isItInProcess) {
+                deleteService(position)
+            } else {
+                context.showDialogBox("Sorry This service is under process.") {}
+            }
+        }
+    }
+
+    fun deleteService(position: Int){
+        context.showMultiButtonDialogBox("Are you sure you want to delete this Service?","Deleting Service"){
+            if(it){
+                val dialog=context.showProgressDialog("Deleting Service")
+                dialog.show()
+                Repository.deleteService(list[position]){
+                    dialog.cancel()
+                    if(it){
+                        list.removeAt(position)
+                        callBack(list.size)
+                        notifyItemRemoved(position)
+                    }else{
+                        context.showToast("Failed to delete")
+                    }
+                }
+            }
+        }
     }
 }

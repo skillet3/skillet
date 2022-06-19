@@ -71,6 +71,7 @@ class ClientServiceStatusFragment(var status: String) : Fragment() {
                     View.VISIBLE,
                     View.VISIBLE,
                     View.GONE,
+                    View.GONE,
                     View.GONE
                 )
                 binding.rv.adapter=adapter
@@ -82,7 +83,8 @@ class ClientServiceStatusFragment(var status: String) : Fragment() {
                     View.VISIBLE,
                     View.GONE,
                     View.GONE,
-                    View.VISIBLE
+                    View.VISIBLE,
+                    View.GONE
                 )
                 binding.rv.adapter=adapter
             }
@@ -93,6 +95,7 @@ class ClientServiceStatusFragment(var status: String) : Fragment() {
                     View.GONE,
                     View.GONE,
                     View.VISIBLE,
+                    View.GONE,
                     View.GONE
                 )
                 binding.rv.adapter=adapter
@@ -104,7 +107,9 @@ class ClientServiceStatusFragment(var status: String) : Fragment() {
                     View.GONE,
                     View.VISIBLE,
                     View.GONE,
-                    View.GONE
+                    View.GONE,
+                    View.VISIBLE
+
                 )
                 binding.rv.adapter=adapter
             }

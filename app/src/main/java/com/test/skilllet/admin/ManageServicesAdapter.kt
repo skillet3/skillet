@@ -2,6 +2,7 @@ package com.test.skilllet.admin
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
@@ -13,16 +14,15 @@ import com.test.skilllet.databinding.RowManageServicesBinding
 import com.test.skilllet.models.WorkingServiceModel
 import com.test.skilllet.util.*
 import java.util.*
-import kotlin.collections.ArrayList
 
 class ManageServicesAdapter(
     var context: Context,
     var list: ArrayList<WorkingServiceModel>,
     var visible: Int,
-    var callBack:(size:Int)->Unit
-) : RecyclerView.Adapter<ManageServicesAdapter.ViewHolder>() ,Filterable{
+    var callBack: (size: Int) -> Unit
+) : RecyclerView.Adapter<ManageServicesAdapter.ViewHolder>(), Filterable {
 
-    var listFull=ArrayList(list)
+    var listFull = ArrayList(list)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         var binding =
@@ -50,10 +50,10 @@ class ManageServicesAdapter(
                 .placeholder(R.drawable.profile_charachter)
                 .into(imageView11)
             btnApprove.visibility = visible
-            btnReject.visibility=visible
+            btnReject.visibility = View.VISIBLE
             btnApprove.setOnClickListener {
                 list[position].service.offeringStatus = OfferingStatus.OFFERED.name
-                val dialog=context.showProgressDialog("Accepting Service")
+                val dialog = context.showProgressDialog("Accepting Service")
                 dialog.show()
                 Repository.addOrUpdateService(list[position].service) {
                     dialog.cancel()
@@ -69,27 +69,10 @@ class ManageServicesAdapter(
             }
 
             btnReject.setOnClickListener {
-
-                context.showEditDialogBox("Rejection Reason","Reason Here"){
-                    if(it.trim().isNotEmpty()){
-                        list[position].service.offeringStatus = OfferingStatus.REJECTED.name
-                        list[position].service.rejectionReason=it.trim()
-                        val dialog=context.showProgressDialog("Rejecting Service")
-                            dialog.show()
-                        Repository.addOrUpdateService(list[position].service) {
-                            dialog.cancel()
-                            if (it) {
-                                list.removeAt(position)
-                                notifyItemRemoved(position)
-                                context.showToast("Successfully Updated");
-                                callBack(list.size)
-                            } else {
-                                context.showToast("Could not update this item")
-                            }
-                        }
-                    }else{
-                        context.showToast("Failed to update")
-                    }
+                if (list[position].service.offeringStatus == OfferingStatus.REQUESTED.name) {
+                    startRejectionProcess(position)
+                } else {
+                    canRejectService(position)
                 }
 
 
@@ -97,6 +80,44 @@ class ManageServicesAdapter(
 
             // ivIcon.setImageDrawable(list[position].icon)
         }
+    }
+
+    private fun canRejectService(position: Int) {
+        var dialog=context.showProgressDialog("Checking Service Status")
+        dialog.show()
+        Repository.isServiceInProcess(list[position].service) { isItInProcess: Boolean ->
+            dialog.cancel()
+            if (!isItInProcess) {
+                startRejectionProcess(position)
+            } else {
+                context.showDialogBox("Sorry This service is under process.") {}
+            }
+        }
+    }
+
+    private fun startRejectionProcess(position: Int) {
+        context.showEditDialogBox("Rejection Reason", "Enter Reason Here") {
+            if (it.trim().isNotEmpty()) {
+                list[position].service.offeringStatus = OfferingStatus.REJECTED.name
+                list[position].service.rejectionReason = it.trim()
+                val dialog = context.showProgressDialog("Rejecting Service")
+                dialog.show()
+                Repository.addOrUpdateService(list[position].service) {
+                    dialog.cancel()
+                    if (it) {
+                        list.removeAt(position)
+                        notifyItemRemoved(position)
+                        context.showToast("Successfully Updated");
+                        callBack(list.size)
+                    } else {
+                        context.showToast("Could not update this item")
+                    }
+                }
+            } else {
+                context.showToast("Failed to update")
+            }
+        }
+
     }
 
     override fun getItemCount() = list.size
@@ -114,8 +135,9 @@ class ManageServicesAdapter(
                 val filterPattern =
                     constraint.toString().lowercase(Locale.getDefault()).trim { it <= ' ' }
                 for (item in listFull) {
-                    if (item.service.name.lowercase().contains(filterPattern)||
-                        item.service.tags.containsString(filterPattern)) {
+                    if (item.service.name.lowercase().contains(filterPattern) ||
+                        item.service.tags.containsString(filterPattern)
+                    ) {
                         filteredList.add(item)
                     }
                 }
@@ -131,9 +153,9 @@ class ManageServicesAdapter(
             notifyDataSetChanged()
         }
 
-        fun ArrayList<String>.containsString(s:String):Boolean{
-            for(str in this){
-                if(str.lowercase().contains(s)){
+        fun ArrayList<String>.containsString(s: String): Boolean {
+            for (str in this) {
+                if (str.lowercase().contains(s)) {
                     return true
                 }
             }
