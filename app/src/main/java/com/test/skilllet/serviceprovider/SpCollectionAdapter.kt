@@ -18,9 +18,6 @@ class SpCollectionAdapter(fragment: Fragment) :FragmentStateAdapter(fragment) {
             1->{
                 SpHistoryFragment()
             }
-            /*2->{
-                SpRequestFragment()
-            }*/
             2->{
                 SpProfileFragment()
             }

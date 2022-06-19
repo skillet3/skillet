@@ -15,11 +15,6 @@
         android:visible="true"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/mi_sp_request"
-        android:icon="@drawable/ic_notifications"
-        android:title="Request"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/mi_sp_profile"
         android:icon="@drawable/ic_person"
         android:title="Profile"

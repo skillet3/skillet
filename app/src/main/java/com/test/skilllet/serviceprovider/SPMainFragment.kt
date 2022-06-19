@@ -46,11 +46,6 @@ class SPMainFragment(): Fragment() {
                     return@setOnItemSelectedListener true
 
                 }
-                R.id.mi_sp_request->{
-                    viewPager.currentItem=2
-                    return@setOnItemSelectedListener true
-
-                }
                 R.id.mi_sp_profile->{
                     viewPager.currentItem=3
                     return@setOnItemSelectedListener true

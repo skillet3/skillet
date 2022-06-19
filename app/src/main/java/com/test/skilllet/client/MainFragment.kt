@@ -46,10 +46,6 @@ class MainFragment() : Fragment() {
                     viewPager.currentItem = 1
                     return@setOnItemSelectedListener true
                 }
-                R.id.mi_notifications -> {
-                    viewPager.currentItem = 2
-                    return@setOnItemSelectedListener true
-                }
                 R.id.mi_profile -> {
                     viewPager.currentItem = 3
                     return@setOnItemSelectedListener true

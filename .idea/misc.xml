@@ -62,6 +62,8 @@
         <entry key="app/src/main/res/layout/sp_main_fragment.xml" value="0.1453125" />
         <entry key="app/src/main/res/layout/sp_row_requests.xml" value="0.19375" />
         <entry key="app/src/main/res/layout/temp_fragment.xml" value="0.19375" />
+        <entry key="app/src/main/res/menu/client_bnv_menu.xml" value="0.1453125" />
+        <entry key="app/src/main/res/menu/sp_bnv_menu.xml" value="0.1453125" />
       </map>
     </option>
   </component>

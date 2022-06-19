@@ -20,9 +20,6 @@ class BNCollectionAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
             1->{
                 HistoryFragment()
             }
-            //2->{
-                //NotificationFragment()
-            //}
             2->{
                 ProfileFragment()
             }
