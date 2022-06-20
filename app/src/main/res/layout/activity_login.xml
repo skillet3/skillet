@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Login to SkilLet"
+        android:text="Login to Skill Skillet"
         android:textColor="#D61507"
         android:textSize="42sp"
         android:textStyle="bold"
