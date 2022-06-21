@@ -27,7 +27,7 @@ class Repository {
         private val TAG: String = "9272"
         var loggedInUser: User? = null
         private val SERVICE_TYPES = "ServiceTypes"
-        var serviceTypes = ArrayList<String>()
+
 
         private var database: FirebaseDatabase? = null
             get() {
@@ -373,7 +373,7 @@ class Repository {
         }
 
         fun deleteAccount(accountDetails: User, function: (Boolean) -> Unit) {
-            database?.reference?.child(accountDetails.accType)?.child(accountDetails?.key)
+            database?.reference?.child(accountDetails.accType)?.child(accountDetails?.key!!)
                 ?.removeValue()?.addOnCompleteListener {
 
                     function(it.isSuccessful)
@@ -461,10 +461,7 @@ class Repository {
         }
 
         fun getListOfServiceTypes(callBack: (list: ArrayList<String>?) -> Unit) {
-            if (serviceTypes.isNotEmpty()) {
-                callBack(serviceTypes)
-                return
-            }
+
             database?.reference?.child(SERVICE_TYPES)?.addValueEventListener(
                 object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
@@ -473,7 +470,6 @@ class Repository {
                             for (snap in snapshot.children) {
                                 snap.getValue(ServiceType::class.java)?.let { list.add(it.name) }
                             }
-                            serviceTypes = list
                             callBack(list)
                         } else {
                             callBack(null)
@@ -584,7 +580,7 @@ class Repository {
                             for (snap in snapshot.children) {
                                 snap.getValue(ServiceModel::class.java)?.let {
                                     val service = it;
-                                    if (it.isAvailable) {
+                                    if (it.isAvailable&&it.offeringStatus==OfferingStatus.OFFERED.name) {
 
 
                                         getUserInfo(
@@ -878,6 +874,16 @@ class Repository {
                         callBack(false)
                     }
                 })
+
+        }
+
+        fun deleteService(key:String,callBack:(it:Boolean)->Unit){
+            database?.reference?.child(SERVICE_TYPES)?.child(key)?.removeValue()?.addOnCompleteListener {
+                callBack(it.isSuccessful)
+            }
+        }
+
+        fun getFeedbacksForClients(serviceRequest: ServiceRequestModel,callBack: (ArrayList<WorkingServiceModel>?) -> Unit) {
 
         }
 

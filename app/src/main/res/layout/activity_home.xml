@@ -68,15 +68,26 @@
 
     <Button
         android:id="@+id/btn_req"
-        android:layout_width="wrap_content"
+        android:layout_width="160dp"
         android:layout_height="100dp"
         android:layout_marginTop="15dp"
         android:text="Requested Services"
         android:visibility="visible"
         app:cornerRadius="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_manage_service_types"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/man_acc" />
+
+    <Button
+        android:id="@+id/btn_manage_service_types"
+        android:layout_width="160dp"
+        android:layout_height="100dp"
+        android:text="Manage Service Types"
+        android:visibility="visible"
+        app:cornerRadius="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btn_req"
+        app:layout_constraintTop_toTopOf="@+id/btn_req" />
 
     <ImageView
         android:id="@+id/iv_logout"

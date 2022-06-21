@@ -33,6 +33,10 @@ class HomeActivity : AppCompatActivity() {
             finish()
         }
 
+        binding.btnManageServiceTypes.setOnClickListener {
+            startActivity(Intent(this@HomeActivity,ManageServiceTypes::class.java))
+        }
+
     }
 
     override fun onBackPressed() {

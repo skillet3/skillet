@@ -157,18 +157,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"
             android:text="Send Request"
             android:textColor="#F44336"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tv_tags"
             app:layout_constraintTop_toBottomOf="@+id/tv_tags"
-            app:layout_constraintEnd_toEndOf="parent"
             app:strokeColor="#F44336"
             app:strokeWidth="2dp" />
 
+        <Button
+            android:id="@+id/btn_more"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="More >"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_request" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

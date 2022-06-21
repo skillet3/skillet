@@ -8,6 +8,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.SkillLet">
+
         <activity
             android:name=".client.bnfragments.profile.EditProfileActivity"
             android:exported="false" />
@@ -19,9 +20,6 @@
             android:exported="false" />
         <activity
             android:name=".admin.HomeActivity"
-            android:exported="false" />
-        <activity
-            android:name=".client.bnfragments.home.RequestService"
             android:exported="false" />
         <activity
             android:name=".serviceprovider.home.AddServiceBYSP"
@@ -46,6 +44,7 @@
             android:exported="false" />
         <activity android:name=".serviceprovider.paments.PaymentRequest" />
         <activity android:name=".admin.ManageProfile" />
+        <activity android:name=".admin.ManageServiceTypes" />
 
         <service
             android:name=".notifications.MyFirebaseNotificationService"

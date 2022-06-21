@@ -76,7 +76,9 @@ open class AvailableServicesAdapter(
                 }
 
 
+                btnMore.setOnClickListener {
 
+                }
 
 
             }

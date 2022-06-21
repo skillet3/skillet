@@ -3,6 +3,7 @@ package com.test.skilllet
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.rohitss.uceh.UCEHandler
 
 import com.test.skilllet.admin.HomeActivity
 import com.test.skilllet.client.ClientActivity
@@ -21,6 +22,9 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        UCEHandler.Builder(applicationContext).build()
+
         binding.btnSignup.setOnClickListener {
             startActivity(Intent(this, RegistrationActivity::class.java))
         }
