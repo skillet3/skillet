@@ -3,7 +3,6 @@ package com.test.skilllet.database
 import android.app.Activity
 import android.content.Context
 import android.net.Uri
-import android.telephony.ServiceState
 import android.util.Log
 import android.widget.Toast
 import com.google.android.gms.tasks.OnCompleteListener
@@ -623,7 +622,7 @@ class Repository {
             callBack: (Boolean) -> Unit
         ) {
             var serviceRequest = ServiceRequestModel(
-                workingServiceModel.service.key,
+                workingServiceModel.service!!.key,
                 workingServiceModel.serviceProvider?.key!!, loggedInUser?.key!!
             )
             serviceRequestRef?.push()?.key?.let {
@@ -883,9 +882,39 @@ class Repository {
             }
         }
 
-        fun getFeedbacksForClients(serviceRequest: ServiceRequestModel,callBack: (ArrayList<WorkingServiceModel>?) -> Unit) {
+        fun getFeedbacksForClients(serviceModel: ServiceModel,callBack: (ArrayList<WorkingServiceModel>?) -> Unit) {
+                serviceRequestRef?.orderByChild("serviceKey")?.equalTo(serviceModel.key)
+                    ?.addListenerForSingleValueEvent(object:ValueEventListener{
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            val list=ArrayList<WorkingServiceModel>()
+                            if(snapshot.exists()){
+                                for(snap in snapshot.children){
+                                    val sr=snap.getValue(ServiceRequestModel::class.java) as ServiceRequestModel
+                                    if(sr.serviceStatus==RequestStatus.COMPLETED.name){
 
+                                        getUserInfo(sr!!.clientKey,"Client"){it:Boolean,user:User?->
+                                            if(it){
+                                                list.add(WorkingServiceModel(serviceRequest=sr, client = user))
+                                            }
+                                            callBack(list)
+                                        }
+                                    }
+                                }
+
+
+                            }else{
+                                callBack(null)
+                            }
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            callBack(null)
+                        }
+
+                    })
         }
+
+
 
     }
 }

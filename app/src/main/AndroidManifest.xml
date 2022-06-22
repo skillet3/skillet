@@ -45,6 +45,7 @@
         <activity android:name=".serviceprovider.paments.PaymentRequest" />
         <activity android:name=".admin.ManageProfile" />
         <activity android:name=".admin.ManageServiceTypes" />
+        <activity android:name=".client.bnfragments.home.Feedbacks" />
 
         <service
             android:name=".notifications.MyFirebaseNotificationService"

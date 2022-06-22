@@ -22,13 +22,15 @@ class Feedbacks : AppCompatActivity() {
         workingServiceModel=intent.getSerializableExtra("service") as WorkingServiceModel
 
         with(binding){
-            Glide.with(this@Feedbacks).load(workingServiceModel.serviceProvider!!.url).centerCrop().into(ivProfile)
+            Glide.with(this@Feedbacks).load(workingServiceModel.serviceProvider!!.url)
+                .centerCrop()
+                .placeholder(R.drawable.profile_charachter).into(ivProfile)
             tvName.text=workingServiceModel.serviceProvider?.name
             rbRating.rating=workingServiceModel.serviceProvider!!.rating
             rv.layoutManager=LinearLayoutManager(this@Feedbacks,LinearLayoutManager.VERTICAL,false)
             val dialog=this@Feedbacks.showProgressDialog("Loading Feedbacks")
             dialog.show()
-            Repository.getFeedbacksForClients(workingServiceModel.serviceRequest!!){list:ArrayList<WorkingServiceModel>?->
+            Repository.getFeedbacksForClients(workingServiceModel.service!!){list:ArrayList<WorkingServiceModel>?->
                 dialog.cancel()
                 if(!list.isNullOrEmpty()){
                     rv.adapter=FeedbackAdapter(this@Feedbacks,list)

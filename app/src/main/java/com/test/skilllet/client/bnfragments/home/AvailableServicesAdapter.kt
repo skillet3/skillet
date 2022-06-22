@@ -1,6 +1,7 @@
 package com.test.skilllet.client.bnfragments.home
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
@@ -35,13 +36,13 @@ open class AvailableServicesAdapter(
 
         with(holder.binding) {
             //tvDesc.text = list[position].description
-            tvType.text = tempList[position].service.type
-            tvPrice.text = "${tempList[position].service.price.toString()}"
-            tvName.text = tempList[position].service.name
+            tvType.text = tempList[position].service!!.type
+            tvPrice.text = "${tempList[position].service!!.price.toString()}"
+            tvName.text = tempList[position].service!!.name
             tvSpName.text = tempList[position].serviceProvider?.name
-            tvDes.text = tempList[position].service.description
+            tvDes.text = tempList[position].service!!.description
             var str = ""
-            for (s in tempList[position].service.tags) {
+            for (s in tempList[position].service!!.tags) {
                 str += " , " + s
             }
             tvTags.text = str
@@ -76,11 +77,14 @@ open class AvailableServicesAdapter(
                 }
 
 
-                btnMore.setOnClickListener {
-
-                }
 
 
+
+            }
+            btnMore.setOnClickListener {
+                context.startActivity(
+                    Intent(context,Feedbacks::class.java)
+                        .putExtra("service",tempList[position]))
             }
             // ivIcon.setImageDrawable(list[position].icon)
         }
@@ -101,8 +105,8 @@ open class AvailableServicesAdapter(
                 val filterPattern =
                     constraint.toString().lowercase(Locale.getDefault()).trim { it <= ' ' }
                 for (item in list) {
-                    if (item.service.name.lowercase().contains(filterPattern)||
-                            item.service.tags.containsString(filterPattern)) {
+                    if (item.service!!.name.lowercase().contains(filterPattern)||
+                            item.service!!.tags.containsString(filterPattern)) {
                         filteredList.add(item)
                     }
                 }

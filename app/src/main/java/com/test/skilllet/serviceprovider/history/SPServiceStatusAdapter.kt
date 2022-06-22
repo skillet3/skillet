@@ -42,11 +42,11 @@ class SPServiceStatusAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder.binding) {
-            tvName.text = list[position].service.name
-            tvType.text = list[position].service.type
-            tvDes.text = list[position].service.description
+            tvName.text = list[position].service!!.name
+            tvType.text = list[position].service!!.type
+            tvDes.text = list[position].service!!.description
             tvFeedback.text=list[position].serviceRequest?.feedbackByClient
-            tvPrice.text=list[position].service.price
+            tvPrice.text=list[position].service!!.price
             tvSpName.text=list[position].client?.name
             tvDate.text="Date : ${list[position].serviceRequest?.date}"
             tvPass.text="Password : ${list[position].serviceRequest?.secretCode}"
@@ -64,7 +64,7 @@ class SPServiceStatusAdapter(
             btnRequestPayment.visibility=canRequestPayment
             rtProfile.visibility=canShowFeedback
             var str = ""
-            for (s in list[position].service.tags) {
+            for (s in list[position].service!!.tags) {
                 str += " , " + s
             }
             tvTags.text = str
@@ -94,7 +94,7 @@ class SPServiceStatusAdapter(
                         context.showToast("Request Accepted Successfully")
                         notifyItemRemoved(position)
                         sendNotification(list[position].client!!.token,"Request accepted",
-                            "${Repository.loggedInUser!!.name} has accepted your request of ${list[position].service.name} service")
+                            "${Repository.loggedInUser!!.name} has accepted your request of ${list[position].service!!.name} service")
                     } else {
                         context.showToast("Could not Accept Request.")
                     }
@@ -157,8 +157,8 @@ class SPServiceStatusAdapter(
                 val filterPattern =
                     constraint.toString().lowercase(Locale.getDefault()).trim { it <= ' ' }
                 for (item in listFull) {
-                    if (item.service.name.lowercase().contains(filterPattern)||
-                        item.service.tags.containsString(filterPattern)) {
+                    if (item.service!!.name.lowercase().contains(filterPattern)||
+                        item.service!!.tags.containsString(filterPattern)) {
                         filteredList.add(item)
                     }
                 }

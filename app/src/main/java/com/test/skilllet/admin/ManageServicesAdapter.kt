@@ -33,13 +33,13 @@ class ManageServicesAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder.binding) {
             //tvDesc.text = list[position].description
-            tvType.text = list[position].service.type
-            tvPrice.text = "${list[position].service.price.toString()}"
-            tvName.text = list[position].service.name
+            tvType.text = list[position].service?.type
+            tvPrice.text = "${list[position].service?.price.toString()}"
+            tvName.text = list[position].service?.name
             tvSpName.text = list[position].serviceProvider?.name
-            tvDes.text = list[position].service.description
+            tvDes.text = list[position].service?.description
             var str = ""
-            for (s in list[position].service.tags) {
+            for (s in list[position].service!!.tags) {
                 str += " , " + s
             }
             tvTags.text = str
@@ -52,10 +52,10 @@ class ManageServicesAdapter(
             btnApprove.visibility = visible
             btnReject.visibility = View.VISIBLE
             btnApprove.setOnClickListener {
-                list[position].service.offeringStatus = OfferingStatus.OFFERED.name
+                list[position].service?.offeringStatus = OfferingStatus.OFFERED.name
                 val dialog = context.showProgressDialog("Accepting Service")
                 dialog.show()
-                Repository.addOrUpdateService(list[position].service) {
+                Repository.addOrUpdateService(list[position].service!!) {
                     dialog.cancel()
                     if (it) {
                         list.removeAt(position)
@@ -69,7 +69,7 @@ class ManageServicesAdapter(
             }
 
             btnReject.setOnClickListener {
-                if (list[position].service.offeringStatus == OfferingStatus.REQUESTED.name) {
+                if (list[position].service!!.offeringStatus == OfferingStatus.REQUESTED.name) {
                     startRejectionProcess(position)
                 } else {
                     canRejectService(position)
@@ -85,7 +85,7 @@ class ManageServicesAdapter(
     private fun canRejectService(position: Int) {
         var dialog=context.showProgressDialog("Checking Service Status")
         dialog.show()
-        Repository.isServiceInProcess(list[position].service) { isItInProcess: Boolean ->
+        Repository.isServiceInProcess(list[position].service!!) { isItInProcess: Boolean ->
             dialog.cancel()
             if (!isItInProcess) {
                 startRejectionProcess(position)
@@ -98,11 +98,11 @@ class ManageServicesAdapter(
     private fun startRejectionProcess(position: Int) {
         context.showEditDialogBox("Rejection Reason", "Enter Reason Here") {
             if (it.trim().isNotEmpty()) {
-                list[position].service.offeringStatus = OfferingStatus.REJECTED.name
-                list[position].service.rejectionReason = it.trim()
+                list[position].service!!.offeringStatus = OfferingStatus.REJECTED.name
+                list[position].service!!.rejectionReason = it.trim()
                 val dialog = context.showProgressDialog("Rejecting Service")
                 dialog.show()
-                Repository.addOrUpdateService(list[position].service) {
+                Repository.addOrUpdateService(list[position].service!!) {
                     dialog.cancel()
                     if (it) {
                         list.removeAt(position)
@@ -135,8 +135,8 @@ class ManageServicesAdapter(
                 val filterPattern =
                     constraint.toString().lowercase(Locale.getDefault()).trim { it <= ' ' }
                 for (item in listFull) {
-                    if (item.service.name.lowercase().contains(filterPattern) ||
-                        item.service.tags.containsString(filterPattern)
+                    if (item.service!!.name.lowercase().contains(filterPattern) ||
+                        item.service!!.tags.containsString(filterPattern)
                     ) {
                         filteredList.add(item)
                     }

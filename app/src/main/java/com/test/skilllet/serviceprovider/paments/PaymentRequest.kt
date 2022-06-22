@@ -45,9 +45,9 @@ class PaymentRequest : AppCompatActivity() {
                 .centerCrop()
                 .placeholder(R.drawable.profile_charachter)
                 .into(imageView)
-            tvPrice.text = workingServiceModel.service.price
-            tvType.text = workingServiceModel.service.type
-            tvServiceName.text = workingServiceModel.service.name
+            tvPrice.text = workingServiceModel.service!!.price
+            tvType.text = workingServiceModel.service!!.type
+            tvServiceName.text = workingServiceModel.service!!.name
 
             btnRequestPayment.text=if(accType=="Client"){
                 "Confirm Payment"

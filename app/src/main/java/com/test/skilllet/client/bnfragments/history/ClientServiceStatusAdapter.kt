@@ -40,17 +40,17 @@ class ClientServiceStatusAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder.binding) {
-            tvName.text = list[position].service.name
-            tvType.text = list[position].service.type
-            tvDes.text = list[position].service.description
+            tvName.text = list[position].service!!.name
+            tvType.text = list[position].service!!.type
+            tvDes.text = list[position].service!!.description
             tvFeedback.text=list[position].serviceRequest?.feedbackByProvider
-            tvPrice.text=list[position].service.price
+            tvPrice.text=list[position].service!!.price
             tvSpName.text=list[position].serviceProvider?.name
             tvPass.text="Password : ${list[position].serviceRequest?.secretCode}"
             tvDate.text="Date : ${list[position].serviceRequest?.date}"
             tvReason.text=list[position].serviceRequest?.rejectionReason
             var str = ""
-            for (s in list[position].service.tags) {
+            for (s in list[position].service!!.tags) {
                 str += " , " + s
             }
             tvTags.text = str
@@ -137,8 +137,8 @@ class ClientServiceStatusAdapter(
                 val filterPattern =
                     constraint.toString().lowercase(Locale.getDefault()).trim { it <= ' ' }
                 for (item in listFull) {
-                    if (item.service.name.lowercase().contains(filterPattern)||
-                        item.service.tags.containsString(filterPattern)) {
+                    if (item.service!!.name.lowercase().contains(filterPattern)||
+                        item.service!!.tags.containsString(filterPattern)) {
                         filteredList.add(item)
                     }
                 }
