@@ -2,11 +2,14 @@
     <string name="app_name">Skill Skillet</string>
 
     <string name="successRegistration">
-        You account have been successfully created.To activate your account an email
-        has been sent to you. Check your email and click the link that you received. Thanks
+        Your account has been successfully created. To activate your account an email
+        has been sent to your email address. Check your email and click the link that you received.
+        Thanks
     </string>
     <string name="failedToRegister">
-        Your account can not be registered due to some reason please try again later.
+        Your account cannot be registered due to some reason please try again later.
     </string>
     <string name="default_notification_channel_id">notification_channel</string>
+
+    <string name="google_maps_api_key">AIzaSyDzrCpUeSRbK-ETtah0ArAd8phGZ0R9f_c</string>
 </resources>
