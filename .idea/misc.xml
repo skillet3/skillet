@@ -3,19 +3,28 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Maria Nadeem/AndroidStudioProjects/Project Github/skillet/app/src/main/res/layout/activity_add_service.xml" value="0.25" />
+        <entry key="..\:/Users/Maria Nadeem/AndroidStudioProjects/Project Github/skillet/app/src/main/res/layout/activity_add_service_bysp.xml" value="0.25" />
         <entry key="..\:/Users/Maria Nadeem/AndroidStudioProjects/Project Github/skillet/app/src/main/res/layout/activity_home.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/Maria Nadeem/AndroidStudioProjects/Project Github/skillet/app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="..\:/Users/Maria Nadeem/AndroidStudioProjects/Project Github/skillet/app/src/main/res/layout/activity_main_sp.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/Maria Nadeem/AndroidStudioProjects/Project Github/skillet/app/src/main/res/layout/activity_payment_request.xml" value="0.25" />
+        <entry key="..\:/Users/Maria Nadeem/AndroidStudioProjects/Project Github/skillet/app/src/main/res/layout/activity_registration.xml" value="0.25" />
         <entry key="..\:/Users/Maria Nadeem/AndroidStudioProjects/Project Github/skillet/app/src/main/res/layout/activity_request_service.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/Maria Nadeem/AndroidStudioProjects/Project Github/skillet/app/src/main/res/layout/clinet_row_request_service.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/Maria Nadeem/AndroidStudioProjects/Project Github/skillet/app/src/main/res/layout/history_fragment.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/Maria Nadeem/AndroidStudioProjects/Project Github/skillet/app/src/main/res/layout/home_fragment.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/Maria Nadeem/AndroidStudioProjects/Project Github/skillet/app/src/main/res/layout/main_activity.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/Maria Nadeem/AndroidStudioProjects/Project Github/skillet/app/src/main/res/layout/main_fragment.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/Maria Nadeem/AndroidStudioProjects/Project Github/skillet/app/src/main/res/layout/row_history_temp.xml" value="0.25" />
+        <entry key="..\:/Users/Maria Nadeem/AndroidStudioProjects/Project Github/skillet/app/src/main/res/layout/row_home_temp.xml" value="0.13677536231884058" />
         <entry key="..\:/Users/Maria Nadeem/AndroidStudioProjects/Project Github/skillet/app/src/main/res/layout/row_provider_request_history.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/Maria Nadeem/AndroidStudioProjects/Project Github/skillet/app/src/main/res/layout/row_sp_service_adapter.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/Maria Nadeem/AndroidStudioProjects/Project Github/skillet/app/src/main/res/layout/row_tags.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/Maria Nadeem/AndroidStudioProjects/Project Github/skillet/app/src/main/res/layout/sp_frag_home.xml" value="0.25" />
         <entry key="..\:/Users/Maria Nadeem/AndroidStudioProjects/Project Github/skillet/app/src/main/res/layout/sp_home_row.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/Maria Nadeem/AndroidStudioProjects/Project Github/skillet/app/src/main/res/layout/sp_main_fragment.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/Maria Nadeem/AndroidStudioProjects/Project Github/skillet/app/src/main/res/layout/subscription_page.xml" value="0.25" />
         <entry key="..\:/Users/Maria Nadeem/AndroidStudioProjects/Project Github/skillet/app/src/main/res/layout/temp_fragment.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/Maria Nadeem/Downloads/SkillLet/app/src/main/res/layout/activity_add_service_bysp.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/Maria Nadeem/Downloads/SkillLet/app/src/main/res/layout/activity_add_service_bysp2.xml" value="0.22826086956521738" />
@@ -23,26 +32,21 @@
         <entry key="..\:/Users/Maria Nadeem/Downloads/SkillLet/app/src/main/res/layout/activity_registration.xml" value="0.22826086956521738" />
         <entry key="app/src/main/res/drawable/elipse.xml" value="0.161" />
         <entry key="app/src/main/res/drawable/ic_camera.xml" value="0.161" />
-        <entry key="app/src/main/res/drawable/iv_rectangle.xml" value="0.126" />
         <entry key="app/src/main/res/drawable/round_ractangle.xml" value="0.161" />
         <entry key="app/src/main/res/drawable/rounded_colored_rect.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/rounder_rectangle_stroke.xml" value="0.161" />
-        <entry key="app/src/main/res/drawable/text_view_rectangle.xml" value="0.126" />
         <entry key="app/src/main/res/layout/activity_add_service.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_add_service_bysp.xml" value="0.19375" />
         <entry key="app/src/main/res/layout/activity_edit_profile.xml" value="0.38055555555555554" />
-        <entry key="app/src/main/res/layout/activity_feedbacks.xml" value="0.1453125" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.15" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.19375" />
         <entry key="app/src/main/res/layout/activity_manage_accounts.xml" value="0.1453125" />
         <entry key="app/src/main/res/layout/activity_manage_profile.xml" value="0.1453125" />
-        <entry key="app/src/main/res/layout/activity_manage_service_types.xml" value="0.1453125" />
         <entry key="app/src/main/res/layout/activity_manage_services.xml" value="0.17864583333333334" />
         <entry key="app/src/main/res/layout/activity_payment_request.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_pymentequest.xml" value="0.1453125" />
         <entry key="app/src/main/res/layout/activity_request_service.xml" value="0.33" />
         <entry key="app/src/main/res/layout/clinet_row_request_service.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/db_date_picker_dialogue.xml" value="0.18" />
         <entry key="app/src/main/res/layout/db_get_string.xml" value="0.14453125" />
         <entry key="app/src/main/res/layout/db_msg.xml" value="0.18" />
         <entry key="app/src/main/res/layout/history_fragment.xml" value="0.19375" />
@@ -51,10 +55,8 @@
         <entry key="app/src/main/res/layout/profile_fragment.xml" value="0.1453125" />
         <entry key="app/src/main/res/layout/row_account_details.xml" value="0.21" />
         <entry key="app/src/main/res/layout/row_customer_history.xml" value="0.15818725951261223" />
-        <entry key="app/src/main/res/layout/row_feedback.xml" value="0.14453125" />
         <entry key="app/src/main/res/layout/row_history_temp.xml" value="0.22" />
         <entry key="app/src/main/res/layout/row_home_temp.xml" value="0.19375" />
-        <entry key="app/src/main/res/layout/row_manage_sertypes.xml" value="0.25" />
         <entry key="app/src/main/res/layout/row_manage_services.xml" value="0.18" />
         <entry key="app/src/main/res/layout/row_provider_request_history.xml" value="0.33" />
         <entry key="app/src/main/res/layout/row_sp_service_adapter.xml" value="0.33" />
@@ -66,8 +68,6 @@
         <entry key="app/src/main/res/layout/sp_main_fragment.xml" value="0.1453125" />
         <entry key="app/src/main/res/layout/sp_row_requests.xml" value="0.19375" />
         <entry key="app/src/main/res/layout/temp_fragment.xml" value="0.19375" />
-        <entry key="app/src/main/res/menu/client_bnv_menu.xml" value="0.1453125" />
-        <entry key="app/src/main/res/menu/sp_bnv_menu.xml" value="0.1453125" />
       </map>
     </option>
   </component>

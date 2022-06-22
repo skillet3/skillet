@@ -92,6 +92,9 @@ class AddServiceBYSP : AppCompatActivity() {
                     }
                 }
             }
+            btnBack2.setOnClickListener {
+                onBackPressed()
+            }
         }
 
 
@@ -158,5 +161,8 @@ class AddServiceBYSP : AppCompatActivity() {
                 adapter?.notifyItemInserted(tagsList.lastIndex)
             }
         }
+    }
+    override fun onBackPressed() {
+        super.onBackPressed()
     }
 }
