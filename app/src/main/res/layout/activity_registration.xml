@@ -26,7 +26,7 @@
         android:shadowColor="#FF9800"
         android:text="Sign Up "
         android:textColor="#FFFFFF"
-        android:textSize="42sp"
+        android:textSize="50sp"
         android:textStyle="bold"
         android:fontFamily="@font/baskerville"
         app:layout_constraintEnd_toEndOf="parent"
