@@ -90,12 +90,13 @@ class SPServiceStatusAdapter(
                 Repository.changeServiceRequestStatus(list[position].serviceRequest,RequestStatus.APPROVED.name){it:Boolean->
                     dialog.cancel()
                     if (it) {
+                        sendNotification(list[position].client!!.token,"Request accepted",
+                        "${Repository.loggedInUser!!.name} has accepted your request of ${list[position].service!!.name} service")
+
                         list.removeAt(position)
                         context.showToast("Request Accepted Successfully")
                         notifyItemRemoved(position)
-                        sendNotification(list[position].client!!.token,"Request accepted",
-                            "${Repository.loggedInUser!!.name} has accepted your request of ${list[position].service!!.name} service")
-                    } else {
+                            } else {
                         context.showToast("Could not Accept Request.")
                     }
                 }

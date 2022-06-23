@@ -14,9 +14,10 @@ class Subscription : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding= ActivitySubscriptionBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val user= Repository.loggedInUser
+       // val user= Repository.loggedInUser
         with(binding){
             btnLater.setOnClickListener{
                 onBackPressed()
