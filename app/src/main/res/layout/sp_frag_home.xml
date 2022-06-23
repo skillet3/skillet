@@ -25,6 +25,7 @@
         android:textColor="#D16644"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:fontFamily="@font/baskerville"
         app:layout_constraintBottom_toBottomOf="@+id/logo2"
         app:layout_constraintStart_toEndOf="@+id/logo2"
         app:layout_constraintTop_toTopOf="@+id/logo2" />
@@ -64,7 +65,7 @@
         android:id="@+id/offer_service"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Offer New Service"
+        android:text="New Service"
         android:textColor="@color/white"
         app:icon="@drawable/ic_add_service"
         app:iconTint="@color/white"

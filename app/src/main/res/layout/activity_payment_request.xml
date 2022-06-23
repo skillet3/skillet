@@ -73,12 +73,15 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
+        android:background="@color/purple_500"
         android:text="Payment Receipt"
-        android:textColor="@color/black"
-        android:textSize="21sp"
+        android:textAlignment="center"
+        android:textColor="@color/bgColor"
+        android:textSize="28sp"
+        android:fontFamily="@font/baskerville"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_back" />

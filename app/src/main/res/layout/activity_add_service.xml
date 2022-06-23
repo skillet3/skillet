@@ -21,9 +21,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:text="Submit Request to offer new Service"
+        android:text="Add Service"
         android:textColor="#FFFFFF"
-        android:textSize="20sp"
+        android:fontFamily="@font/baskerville"
+        android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/cardView"
         app:layout_constraintEnd_toEndOf="parent"
@@ -50,7 +51,8 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="#FFFFFF">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -60,11 +62,11 @@
 
                 <TextView
                     android:id="@+id/tv_service_type"
-                    android:layout_width="130dp"
+                    android:layout_width="140dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="12dp"
                     android:paddingStart="6dp"
-                    android:text="Service Type"
+                    android:text="Service Category"
                     android:textColor="#000000"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toTopOf="@+id/sp_service_type"
@@ -89,6 +91,7 @@
                     android:paddingStart="6dp"
                     android:text="Service Name"
                     android:textColor="#000000"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toTopOf="@+id/et_service_name"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/sp_service_type" />
@@ -105,6 +108,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_service_name"
                     tools:ignore="SpeakableTextPresentCheck" />
+
 
                 <EditText
                     android:id="@+id/et_price"
@@ -150,6 +154,8 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:text="Tags"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toTopOf="@id/constraint"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/et_desc" />
@@ -180,8 +186,8 @@
 
                 <ImageView
                     android:id="@+id/iv_add_service_type"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="6dp"
@@ -192,8 +198,8 @@
 
                 <ImageView
                     android:id="@+id/iv_add_tag"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
                     android:layout_marginEnd="16dp"
                     app:layout_constraintBottom_toTopOf="@+id/constraint"
                     app:layout_constraintEnd_toEndOf="parent"
