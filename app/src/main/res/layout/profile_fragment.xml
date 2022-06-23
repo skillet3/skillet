@@ -127,6 +127,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout4"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:padding="20dp"
@@ -144,6 +145,7 @@
             app:layout_constraintStart_toStartOf="parent"
 
             app:srcCompat="@drawable/flower" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <RatingBar
@@ -156,6 +158,7 @@
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView7"
         android:layout_width="0dp"
         android:layout_height="200dp"
         android:layout_marginStart="16dp"
@@ -274,5 +277,17 @@
         app:iconTint="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/btn_subscribe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Subscribe"
+        android:textColor="#B3FFFFFF"
+        app:icon="@drawable/ic_subscribe"
+        app:iconTint="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/cardView7" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

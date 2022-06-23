@@ -10,6 +10,7 @@ import android.widget.CompoundButton
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.test.skilllet.R
+import com.test.skilllet.Subscription
 import com.test.skilllet.client.bnfragments.profile.EditProfileActivity
 import com.test.skilllet.database.Repository
 import com.test.skilllet.databinding.ProfileFragmentBinding
@@ -86,6 +87,9 @@ class SpProfileFragment(): Fragment() {
             ivLogout.setOnClickListener {
                 Repository.mAuth?.signOut()
                 activity?.finish()
+            }
+            btnSubscribe.setOnClickListener{
+                startActivity(Intent(activity, Subscription::class.java))
             }
 
             tvAvailability.visibility=View.VISIBLE

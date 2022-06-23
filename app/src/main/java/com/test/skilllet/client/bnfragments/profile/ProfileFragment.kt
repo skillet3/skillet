@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.test.skilllet.R
+import com.test.skilllet.Subscription
 import com.test.skilllet.database.Repository
 import com.test.skilllet.databinding.ProfileFragmentBinding
 import com.test.skilllet.models.User
@@ -56,6 +57,9 @@ class ProfileFragment()  : Fragment() {
 
             btnEdit.setOnClickListener {
             startActivity(Intent(activity,EditProfileActivity::class.java))
+            }
+            btnSubscribe.setOnClickListener{
+                startActivity(Intent(activity,Subscription::class.java))
             }
             ivLogout.setOnClickListener {
                 Repository.mAuth?.signOut()

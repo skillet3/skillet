@@ -35,10 +35,10 @@ class EditProfileActivity : AppCompatActivity() {
         val user=Repository.loggedInUser
         with(binding){
             etName.setText(user?.name)
-            if(!Places.isInitialized()){
-                Places.initialize(this@EditProfileActivity,
-                    resources.getString(R.string.google_maps_api_key))
-            }
+//            if(!Places.isInitialized()){
+//                Places.initialize(this@EditProfileActivity,
+//                    resources.getString(R.string.google_maps_api_key))
+//            }
             if(user?.address?.isNotEmpty()==true){
                 etAddress.setText(user.address)
             }
